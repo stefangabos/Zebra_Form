@@ -1,0 +1,62 @@
+body { text-align: left; margin: 20px }
+
+.header { background: #888; padding: 10px 5px; font-weight: bold }
+.header a { color: #FFF; text-decoration: none }
+.header span { font-weight: normal }
+.example { background: #ABCDEF; padding: 10px 5px; font-weight: bold; margin: 0 0 20px }
+.example a { color: #123456; font-weight: normal }
+
+h1 { margin-bottom: 1em }
+h1 span { display: block; font-size: 11px; color: #666 }
+
+.navigation { border-right: 1px solid #DEDEDE; padding-right: 20px; margin-right: 20px }
+.navigation li { font-weight: bold; margin: 0 }
+.navigation li ul { color: #AAA; margin: 10px 0 }
+.navigation a { color: #000066; white-space: nowrap; font-weight: normal; text-decoration: none; display: block; padding: 2px }
+.navigation a.selected { color: #DDD; background: #222 }
+
+.tabs {  }
+.tabs a { display: block; background: #000; color: #FFF; padding: 4px 10px; text-decoration: none; margin-right: 1px; font-weight: bold }
+.tabs a:hover,
+.tabs a.selected { background: #DEDEDE; color: #222 }
+
+.tab { border: 1px solid #DEDEDE; padding: 20px; display: none }
+
+.tab h2 { font-weight: bold; margin: 0 0 20px }
+.tab p { color: #999; margin: 0 0 20px; font-size: 12px }
+
+ul.notes { color: #999; font-size: 11px; margin: 20px 0 0 }
+
+table.results { border-collapse: collapse }
+table.results th,
+table.results td { padding: 5px; border: 1px solid #DEDEDE }
+table.results th { font-weight: bold }
+table.results thead td { background: #666; color: #FFF; font-weight: bold }
+
+img.Zebra_Form_Input_Prefix { width: 16px; height: 16px }
+
+.tab a { color: #0000FF; text-decoration: none }
+
+/* = MISCELLANEOUS
+----------------------------------------------------------------------------------------------------------------------*/
+.align-center   { text-align: center }
+.align-left     { text-align: left }
+.align-right    { text-align: right }
+.block          { display: block }
+.bottom         { margin-bottom: 0; padding-bottom: 0 }
+.center         { text-align: center }
+.clear          { clear: both }
+.first          { margin-left: 0; padding-left: 0 }
+.hidden         { visibility: hidden }
+.highlight      { background: #ccf }
+.inline         { display: inline }
+.last           { margin-right: 0; padding-right: 0 }
+.left           { float: left }
+.none           { display: none }
+.nowrap         { white-space: nowrap }
+.right          { float: right }
+.stretch        { width: 100% }
+.top            { margin-top: 0; padding-top: 0 }
+.visible        { visibility: visible }
+
+img.Zebra_Form_prefix { width: 16px; height: 16px }

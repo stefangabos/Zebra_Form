@@ -1,0 +1,23 @@
+{
+    "name": "stefangabos/zebra_form",
+    "type": "library",
+    "description": "A jQuery augmented PHP library for creating and validating HTML forms",
+    "keywords": ["form","validation", "csrf", "xss", "honeypot", "validate", "jquery validation", "client side validation", "server side validation"],
+    "homepage": "http://stefangabos.ro/php-libraries/zebra-form/",
+    "license": "LGPL-3.0",
+    "authors": [
+        {
+            "name": "Stefan Gabos",
+            "email": "contact@stefangabos.ro",
+            "homepage": "http://stefangabos.ro/",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.0.2"
+    },
+    "version": "2.9.4",
+    "autoload": {
+        "psr-0": { "Zebra_Form": "" }
+    }
+}
