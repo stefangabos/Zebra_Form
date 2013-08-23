@@ -126,4 +126,4 @@ $form->render();
 ?>
 ```
 
-Visit the **[project's homepage](http://stefangabos.ro/php-libraries/zebra-form/)** for more information.
+For demos and more information visit the **[project's homepage](http://stefangabos.ro/php-libraries/zebra-form/)**
