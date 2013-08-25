@@ -77,6 +77,7 @@
             control = evt.srcElement ? evt.srcElement : evt.target || evt.currentTarget;
             if (key_code==null || key_code==0 || key_code==8 || key_code==9 || key_code==13 || key_code==27) return true;
             key = String.fromCharCode(key_code);
+            if ((key=='v' || key=='a' || key=='c' || key=='x') && evt.ctrlKey) return true;
             if (filter.indexOf(key) > -1) return true;
             if (filter_type == 'number' && key == '-' && _get_caret_position(control) == 0) return true;
             if (filter_type == 'float' && ((key == '-' && _get_caret_position(control) == 0) || (key == '.' && _get_caret_position(control) != 0 && control.value.match(/\./) == null))) return true;
