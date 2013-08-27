@@ -1458,10 +1458,10 @@ class Zebra_Form
                     if (is_array($this->form_properties['language']['months_abbr'])) $control->attributes['months_abbr'] = $this->form_properties['language']['months_abbr'];
 
                     // use the caption from the language file for the "Clear date" button
-                    $control->attributes['lang_clear_date'] = $this->form_properties['language']['clear_date'];
+                    $control->attributes['lang_clear_date'] = addslashes($this->form_properties['language']['clear_date']);
 
                     // if the "Today" button is not disabled use the caption from the language file
-                    if ($control->attributes['show_select_today'] === null) $control->attributes['show_select_today'] = $this->form_properties['language']['today'];
+                    if ($control->attributes['show_select_today'] === null) $control->attributes['show_select_today'] =$ addslashes(this->form_properties['language']['today']);
 
                     $properties = '';
 
