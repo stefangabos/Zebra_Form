@@ -699,7 +699,9 @@ class Zebra_Form
      */
     function client_side_validation($properties)
     {
+
         $this->clientside_validation($properties);
+
     }
 
     /**
@@ -1021,13 +1023,15 @@ class Zebra_Form
             $this->form_properties['csrf_storage_method'] = strtolower(trim($csrf_storage_method));
 
             // if the script should decide what method to use and a session is already started
-            if ($this->form_properties['csrf_storage_method'] == 'auto')
+            if ($this->form_properties['csrf_storage_method'] == 'auto') {
 
                 // use sessions as storage method
                 if (isset($_SESSION)) $this->form_properties['csrf_storage_method'] = 'session';
 
                 // if a session is not already started, use cookies as storage method
                 else $this->form_properties['csrf_storage_method'] = 'cookie';
+
+            }
 
             // set the life time of the CSRF token
             $this->form_properties['csrf_token_lifetime'] = ($csrf_token_lifetime <= 0 ? 0 : $csrf_token_lifetime);
