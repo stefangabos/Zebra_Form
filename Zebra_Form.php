@@ -1495,8 +1495,8 @@ class Zebra_Form
                             // if value is a string but is not a javascript object
                             } elseif (is_string($value) && !preg_match('/^\{.*\}$/', trim($value)))
 
-                                // format accordingly
-                                $properties .= '\'' . $value . '\'';
+                                // format accordingly and escape single quotes or we'll kill JavaScript
+                                $properties .= '\'' . addcslashes($value, '\'') . '\'';
 
                             // for any other case (javascript object, boolean)
                             else
