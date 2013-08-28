@@ -8,20 +8,16 @@
 <!-- elements are grouped in "rows" -->
 <div class="row">
 
-    <!-- things that need to be side-by-side go in "cells" -->
+    <!-- things that need to be side-by-side go in "cells" and will be floated to the left -->
     <div class="cell"><?php echo $label_email . $email?></div>
     <div class="cell"><?php echo $label_password . $password?></div>
 
-    <!-- once we're done with "cells" we *must* place a "clear" div -->
     <div class="clear" style="margin-bottom:10px"></div>
 
     <!-- on the same row, but beneath the email and the password fields,
     we place the "remember me" checkbox and attached label -->
     <div class="cell"><?php echo $remember_me_yes?></div>
     <div class="cell"><?php echo $label_remember_me_yes?></div>
-
-    <!-- don't forget the "clear" div -->
-    <div class="clear"></div>
 
 </div>
 

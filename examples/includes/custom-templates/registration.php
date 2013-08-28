@@ -8,12 +8,9 @@
 <!-- elements are grouped in "rows" -->
 <div class="row">
 
-    <!-- things that need to be side-by-side go in "cells" -->
+    <!-- things that need to be side-by-side go in "cells" and will be floated to the left -->
     <div class="cell"><?php echo $label_firstname . $firstname?></div>
     <div class="cell"><?php echo $label_lastname . $lastname?></div>
-
-    <!-- once we're done with "cells" we *must* place a "clear" div -->
-    <div class="clear"></div>
 
 </div>
 
@@ -24,7 +21,6 @@ from the odd rows -->
 <div class="row">
     <div class="cell"><?php echo $label_password . $password . $note_password?></div>
     <div class="cell"><?php echo $label_confirm_password . $confirm_password?></div>
-    <div class="clear"></div>
 </div>
 
 <div class="row even">

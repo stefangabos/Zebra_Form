@@ -8,12 +8,9 @@
 <!-- elements are grouped in "rows" -->
 <div class="row">
 
-    <!-- things that need to be side-by-side go in "cells" -->
+    <!-- things that need to be side-by-side go in "cells" and will be floated to the left -->
     <div class="cell"><?php echo $label_name . $name?></div>
     <div class="cell"><?php echo $label_email . $email?></div>
-
-    <!-- once we're done with "cells" we *must* place a "clear" div -->
-    <div class="clear"></div>
 
 </div>
 
@@ -63,14 +60,11 @@ from the odd rows -->
 
     </div>
 
-    <div class="clear"></div>
-
 </div>
 
 <div class="row even">
     <div class="cell"><?php echo $label_date . $date?></div>
     <div class="cell" style="margin-left: 10px"><?php echo $label_time . $time?></div>
-    <div class="clear"></div>
 </div>
 
 <!-- the submit button goes in the last row; also, notice the "last" class which

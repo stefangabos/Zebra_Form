@@ -8,12 +8,9 @@
 <!-- elements are grouped in "rows" -->
 <div class="row">
 
-    <!-- things that need to be side-by-side go in "cells" -->
+    <!-- things that need to be side-by-side go in "cells" and will be floated to the left -->
     <div class="cell"><?php echo $label_name . $name?></div>
     <div class="cell"><?php echo $label_email . $email . $note_email?></div>
-
-    <!-- once we're done with "cells" we *must* place a "clear" div -->
-    <div class="clear"></div>
 
 </div>
 
