@@ -179,6 +179,11 @@
     */
 }
 
+.Zebra_Form .row:before,
+.Zebra_Form .row:after     { content: "\0020"; display: block; height: 0; visibility: hidden; font-size: 0 }
+.Zebra_Form .row:after     { clear: both }
+.Zebra_Form .row           { *zoom: 1 } /* for IE only */
+
 .Zebra_Form table {
     border-collapse: collapse
 }
