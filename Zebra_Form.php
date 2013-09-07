@@ -359,6 +359,9 @@ class Zebra_Form
                     // sanitize controls' name (remove square brackets)
                     $sanitize_name = preg_replace('/\[\]$/', '', $name);
 
+                    // santize the value
+                    $value = str_replace(array(' '), array('_'), $value);
+
                     // add the label for the control
                     $this->add('label', 'label_' . $sanitize_name . '_' . $value, $sanitize_name . '_' . $value, $caption);
 
