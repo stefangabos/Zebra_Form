@@ -56,7 +56,6 @@ function dump()
         <link rel="stylesheet" href="public/css/reset.css" type="text/css">
         <link rel="stylesheet" href="public/css/style.css" type="text/css">
         <link rel="stylesheet" href="../public/css/zebra_form.css" type="text/css">
-        <link rel="stylesheet" href="../../../javascripts/Zebra_Datepicker/public/css/default.css" type="text/css">
 
     </head>
 
