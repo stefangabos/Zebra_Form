@@ -121,6 +121,7 @@ class Zebra_Form_Date extends Zebra_Form_Control
             'show_week_number',
             'select_other_months',
             'start_date',
+            'strict',
             'view',
             'weekend_days',
             'zero_pad',
@@ -152,6 +153,7 @@ class Zebra_Form_Date extends Zebra_Form_Control
             'show_week_number',
             'select_other_months',
             'start_date',
+            'strict',
             'view',
             'weekend_days',
             'zero_pad',
@@ -191,6 +193,7 @@ class Zebra_Form_Date extends Zebra_Form_Control
                 'show_week_number'          =>  null,
                 'select_other_months'       =>  null,
                 'start_date'                =>  null,
+                'strict'                    =>  null,
                 'view'                      =>  null,
                 'weekend_days'              =>  null,
                 'zero_pad'                  =>  null,
@@ -475,7 +478,7 @@ class Zebra_Form_Date extends Zebra_Form_Control
      *                              if set to TRUE it will be placed to the right of the parent element, but *inside* the
      *                              element itself.
      *
-     *                              Default TRUE.
+     *                              Default is TRUE.
      *
      *  @return void
      */
@@ -693,6 +696,25 @@ class Zebra_Form_Date extends Zebra_Form_Control
 
         // set the date picker's attribute
         $this->set_attributes(array('start_date' => $value));
+
+    }
+
+    /**
+     *  Sets whether default values, in the input field the date picker is attached to, be deleted if they are not valid
+     *  according to {@link direction() direction} and/or {@link disabled_dates() disabled_dates}.
+     *
+     *  @param  boolean $value      If set to TRUE, default values, in the input field the date picker is attached to,
+     *                              will be deleted if they are not valid according to {@link direction() direction}
+     *                              and/or {@link disabled_dates() disabled_dates}.
+     *
+     *                              Default is FALSE.
+     *
+     *  @return void
+     */
+    function strict($value) {
+
+        // set the date picker's attribute
+        $this->set_attributes(array('strict' => $value));
 
     }
 
