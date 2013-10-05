@@ -50,17 +50,17 @@ jQuery 1.5.2+
         <!-- load Zebra_Form's stylesheet file -->
         <link rel="stylesheet" href="path/to/zebra_form.css">
 
+    </head>
+
+    <body>
+
+        <!-- the PHP code below goes here -->
+
         <!-- load jQuery -->
         <script src="path/to/jquery.js"></script>
 
         <!-- load Zebra_Form's JavaScript file -->
         <script src="path/to/zebra_form.js"></script>
-
-    </head>
-
-    <body>
-
-    <!-- the PHP code below goes here -->
 
     </body>
 
