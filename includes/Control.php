@@ -644,10 +644,11 @@ class Zebra_Form_Control extends XSS_Clean
      *
      *  <code>echo (isset($zf_error) ? $zf_error : (isset($error) ? $error : ''));</code>
      *
-     *  <samp>The above code nees to be used only for custom templates! For automatically generated templates it is all
-     *  taken care for you automatically by the library! Notice the $zf_error variable which is automatically created by
-     *  the library if there is a SPAM or a CSRF error! Unless you use it, these errors will not be visible for the user.
-     *  Again, remember, we're talking about custom templates here.</samp>
+     *  <samp>The above code nees to be used only for custom templates, or when the output is generated via callback
+     *  functions! For automatically generated templates it is all taken care for you automatically by the library! Notice
+     *  the $zf_error variable which is automatically created by the library if there is a SPAM or a CSRF error! Unless
+     *  you use it, these errors will not be visible for the user. Again, remember, we're talking about custom templates,
+     *  or output generated via callback functions.</samp>
      *
      *  One or all error messages can be displayed in an error block.
      *  See the {@link Zebra_Form::show_all_error_messages() show_all_error_messages()} method.
