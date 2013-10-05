@@ -27,7 +27,7 @@ define('ZEBRA_FORM_UPLOAD_RANDOM_NAMES', false);
  *  For more resources visit {@link http://stefangabos.ro/}
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @version    2.9.4 (last revision: August 23, 2013)
+ *  @version    2.9.4 (last revision: October 05, 2013)
  *  @copyright  (c) 2006 - 2013 Stefan Gabos
  *  @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU LESSER GENERAL PUBLIC LICENSE
  *  @package    Zebra_Form
@@ -1118,6 +1118,12 @@ class Zebra_Form
      *                                  -   an associative array with the form's controls' ids and their respective
      *                                      generated HTML, ready for echo-ing (except for the hidden controls which will
      *                                      still be handled automatically);
+     *
+     *                                      <i>note that this array will also contain variables assigned through the
+     *                                      {@link assign()} method as well as any server-side error messages, as you
+     *                                      would in a custom template (see {@link Zebra_Form_Control::set_rule() set_rule()}
+     *                                      method and read until the second highlighted box, inclusive)</i>
+     *
      *                                  -   an associative array with all the controls added to the form, as objects
      *
      *                                  THE USER FUNCTION MUST RETURN THE GENERATED OUTPUT!
@@ -2094,6 +2100,12 @@ class Zebra_Form
 
                 // make available the assigned variables
                 $controls[$variable_name] = $variable_value;
+
+            // iterate through the error messages(if any)
+            foreach ($this->errors as $error_block => $error_message)
+
+                // make the error message available
+                $controls[$error_block] = $error_message;
 
             // let the custom function generate the output
             // we're passing two arguments
