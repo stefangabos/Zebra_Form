@@ -108,6 +108,7 @@ class Zebra_Form_Date extends Zebra_Form_Control
             'enabled_dates',
             'first_day_of_week',
             'format',
+            'header_navigation',
             'inside_icon',
             'lang_clear_date',
             'months',
@@ -140,6 +141,7 @@ class Zebra_Form_Date extends Zebra_Form_Control
             'enabled_dates',
             'first_day_of_week',
             'format',
+            'header_navigation',
             'inside_icon',
             'lang_clear_date',
             'months',
@@ -181,6 +183,7 @@ class Zebra_Form_Date extends Zebra_Form_Control
                 'enabled_dates'             =>  null,
                 'first_day_of_week'         =>  null,
                 'format'                    =>  'Y-m-d',
+                'header_navigation'         =>  null,
                 'inside_icon'               =>  null,
                 'months'                    =>  null,
                 'months_abbr'               =>  null,
@@ -468,6 +471,21 @@ class Zebra_Form_Date extends Zebra_Form_Control
 
         // if control had a value return it, or return an empty string otherwise
         return (isset($result['date'])) ? $result['date'] : '';
+
+    }
+
+    /**
+     *  An array with 2 elements containing the HTML to be used for the previous month/next month buttons.
+     *
+     *  Default is array('&#171;','&#187;')
+     *
+     *  @return void
+     */
+    function header_navigation($navigation)
+    {
+
+        // set the date picker's attribute
+        $this->set_attributes(array('header_navigation' => $navigation));
 
     }
 
