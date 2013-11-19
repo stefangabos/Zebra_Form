@@ -21,8 +21,8 @@ class Zebra_Form_Button extends Zebra_Form_Control
      *  // create a new form
      *  $form = new Zebra_Form('my_form');
      *
-     *  // add a button to the form
-     *  $obj = $form->add('button', 'my_button', 'Click me!');
+     *  // add a submit button to the form
+     *  $obj = $form->add('button', 'my_button', 'Click me!', 'submit');
      *
      *  // don't forget to always call this method before rendering the form
      *  if ($form->validate()) {
@@ -51,19 +51,22 @@ class Zebra_Form_Button extends Zebra_Form_Control
      *
      *  @param  string  $caption        Caption of the button control.
      *
+     *                                  Can be HTML.
+     *
      *  @param  array   $attributes     (Optional) An array of attributes valid for
      *                                  {@link http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.4 input}
      *                                  controls (size, readonly, style, etc)
      *
      *                                  Must be specified as an associative array, in the form of <i>attribute => value</i>.
      *                                  <code>
-     *                                  // setting the "alt" attribute
+     *                                  // setting the "disabled" attribute
      *                                  $obj = $form->add(
      *                                      'button',
      *                                      'my_button',
      *                                      'Click me!',
+     *                                      'submit'  // <- make this a submit button
      *                                      array(
-     *                                          'alt' => 'Click this button!'
+     *                                          'disabled' => 'disabled'
      *                                      )
      *                                  );
      *                                  </code>
@@ -73,13 +76,15 @@ class Zebra_Form_Button extends Zebra_Form_Control
      *
      *                                  The following attributes are automatically set when the control is created and
      *                                  should not be altered manually:<br>
-     *                                  <b>type</b>, <b>id</b>, <b>name</b>, <b>value</b>, <b>class</b>
+     *                                  <b>id</b>, <b>name</b>, <b>class</b>
      *
-     *  @param  string  $type           Type of button (button, submit, reset)
+     *  @param  string  $type           (Optional) Type of the button: button, submit or reset.
+     *
+     *                                  Default is "button".
      *
      *  @return void
      */
-    function __construct($id, $caption, $attributes = '', $type = 'button')
+    function __construct($id, $caption, $type = 'button', $attributes = '')
     {
 
         // call the constructor of the parent class
@@ -92,6 +97,7 @@ class Zebra_Form_Button extends Zebra_Form_Control
 
             'disable_xss_filters',
             'locked',
+            'value',
 
         );
 
@@ -104,7 +110,7 @@ class Zebra_Form_Button extends Zebra_Form_Control
                 'name'  =>  $id,
                 'id'    =>  $id,
                 'value' =>  $caption,
-                'class' =>  'button' . (($type == 'submit') ? ' submit' : ''),
+                'class' =>  'button' . ($type != 'button' ? ' ' . $type : ''),
             )
 
         );
@@ -135,16 +141,7 @@ class Zebra_Form_Button extends Zebra_Form_Control
     function toHTML()
     {
 
-        if (isset($this->attributes['value'])) {
-            $value = $this->attributes['value'];
-            
-            unset($this->attributes['value']);
-        }
-        else {
-            $value = '';
-        }
-
-        return '<button ' . $this->_render_attributes() . ($this->form_properties['doctype'] == 'xhtml' ? '/' : '') . '>' . $value . '</button>';
+        return '<button ' . $this->_render_attributes() . ($this->form_properties['doctype'] == 'xhtml' ? '/' : '') . '>' . $this->attributes['value'] . '</button>';
 
     }
 
