@@ -19,8 +19,8 @@
 }
 
 .Zebra_Form .row label,
-.Zebra_Form .row input.button,
-.Zebra_Form .row input.reset,
+.Zebra_Form .row .button,
+.Zebra_Form .row .reset,
 .Zebra_Form .row input.password,
 .Zebra_Form .row input.text,
 .Zebra_Form .row select,
@@ -28,9 +28,9 @@
     display: block
 }
 
-.Zebra_Form input.button,
-.Zebra_Form input.reset,
-.Zebra_Form input.submit,
+.Zebra_Form .button,
+.Zebra_Form .reset,
+.Zebra_Form .submit,
 .Zebra_Form label {
     font-weight: bold
 }
@@ -45,8 +45,8 @@
     font-weight: normal
 }
 
-.Zebra_Form .row input.button,
-.Zebra_Form .row input.reset,
+.Zebra_Form .row .button,
+.Zebra_Form .row .reset,
 .Zebra_Form .row input.password,
 .Zebra_Form .row input.text,
 .Zebra_Form .row select,
@@ -57,11 +57,11 @@
     border-radius: 4px;
 }
 
-.Zebra_Form input.button,
+.Zebra_Form .button,
 .Zebra_Form input.password,
-.Zebra_Form input.reset,
+.Zebra_Form .reset,
 .Zebra_Form input.text,
-.Zebra_Form input.submit,
+.Zebra_Form .submit,
 .Zebra_Form select,
 .Zebra_Form textarea,
 .Zebra_Form label.button {
@@ -140,9 +140,9 @@
     width: 293px\9
 }
 
-.Zebra_Form input.button,
-.Zebra_Form input.reset,
-.Zebra_Form input.submit,
+.Zebra_Form .button,
+.Zebra_Form .reset,
+.Zebra_Form .submit,
 .Zebra_Form label.button {
     padding: 6px 20px;
     background: #EFEFEF url('button-background.gif') repeat-x top;
@@ -158,10 +158,10 @@
     box-shadow: 0 0 2px #AAA;
 }
 
-.Zebra_Form input.button:hover,
-.Zebra_Form input.reset:hover,
-.Zebra_Form input.submit:hover,
-.Zebra_Form input.submit-hover,
+.Zebra_Form .button:hover,
+.Zebra_Form .reset:hover,
+.Zebra_Form .submit:hover,
+.Zebra_Form .submit-hover,
 .Zebra_Form label.button:hover {
     background: #303740 none;
     color: #FFF

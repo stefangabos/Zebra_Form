@@ -75,14 +75,16 @@ class Zebra_Form_Button extends Zebra_Form_Control
      *                                  should not be altered manually:<br>
      *                                  <b>type</b>, <b>id</b>, <b>name</b>, <b>value</b>, <b>class</b>
      *
+     *  @param  string  $type           Type of button (button, submit, reset)
+     *
      *  @return void
      */
-    function __construct($id, $caption, $attributes = '')
+    function __construct($id, $caption, $attributes = '', $type = 'button')
     {
-    
+
         // call the constructor of the parent class
         parent::__construct();
-        
+
         // set the private attributes of this control
         // these attributes are private for this control and are for internal use only
         // and will not be rendered by the _render_attributes() method
@@ -98,11 +100,11 @@ class Zebra_Form_Button extends Zebra_Form_Control
         $this->set_attributes(
 
             array(
-                'type'  =>  'button',
+                'type'  =>  $type,
                 'name'  =>  $id,
                 'id'    =>  $id,
                 'value' =>  $caption,
-                'class' =>  'button',
+                'class' =>  'button' . (($type == 'submit') ? ' submit' : ''),
             )
 
         );
@@ -122,7 +124,7 @@ class Zebra_Form_Button extends Zebra_Form_Control
         $this->set_attributes($attributes);
 
     }
-    
+
     /**
      *  Generates the control's HTML code.
      *
@@ -132,11 +134,20 @@ class Zebra_Form_Button extends Zebra_Form_Control
      */
     function toHTML()
     {
-    
-        return '<input ' . $this->_render_attributes() . ($this->form_properties['doctype'] == 'xhtml' ? '/' : '') . '>';
+
+        if (isset($this->attributes['value'])) {
+            $value = $this->attributes['value'];
+            
+            unset($this->attributes['value']);
+        }
+        else {
+            $value = '';
+        }
+
+        return '<button ' . $this->_render_attributes() . ($this->form_properties['doctype'] == 'xhtml' ? '/' : '') . '>' . $value . '</button>';
 
     }
-    
+
 }
 
 ?>
