@@ -13,7 +13,7 @@ class Zebra_Form_Button extends Zebra_Form_Control
     /**
      *  Constructor of the class
      *
-     *  Adds an <input type="button"> control to the form.
+     *  Adds an <button> control to the form.
      *
      *  <b>Do not instantiate this class directly! Use the {@link Zebra_Form::add() add()} method instead!</b>
      *
@@ -51,7 +51,7 @@ class Zebra_Form_Button extends Zebra_Form_Control
      *
      *  @param  string  $caption        Caption of the button control.
      *
-     *                                  Can be HTML.
+     *                                  Can be HTML markup.
      *
      *  @param  array   $attributes     (Optional) An array of attributes valid for
      *                                  {@link http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.4 input}
