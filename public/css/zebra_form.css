@@ -18,13 +18,13 @@
     display: none /* hide the honey pot */
 }
 
-.Zebra_Form .row label,
-.Zebra_Form .row .button,
-.Zebra_Form .row .reset,
-.Zebra_Form .row input.password,
-.Zebra_Form .row input.text,
-.Zebra_Form .row select,
-.Zebra_Form .row textarea {
+.Zebra_Form label,
+.Zebra_Form .button,
+.Zebra_Form .reset,
+.Zebra_Form input.password,
+.Zebra_Form input.text,
+.Zebra_Form select,
+.Zebra_Form textarea {
     display: block
 }
 
@@ -45,13 +45,13 @@
     font-weight: normal
 }
 
-.Zebra_Form .row .button,
-.Zebra_Form .row .reset,
-.Zebra_Form .row input.password,
-.Zebra_Form .row input.text,
-.Zebra_Form .row select,
-.Zebra_Form .row textarea,
-.Zebra_Form .row label.button {
+.Zebra_Form .button,
+.Zebra_Form .reset,
+.Zebra_Form input.password,
+.Zebra_Form input.text,
+.Zebra_Form select,
+.Zebra_Form textarea,
+.Zebra_Form label.button {
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
     border-radius: 4px;
@@ -80,7 +80,7 @@
 .Zebra_Form textarea:focus {
 }
 
-.Zebra_Form .row label {
+.Zebra_Form label {
     margin-bottom: 5px
 }
 
@@ -198,8 +198,6 @@
     margin-right: 5px
 }
 
-.Zebra_Form .row input.inline,
-.Zebra_Form .row textarea.inline,
 .Zebra_Form input.inline,
 .Zebra_Form textarea.inline {
     display: inline /* for when we show the "required" sign after controls that have the labels as tips */
@@ -217,16 +215,16 @@
     border-bottom: none
 }
 
-.Zebra_Form .row input.other {
+.Zebra_Form input.other {
     margin-top: 5px
 }
 
-.Zebra_Form .row .cell input.other {
+.Zebra_Form .cell input.other {
     margin: 0 0 0 5px
 }
 
 .Zebra_Form input.other-invisible,
-.Zebra_Form .row input.other-invisible {
+.Zebra_Form input.other-invisible {
     display: none
 }
 
@@ -238,7 +236,7 @@
     line-height: 1.2em
 }
 
-.Zebra_Form .row .note {
+.Zebra_Form .note {
     margin-top: 5px
 }
 
@@ -396,10 +394,6 @@
     padding: 4px
 }
 
-.Zebra_Form div.clear {
-    clear: both
-}
-
 .Zebra_Form_spinner {
     position: absolute;
     width: 24px;
@@ -477,6 +471,11 @@ input:-moz-placeholder { color:#9C9CA2 !important }
     color: #888;
     padding: 0;
     margin-right: 2px;
+}
+
+.Zebra_Form input.error,
+.Zebra_Form select.error,
+.Zebra_Form textarea.error {
 }
 
 /* don't change this! */
