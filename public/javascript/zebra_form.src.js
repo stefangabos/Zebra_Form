@@ -8,7 +8,7 @@
  *  For more resources visit {@link http://stefangabos.ro/}
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @version    2.9.4 (last revision: August 23, 2013)
+ *  @version    2.9.4 (last revision: November 20, 2013)
  *  @copyright  (c) 2011 - 2013 Stefan Gabos
  *  @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU LESSER GENERAL PUBLIC LICENSE
  *  @package    Zebra_Form
@@ -38,7 +38,7 @@
             placeholders = new Array,
             proxies = new Object,
             proxies_cache = new Object,
-            reload = false, validated = false, browser;
+            reload = false, validated = false, browser, elements;
 
         // the jQuery version of the element
         // "form" (without the $) will point to the DOM element
@@ -125,7 +125,7 @@
             });
 
             // get all the form's elements
-            var elements = $('.control', $form);
+            elements = $('.control', $form);
 
             // iterate through the form's elements
             elements.each(function() {
@@ -334,7 +334,7 @@
                 }
 
                 // if there are any validation rules set for this element
-                if (!plugin.settings.clientside_disabled && 'undefined' != typeof plugin.settings.validation_rules[attributes['name']])
+                if ('undefined' != typeof plugin.settings.validation_rules[attributes['name']])
 
                     // register the element
                     plugin.register(element, false);
@@ -943,6 +943,9 @@
             // remove all error messages from the DOM
             $('.Zebra_Form_error_message').remove();
 
+            // remove the "error" class used for styling erroneous controls
+            elements.removeClass('error');
+
             // remove all error blocks
             error_blocks = {};
 
@@ -1110,6 +1113,9 @@
 
                 // if an error block exists for the element with the given id
                 if (container.length > 0) {
+
+                    // remove the "error" class used for styling erroneous controls
+                    $element.removeClass('error');
 
                     // fade out the error block
                     // (which, on complete, destroys the IFrame shim - if it exists - and also the error block itself)
@@ -1363,7 +1369,7 @@
                     if (undefined == arguments[1]) {
 
                         // get all the form's controls
-                        var elements = $form.find('.control');
+                        elements = $('.control', $form);
 
                         // iterate through the form's controls
                         $.each(elements, function(index, el) {
@@ -1690,6 +1696,10 @@
 
                         // scroll so that the element is centered in the viewport
                         $('html, body').animate({'scrollTop': Math.max(parseInt(container.css('top'), 10) + (parseInt(container.css('height'), 10) / 2) - ($(window).height() / 2), 0)}, 0);
+
+                    // if control is not a file upload control,
+                    // add a class for customizing the erroneous control's aspect
+                    if (attributes['type'] != 'file') element.addClass('error');
 
                     // unless we need to validate all elements, don't check any further
                     if (!plugin.settings.validate_all) break;

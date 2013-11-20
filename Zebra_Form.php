@@ -27,7 +27,7 @@ define('ZEBRA_FORM_UPLOAD_RANDOM_NAMES', false);
  *  For more resources visit {@link http://stefangabos.ro/}
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @version    2.9.4 (last revision: November 19, 2013)
+ *  @version    2.9.4 (last revision: November 20, 2013)
  *  @copyright  (c) 2006 - 2013 Stefan Gabos
  *  @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU LESSER GENERAL PUBLIC LICENSE
  *  @package    Zebra_Form
@@ -2361,7 +2361,15 @@ class Zebra_Form
                     ) $control->set_attributes(array('value' => ''));
 
                     // if control is not valid, the form is not valid
-                    if (!$valid) $form_is_valid = false;
+                    if (!$valid) {
+
+                        // unless the element is a file upload control, add the "error" class to it so we can apply
+                        // custom styles to erroneous fields
+                        if ($attribute['type'] != 'file') $control->set_attributes(array('class' => 'error'), false);
+
+                        $form_is_valid = false;
+
+                    }
 
                 }
 
