@@ -476,6 +476,8 @@ input:-moz-placeholder { color:#9C9CA2 !important }
 .Zebra_Form input.error,
 .Zebra_Form select.error,
 .Zebra_Form textarea.error {
+    background: #FFEFEF;
+    border-color: #C40000;
 }
 
 /* don't change this! */
