@@ -108,6 +108,7 @@ class Zebra_Form_Date extends Zebra_Form_Control
             'enabled_dates',
             'first_day_of_week',
             'format',
+            'header_captions',
             'header_navigation',
             'inside_icon',
             'lang_clear_date',
@@ -141,6 +142,7 @@ class Zebra_Form_Date extends Zebra_Form_Control
             'enabled_dates',
             'first_day_of_week',
             'format',
+            'header_captions',
             'header_navigation',
             'inside_icon',
             'lang_clear_date',
@@ -183,6 +185,7 @@ class Zebra_Form_Date extends Zebra_Form_Control
                 'enabled_dates'             =>  null,
                 'first_day_of_week'         =>  null,
                 'format'                    =>  'Y-m-d',
+                'header_captions'           =>  null,
                 'header_navigation'         =>  null,
                 'inside_icon'               =>  null,
                 'months'                    =>  null,
@@ -475,9 +478,58 @@ class Zebra_Form_Date extends Zebra_Form_Control
     }
 
     /**
-     *  An array with 2 elements containing the HTML to be used for the previous month/next month buttons.
+     *  Captions in the datepicker's header, for the 3 possible views: days, months, years.
      *
-     *  Default is array('&#171;','&#187;')
+     *  For each of the 3 views the following special characters may be used borrowing from PHP's "date" function's
+     *  syntax: m, n, F, M, y and Y; any of these will be replaced at runtime with the appropriate date fragment, depending
+     *  on the currently viewed date. two more special characters are also available Y1 and Y2 (upper case representing
+     *  years with 4 digits, lowercase representing years with 2 digits) which represent "currently selected year - 7"
+     *  and "currently selected year + 4" and which only make sense used in the "years" view.
+     *
+     *  Even though any of these special characters may be used in any of the 3 views, you should use m, n, F, M for the
+     *  "days" view and y, Y, Y1, Y2, y1, y2 for the "months" and "years" view or you may get unexpected results!
+     *
+     *  Text and HTML can also be used, and will be rendered as it is, as in the example below (the library is smart
+     *  enough to not replace special characters when used in words or HTML tags):
+     *
+     *  <code>
+     *  header_captions(array(
+     *      'days'      =>  'Departure:<br>F, Y',
+     *      'months'    =>  'Departure:<br>Y',
+     *      'years'     =>  'Departure:<br>Y1 - Y2'
+     *  ));
+     *  </code>
+     *
+     *  Default is
+     *
+     *  <code>
+     *  header_captions(array(
+     *      'days'      =>  'F, Y',
+     *      'months'    =>  'Y',
+     *      'years'     =>  'Y1 - Y2'
+     *  ));
+     *  </code>
+     *
+     *  @param  $captions   An associative array containing captions in the datepicker's header, for the 3 possible
+     *                      views: days, months, years.
+     *
+     *  @return void
+     */
+    function header_captions($captions)
+    {
+
+        // set the date picker's attribute
+        $this->set_attributes(array('header_captions' => $captions));
+
+    }
+
+    /**
+     *  Sets the HTML to be used for the previous month/next month buttons.
+     *
+     *  @param $navigation  An array with 2 elements containing the HTML to be used for the previous month/next month
+     *                      buttons.
+     *
+     *                      Default is array('&#171;','&#187;')
      *
      *  @return void
      */

@@ -27,7 +27,7 @@ define('ZEBRA_FORM_UPLOAD_RANDOM_NAMES', false);
  *  For more resources visit {@link http://stefangabos.ro/}
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @version    2.9.4 (last revision: November 20, 2013)
+ *  @version    2.9.4 (last revision: December 21, 2013)
  *  @copyright  (c) 2006 - 2013 Stefan Gabos
  *  @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU LESSER GENERAL PUBLIC LICENSE
  *  @package    Zebra_Form
@@ -1490,14 +1490,32 @@ class Zebra_Form
                             // if value is an array
                             if (is_array($value)) {
 
+                                // assume we don't need to convert this to a JavaScript object
+                                $is_object = false;
+
+                                // iterate through all the keys/values
+                                foreach ($value as $key => $val)
+
+                                    // if at least one of the keys is not numeric
+                                    if (preg_match('/[^0-9]/', $key) > 0) {
+
+                                        // set this flag to true
+                                        $is_object = true;
+
+                                        // don't look further
+                                        break;
+
+                                    }
+
                                 // format accordingly
-                                $properties .= '[';
+                                $properties .= ($is_object ? '{' : '[');
 
-                                foreach ($value as $val)
+                                // iterate through the values
+                                foreach ($value as $key => $val)
 
-                                    $properties .= ($val === true ? 'true' : ($val === false ? 'false' : (is_numeric($val) ? $val : '\'' . $val . '\''))) . ',';
+                                    $properties .= (!is_numeric($key) ? '\'' . $key . '\':' : '') . ($val === true ? 'true' : ($val === false ? 'false' : (is_numeric($val) ? $val : '\'' . $val . '\''))) . ',';
 
-                                $properties = rtrim($properties, ',') . ']';
+                                $properties = rtrim($properties, ',') . ($is_object ? '}' : ']');
 
                             // if value is a jQuery selector
                             } elseif (preg_match('/^\$\((\'|\").*?\1\)/', trim($value)) > 0) {
