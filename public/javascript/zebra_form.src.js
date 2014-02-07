@@ -8,7 +8,7 @@
  *  For more resources visit {@link http://stefangabos.ro/}
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @version    2.9.4 (last revision: November 20, 2013)
+ *  @version    2.9.4 (last revision: December 31, 2013)
  *  @copyright  (c) 2011 - 2013 Stefan Gabos
  *  @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU LESSER GENERAL PUBLIC LICENSE
  *  @package    Zebra_Form
@@ -2156,53 +2156,58 @@
                                 case 'text':
                                 case 'textarea':
 
-                                    // if
-                                    if (
+                                    // if element has a value
+                                    if ($.trim(element.val()) != '') {
 
-                                        // rule is setup correctly
-                                        undefined != control_validation_rules['rules'][rule][0] &&
-                                        undefined != control_validation_rules['rules'][rule][1] &&
+                                        // if
+                                        if (
 
-                                        // element to compare to exists
-                                        $(control_validation_rules['rules'][rule][0]) &&
+                                            // rule is setup correctly
+                                            undefined != control_validation_rules['rules'][rule][0] &&
+                                            undefined != control_validation_rules['rules'][rule][1] &&
 
-                                        // element to compare to has a valid date as the value
-                                        plugin.validate_control($(control_validation_rules['rules'][rule][0])) === true &&
+                                            // element to compare to exists
+                                            $(control_validation_rules['rules'][rule][0]) &&
 
-                                        // current element was validated and contains a valid date as the value
-                                        undefined != element.data('timestamp')
+                                            // element to compare to has a valid date as the value
+                                            plugin.validate_control($(control_validation_rules['rules'][rule][0])) === true &&
 
-                                    ) {
+                                            // current element was validated and contains a valid date as the value
+                                            undefined != element.data('timestamp')
 
-                                        // compare the two dates according to the comparison operator
-                                        switch (control_validation_rules['rules'][rule][1]) {
+                                        ) {
 
-                                            case '>':
+                                            // compare the two dates according to the comparison operator
+                                            switch (control_validation_rules['rules'][rule][1]) {
 
-                                                control_is_valid = (element.data('timestamp') > $('#' + control_validation_rules['rules'][rule][0]).data('timestamp'));
-                                                break;
+                                                case '>':
 
-                                            case '>=':
+                                                    control_is_valid = (element.data('timestamp') > $('#' + control_validation_rules['rules'][rule][0]).data('timestamp'));
+                                                    break;
 
-                                                control_is_valid = (element.data('timestamp') >= $('#' + control_validation_rules['rules'][rule][0]).data('timestamp'));
-                                                break;
+                                                case '>=':
 
-                                            case '<':
+                                                    control_is_valid = (element.data('timestamp') >= $('#' + control_validation_rules['rules'][rule][0]).data('timestamp'));
+                                                    break;
 
-                                                control_is_valid = (element.data('timestamp') < $('#' + control_validation_rules['rules'][rule][0]).data('timestamp'));
-                                                break;
+                                                case '<':
 
-                                            case '<=':
+                                                    control_is_valid = (element.data('timestamp') < $('#' + control_validation_rules['rules'][rule][0]).data('timestamp'));
+                                                    break;
 
-                                                control_is_valid = (element.data('timestamp') <= $('#' + control_validation_rules['rules'][rule][0]).data('timestamp'));
-                                                break;
+                                                case '<=':
 
-                                        }
+                                                    control_is_valid = (element.data('timestamp') <= $('#' + control_validation_rules['rules'][rule][0]).data('timestamp'));
+                                                    break;
 
-                                    // otherwise, there is a problem and thus, the rule does not validate
-                                    } else control_is_valid = false;
+                                            }
 
-                                    break;
+                                        // otherwise, there is a problem and thus, the rule does not validate
+                                        } else control_is_valid = false;
+
+                                        break;
+
+                                    }
 
                             }
 

@@ -27,7 +27,7 @@ define('ZEBRA_FORM_UPLOAD_RANDOM_NAMES', false);
  *  For more resources visit {@link http://stefangabos.ro/}
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @version    2.9.4 (last revision: December 21, 2013)
+ *  @version    2.9.4 (last revision: December 31, 2013)
  *  @copyright  (c) 2006 - 2013 Stefan Gabos
  *  @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU LESSER GENERAL PUBLIC LICENSE
  *  @package    Zebra_Form
@@ -397,7 +397,6 @@ class Zebra_Form
 
                 // use this method to instantiate the object with dynamic arguments
                 $obj = call_user_func_array(array(new ReflectionClass($class_name), 'newInstance'), $arguments);
-
 
                 // make available the form's properties in the newly created object
                 $obj->form_properties = & $this->form_properties;
@@ -3156,6 +3155,9 @@ class Zebra_Form
 
                                 // is a 'date' control
                                 isset($attribute['format']) &&
+
+                                // a value was entered
+                                $attribute['value'] != '' &&
 
                                 // control to compare with, exists
                                 isset($this->controls[$rule_attributes[0]]) &&
