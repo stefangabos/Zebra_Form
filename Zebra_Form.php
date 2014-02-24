@@ -733,10 +733,10 @@ class Zebra_Form
      *  ));
      *  </code>
      *
-     *  To access the JavaScript object and use the public methods provided by it, use $('#formname').data('Zebra_Form')
+     *  To access the JavaScript object and use the public methods provided by it, use jQuery('#formname').data('Zebra_Form')
      *  where <i>formname</i> is the form's name <b>with any dashes turned into underscores!</b>
      *
-     *  <i>Therefore, if a form's name is "my-form", the JavaScript object would be accessed like $('my_form').data('Zebra_Form').</i>
+     *  <i>Therefore, if a form's name is "my-form", the JavaScript object would be accessed like jQuery('my_form').data('Zebra_Form').</i>
      *
      *  From JavaScript, these are the methods that can be called on this object:
      *
@@ -752,10 +752,10 @@ class Zebra_Form
      *  //  let's submit the form when clicking on a random button
      *
      *  // get a reference to the Zebra_Form object
-     *  var $form = $('#formname').data('Zebra_Form');
+     *  var $form = jQuery('#formname').data('Zebra_Form');
      *
      *  // handle the onclick event on a random button
-     *  $('#somebutton').bind('click', function(e) {
+     *  jQuery('#somebutton').bind('click', function(e) {
      *
      *      // stop default action
      *      e.preventDefault();
@@ -805,7 +805,7 @@ class Zebra_Form
      *                                      <code>
      *                                      $form->clientside_validation(array(
      *                                          // where $form is a global variable and 'id' is the form's id
-     *                                          'on_ready': 'function() { $form = $("#id").data('Zebra_Form'); }',
+     *                                          'on_ready': 'function() { $form = jQuery("#id").data('Zebra_Form'); }',
      *                                      ));
      *                                      </code>
      *
@@ -1455,7 +1455,7 @@ class Zebra_Form
                 if (!$attributes['disable_zebra_datepicker']) {
 
                     // append the new date picker object
-                    $datepicker_javascript .= '$(\'#' . $attributes['id'] . '\').Zebra_DatePicker(';
+                    $datepicker_javascript .= 'jQuery(\'#' . $attributes['id'] . '\').Zebra_DatePicker(';
 
                     // take day names from the language file
                     $control->attributes['days'] = $this->form_properties['language']['days'];
@@ -1538,7 +1538,7 @@ class Zebra_Form
 
                     }
 
-                    $properties .= ',onSelect:function(){$("#' . $this->form_properties['name'] . '").data("Zebra_Form").hide_error("' . $attributes['name'] . '")}';
+                    $properties .= ',onSelect:function(){jQuery("#' . $this->form_properties['name'] . '").data("Zebra_Form").hide_error("' . $attributes['name'] . '")}';
 
                     // wrap up the javascript object
                     $datepicker_javascript .= ($properties != '' ? '{' . $properties . '}' : '') . ');';
@@ -1548,7 +1548,7 @@ class Zebra_Form
 
                     // in order to preserve client-side validation,
                     // we still need to pass some data to it
-                    $datepicker_javascript .= '$(\'#' . $attributes['id'] . '\').data("Zebra_DatePicker", new Object({settings: {days: ["' . implode('","', $this->form_properties['language']['days']) . '"], months: ["' . implode('","', $this->form_properties['language']['months']) . '"], format: "' . $control->attributes['format'] . '"}}));';
+                    $datepicker_javascript .= 'jQuery(\'#' . $attributes['id'] . '\').data("Zebra_DatePicker", new Object({settings: {days: ["' . implode('","', $this->form_properties['language']['days']) . '"], months: ["' . implode('","', $this->form_properties['language']['months']) . '"], format: "' . $control->attributes['format'] . '"}}));';
 
             }
 
@@ -2225,9 +2225,9 @@ class Zebra_Form
         $output .=
             '<script type="text/javascript">function ' . $function_name . '(){if(typeof jQuery=="undefined"||typeof jQuery.fn.Zebra_Form=="undefined"' .
             (isset($datepicker_javascript) ? '|| jQuery.fn.Zebra_DatePicker=="undefined"' : '') . '){setTimeout("' . $function_name . '()",100);return}else{' .
-            '$(document).ready(function(){' .
+            'jQuery(document).ready(function(){' .
             (isset($datepicker_javascript) ? $datepicker_javascript : '') .
-            '$("#' . $this->form_properties['name'] . '").Zebra_Form(' . ($javascript_object_properties != '' ? '{' . $javascript_object_properties . '}' : '') . ')})}}' .
+            'jQuery("#' . $this->form_properties['name'] . '").Zebra_Form(' . ($javascript_object_properties != '' ? '{' . $javascript_object_properties . '}' : '') . ')})}}' .
             $function_name . '()</script>';
 
         // if $return argument was TRUE, return the result
