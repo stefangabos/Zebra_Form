@@ -1941,79 +1941,91 @@ class Zebra_Form
                 $rows = count($blocks);
 
                 // iterate through blocks
-                foreach ($blocks as $controls) {
+                foreach ($blocks as $main_control => $controls) {
 
                     ++$counter;
 
-                    // each block is in its own row
-                    $contents .= '<tr class="row' . ($counter % 2 == 0 ? ' even' : '') . ($counter == $rows ? ' last' : '') . '">';
+                    $main_control_attrs = $this->controls[$main_control]->get_attributes('type');
 
-                    // the first cell will hold the label (if any)
-                    $contents .= '<td>';
+                    if($main_control_attrs['type'] === 'raw')
+                    {
 
-                    // as of PHP 5.3, array_shift required the argument to be a variable and not the result
-                    // of a function so we need this intermediary step
-                    $labels = array_values($controls);
-
-                    // retrieve the first item in the block
-                    $label = array_shift($labels);
-
-                    // item is a label
-                    if (!is_array($label) && $this->controls[$label]->attributes['type'] == 'label') {
-
-                        // remove it from the block
-                        array_shift($controls);
-
-                        // render it
-                        $contents .= $this->controls[$label]->toHTML();
+                        $contents .= $this->controls[$main_control]->toHTML();
 
                     }
+                    else
+                    {
+                        // each block is in its own row
+                        $contents .= '<tr class="row' . ($counter % 2 == 0 ? ' even' : '') . ($counter == $rows ? ' last' : '') . '">';
 
-                    // close the table cell
-                    $contents .= '</td>';
+                        // the first cell will hold the label (if any)
+                        $contents .= '<td>';
 
-                    // the second cell contains the actual controls
-                    $contents .= '<td>';
+                        // as of PHP 5.3, array_shift required the argument to be a variable and not the result
+                        // of a function so we need this intermediary step
+                        $labels = array_values($controls);
 
-                    // iterate through the controls to be rendered
-                    foreach ($controls as $control) {
+                        // retrieve the first item in the block
+                        $label = array_shift($labels);
 
-                        // if array of controls
-                        // (radio buttons/checkboxes and their labels)
-                        if (is_array($control)) {
+                        // item is a label
+                        if (!is_array($label) && $this->controls[$label]->attributes['type'] == 'label') {
 
-                            // iterate through the array's items
-                            foreach ($control as $ctrl)
+                            // remove it from the block
+                            array_shift($controls);
 
-                                // and display them on the same line
-                                $contents .= '<div class="cell">' . $this->controls[$ctrl]->toHTML() . '</div>';
+                            // render it
+                            $contents .= $this->controls[$label]->toHTML();
 
-                            // clear floats
-                            $contents .= '<div class="clear"></div>';
+                        }
 
-                        // if not an array of controls
-                        } else
+                        // close the table cell
+                        $contents .= '</td>';
 
-                            // if control is required but has the label as a tip inside the control
-                            // we need to manually add the asterisk after the control
-                            if (array_key_exists('required', $this->controls[$control]->rules) && preg_match('/\binside\b/', $this->controls[$control]->attributes['class'])) {
+                        // the second cell contains the actual controls
+                        $contents .= '<td>';
 
-                                // first, make sure the control is inline so that the asterisk will be placed to the right of the control
-                                $this->controls[$control]->set_attributes(array('class' => 'inline'), false);
+                        // iterate through the controls to be rendered
+                        foreach ($controls as $control) {
 
-                                // add the required symbol after the control
-                                $contents .= $this->controls[$control]->toHTML() . '<span class="required">*</span>';
+                            // if array of controls
+                            // (radio buttons/checkboxes and their labels)
+                            if (is_array($control)) {
 
-                            // else, render the control
-                            } else $contents .= $this->controls[$control]->toHTML();
+                                // iterate through the array's items
+                                foreach ($control as $ctrl)
+
+                                    // and display them on the same line
+                                    $contents .= '<div class="cell">' . $this->controls[$ctrl]->toHTML() . '</div>';
+
+                                // clear floats
+                                $contents .= '<div class="clear"></div>';
+
+                            // if not an array of controls
+                            } else
+
+                                // if control is required but has the label as a tip inside the control
+                                // we need to manually add the asterisk after the control
+                                if (array_key_exists('required', $this->controls[$control]->rules) && preg_match('/\binside\b/', $this->controls[$control]->attributes['class'])) {
+
+                                    // first, make sure the control is inline so that the asterisk will be placed to the right of the control
+                                    $this->controls[$control]->set_attributes(array('class' => 'inline'), false);
+
+                                    // add the required symbol after the control
+                                    $contents .= $this->controls[$control]->toHTML() . '<span class="required">*</span>';
+
+                                // else, render the control
+                                } else $contents .= $this->controls[$control]->toHTML();
+
+                        }
+
+                        // close the cell
+                        $contents .= '</td>';
+
+                        // add a "separator" row
+                        $contents .= '</tr>';
 
                     }
-
-                    // close the cell
-                    $contents .= '</td>';
-
-                    // add a "separator" row
-                    $contents .= '</tr>';
 
                 }
 
@@ -2034,48 +2046,61 @@ class Zebra_Form
                 $rows = count($blocks);
 
                 // iterate through blocks
-                foreach ($blocks as $controls) {
+                foreach ($blocks as $main_control => $controls) {
 
-                    // ...then block is contained in its own row
-                    $contents .= '<div class="row' . (++$counter % 2 == 0 ? ' even' : '') . ($counter == $rows ? ' last' : '') . '">';
+                    $main_control_attributes = $this->controls[$main_control]->get_attributes('type');
 
-                    // iterate through the controls to be rendered
-                    foreach ($controls as $control) {
+                    $main_control_attrs = $this->controls[$main_control]->get_attributes('type');
 
-                        // if array of controls
-                        // (radio buttons/checkboxes and their labels)
-                        if (is_array($control)) {
+                    if($main_control_attrs['type'] === 'raw')
+                    {
 
-                            // iterate through the array's items
-                            foreach ($control as $ctrl)
-
-                                // and display them on the same line
-                                $contents .= '<div class="cell">' . $this->controls[$ctrl]->toHTML() . '</div>';
-
-                            // clear floats
-                            $contents .= '<div class="clear"></div>';
-
-                        // if not an array of controls
-                        } else
-
-                            // if control is required but has the label as a tip inside the control
-                            // we need to manually add the asterisk after the control
-                            if (array_key_exists('required', $this->controls[$control]->rules) && preg_match('/\binside\b/', $this->controls[$control]->attributes['class'])) {
-
-                                // first, make sure the control is inline so that the asterisk will be placed to the right of the control
-                                $this->controls[$control]->set_attributes(array('class' => 'inline'), false);
-
-                                // add the required symbol after the control
-                                $contents .= $this->controls[$control]->toHTML() . '<span class="required">*</span>';
-
-                            // else, render the control
-                            } else $contents .= $this->controls[$control]->toHTML();
+                        $contents .= $this->controls[$main_control]->toHTML();
 
                     }
+                    else
+                    {
 
-                    // ...finish rendering
-                    $contents .= '</div>';
+                        // ...then block is contained in its own row
+                        $contents .= '<div class="row' . (++$counter % 2 == 0 ? ' even' : '') . ($counter == $rows ? ' last' : '') . '">';
 
+                        // iterate through the controls to be rendered
+                        foreach ($controls as $control) {
+
+                            // if array of controls
+                            // (radio buttons/checkboxes and their labels)
+                            if (is_array($control)) {
+
+                                // iterate through the array's items
+                                foreach ($control as $ctrl)
+
+                                    // and display them on the same line
+                                    $contents .= '<div class="cell">' . $this->controls[$ctrl]->toHTML() . '</div>';
+
+                                // clear floats
+                                $contents .= '<div class="clear"></div>';
+
+                            // if not an array of controls
+                            } else
+
+                                // if control is required but has the label as a tip inside the control
+                                // we need to manually add the asterisk after the control
+                                if (array_key_exists('required', $this->controls[$control]->rules) && preg_match('/\binside\b/', $this->controls[$control]->attributes['class'])) {
+
+                                    // first, make sure the control is inline so that the asterisk will be placed to the right of the control
+                                    $this->controls[$control]->set_attributes(array('class' => 'inline'), false);
+
+                                    // add the required symbol after the control
+                                    $contents .= $this->controls[$control]->toHTML() . '<span class="required">*</span>';
+
+                                // else, render the control
+                                } else $contents .= $this->controls[$control]->toHTML();
+
+                        }
+
+                        // ...finish rendering
+                        $contents .= '</div>';
+                    }
                 }
 
             }
