@@ -950,12 +950,12 @@ class Zebra_Form_Control extends XSS_Clean
      *
      *  // functions have to return TRUE in order for the rule to be considered as obeyed
      *  function username_not_taken(username) {
-     *      $.ajax({data: 'username=' + username});
+     *      jQuery().ajax({data: 'username=' + username});
      *      return valid;
      *  }
      *
      *  function emailaddress_not_taken(email) {
-     *      $.ajax({data: 'email=' + email});
+     *      jQuery().ajax({data: 'email=' + email});
      *      return valid;
      *  }
      *
@@ -963,7 +963,7 @@ class Zebra_Form_Control extends XSS_Clean
      *  jQuery(document).ready(function() {
      *
      *      // I setup an AJAX object that will handle all my AJAX calls
-     *      $.ajaxSetup({
+     *      jQuery().ajaxSetup({
      *          url: 'path/to/validator/',  // actual work will be done in PHP
      *          type: 'post',
      *          dataType: 'text',
