@@ -237,7 +237,7 @@ class Zebra_Form_Date extends Zebra_Form_Control
      *
      *  // an element having the ID "container"
      *  // will be the date picker's container
-     *  $date->always_visible('$("#container")');
+     *  $date->always_visible('jQuery("#container")');
      *  </code>
      *
      *  @param  string  $element    A jQuery selector pointing to an existing element from the page to be used as the
@@ -615,7 +615,7 @@ class Zebra_Form_Date extends Zebra_Form_Control
     function pair($value) {
 
         // set the date picker's attribute
-        $this->set_attributes(array('pair' => '$(\'#' . $value . '\')'));
+        $this->set_attributes(array('pair' => 'jQuery(\'#' . $value . '\')'));
 
     }
 

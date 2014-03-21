@@ -950,20 +950,20 @@ class Zebra_Form_Control extends XSS_Clean
      *
      *  // functions have to return TRUE in order for the rule to be considered as obeyed
      *  function username_not_taken(username) {
-     *      $.ajax({data: 'username=' + username});
+     *      jQuery().ajax({data: 'username=' + username});
      *      return valid;
      *  }
      *
      *  function emailaddress_not_taken(email) {
-     *      $.ajax({data: 'email=' + email});
+     *      jQuery().ajax({data: 'email=' + email});
      *      return valid;
      *  }
      *
      *  // in the DOM ready event
-     *  $(document).ready(function() {
+     *  jQuery(document).ready(function() {
      *
      *      // I setup an AJAX object that will handle all my AJAX calls
-     *      $.ajaxSetup({
+     *      jQuery().ajaxSetup({
      *          url: 'path/to/validator/',  // actual work will be done in PHP
      *          type: 'post',
      *          dataType: 'text',
@@ -1221,7 +1221,7 @@ class Zebra_Form_Control extends XSS_Clean
      *  }
      *
      *  // ...here comes the rest of your code
-     *  $(document).ready(function() {});
+     *  jQuery(document).ready(function() {});
      *
      *  /* ======================================================{@*}
      *
@@ -1234,7 +1234,7 @@ class Zebra_Form_Control extends XSS_Clean
      *  }
      *
      *  // ...here comes the rest of your code
-     *  $(document).ready(function() {});
+     *  jQuery(document).ready(function() {});
      *
      *  /* ======================================================{@*}
      *
@@ -1242,7 +1242,7 @@ class Zebra_Form_Control extends XSS_Clean
      *  var my_callback;
      *
      *  // put your function inside the "doready" event
-     *  $(document).ready(function() {
+     *  jQuery(document).ready(function() {
      *
      *      // but tied to the variable from the global scope...
      *      my_callback = function(valid) {
@@ -1257,7 +1257,7 @@ class Zebra_Form_Control extends XSS_Clean
      *  /* ======================================================{@*}
      *
      *  // don't pollute the global scope, use namespaces
-     *  $(document).ready(function() {
+     *  jQuery(document).ready(function() {
      *
      *      myNameSpace = {
      *          my_callback: function(valid) {
@@ -1800,7 +1800,7 @@ class Zebra_Form_Control extends XSS_Clean
      *  called</i> <b>file_info</b> <i>which will contain information about the uploaded file, accessible via JavaScript.</i>
      *
      *  <code>
-     *  console.log($('#element_id').data('file_info'))
+     *  console.log(jQuery('#element_id').data('file_info'))
      *  </code>
      *
      *  This is not actually a "rule", but because it can generate an error message it is included here
@@ -1915,7 +1915,7 @@ class Zebra_Form_Control extends XSS_Clean
                     case 'number':
                     case 'float':
 
-                        $this->set_attributes(array('onkeypress' => 'javascript:return $(\'#' . $this->form_properties['name'] . '\').data(\'Zebra_Form\').filter_input(\'' . $rule_name . '\', event' . ($rule_properties[0] != '' ? ', \'' . addcslashes($rule_properties[0], '\'') . '\'' : '') . ');'));
+                        $this->set_attributes(array('onkeypress' => 'javascript:return jQuery(\'#' . $this->form_properties['name'] . '\').data(\'Zebra_Form\').filter_input(\'' . $rule_name . '\', event' . ($rule_properties[0] != '' ? ', \'' . addcslashes($rule_properties[0], '\'') . '\'' : '') . ');'));
 
                         break;
 

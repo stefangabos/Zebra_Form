@@ -733,10 +733,10 @@ class Zebra_Form
      *  ));
      *  </code>
      *
-     *  To access the JavaScript object and use the public methods provided by it, use $('#formname').data('Zebra_Form')
+     *  To access the JavaScript object and use the public methods provided by it, use jQuery('#formname').data('Zebra_Form')
      *  where <i>formname</i> is the form's name <b>with any dashes turned into underscores!</b>
      *
-     *  <i>Therefore, if a form's name is "my-form", the JavaScript object would be accessed like $('my_form').data('Zebra_Form').</i>
+     *  <i>Therefore, if a form's name is "my-form", the JavaScript object would be accessed like jQuery('my_form').data('Zebra_Form').</i>
      *
      *  From JavaScript, these are the methods that can be called on this object:
      *
@@ -752,10 +752,10 @@ class Zebra_Form
      *  //  let's submit the form when clicking on a random button
      *
      *  // get a reference to the Zebra_Form object
-     *  var $form = $('#formname').data('Zebra_Form');
+     *  var $form = jQuery('#formname').data('Zebra_Form');
      *
      *  // handle the onclick event on a random button
-     *  $('#somebutton').bind('click', function(e) {
+     *  jQuery('#somebutton').bind('click', function(e) {
      *
      *      // stop default action
      *      e.preventDefault();
@@ -805,7 +805,7 @@ class Zebra_Form
      *                                      <code>
      *                                      $form->clientside_validation(array(
      *                                          // where $form is a global variable and 'id' is the form's id
-     *                                          'on_ready': 'function() { $form = $("#id").data('Zebra_Form'); }',
+     *                                          'on_ready': 'function() { $form = jQuery("#id").data('Zebra_Form'); }',
      *                                      ));
      *                                      </code>
      *
@@ -1455,7 +1455,7 @@ class Zebra_Form
                 if (!$attributes['disable_zebra_datepicker']) {
 
                     // append the new date picker object
-                    $datepicker_javascript .= '$(\'#' . $attributes['id'] . '\').Zebra_DatePicker(';
+                    $datepicker_javascript .= 'jQuery(\'#' . $attributes['id'] . '\').Zebra_DatePicker(';
 
                     // take day names from the language file
                     $control->attributes['days'] = $this->form_properties['language']['days'];
@@ -1538,7 +1538,7 @@ class Zebra_Form
 
                     }
 
-                    $properties .= ',onSelect:function(){$("#' . $this->form_properties['name'] . '").data("Zebra_Form").hide_error("' . $attributes['name'] . '")}';
+                    $properties .= ',onSelect:function(){jQuery("#' . $this->form_properties['name'] . '").data("Zebra_Form").hide_error("' . $attributes['name'] . '")}';
 
                     // wrap up the javascript object
                     $datepicker_javascript .= ($properties != '' ? '{' . $properties . '}' : '') . ');';
@@ -1548,7 +1548,7 @@ class Zebra_Form
 
                     // in order to preserve client-side validation,
                     // we still need to pass some data to it
-                    $datepicker_javascript .= '$(\'#' . $attributes['id'] . '\').data("Zebra_DatePicker", new Object({settings: {days: ["' . implode('","', $this->form_properties['language']['days']) . '"], months: ["' . implode('","', $this->form_properties['language']['months']) . '"], format: "' . $control->attributes['format'] . '"}}));';
+                    $datepicker_javascript .= 'jQuery(\'#' . $attributes['id'] . '\').data("Zebra_DatePicker", new Object({settings: {days: ["' . implode('","', $this->form_properties['language']['days']) . '"], months: ["' . implode('","', $this->form_properties['language']['months']) . '"], format: "' . $control->attributes['format'] . '"}}));';
 
             }
 
@@ -1941,79 +1941,91 @@ class Zebra_Form
                 $rows = count($blocks);
 
                 // iterate through blocks
-                foreach ($blocks as $controls) {
+                foreach ($blocks as $main_control => $controls) {
 
                     ++$counter;
 
-                    // each block is in its own row
-                    $contents .= '<tr class="row' . ($counter % 2 == 0 ? ' even' : '') . ($counter == $rows ? ' last' : '') . '">';
+                    $main_control_attrs = $this->controls[$main_control]->get_attributes('type');
 
-                    // the first cell will hold the label (if any)
-                    $contents .= '<td>';
+                    if($main_control_attrs['type'] === 'raw')
+                    {
 
-                    // as of PHP 5.3, array_shift required the argument to be a variable and not the result
-                    // of a function so we need this intermediary step
-                    $labels = array_values($controls);
-
-                    // retrieve the first item in the block
-                    $label = array_shift($labels);
-
-                    // item is a label
-                    if (!is_array($label) && $this->controls[$label]->attributes['type'] == 'label') {
-
-                        // remove it from the block
-                        array_shift($controls);
-
-                        // render it
-                        $contents .= $this->controls[$label]->toHTML();
+                        $contents .= $this->controls[$main_control]->toHTML();
 
                     }
+                    else
+                    {
+                        // each block is in its own row
+                        $contents .= '<tr class="row' . ($counter % 2 == 0 ? ' even' : '') . ($counter == $rows ? ' last' : '') . '">';
 
-                    // close the table cell
-                    $contents .= '</td>';
+                        // the first cell will hold the label (if any)
+                        $contents .= '<td>';
 
-                    // the second cell contains the actual controls
-                    $contents .= '<td>';
+                        // as of PHP 5.3, array_shift required the argument to be a variable and not the result
+                        // of a function so we need this intermediary step
+                        $labels = array_values($controls);
 
-                    // iterate through the controls to be rendered
-                    foreach ($controls as $control) {
+                        // retrieve the first item in the block
+                        $label = array_shift($labels);
 
-                        // if array of controls
-                        // (radio buttons/checkboxes and their labels)
-                        if (is_array($control)) {
+                        // item is a label
+                        if (!is_array($label) && $this->controls[$label]->attributes['type'] == 'label') {
 
-                            // iterate through the array's items
-                            foreach ($control as $ctrl)
+                            // remove it from the block
+                            array_shift($controls);
 
-                                // and display them on the same line
-                                $contents .= '<div class="cell">' . $this->controls[$ctrl]->toHTML() . '</div>';
+                            // render it
+                            $contents .= $this->controls[$label]->toHTML();
 
-                            // clear floats
-                            $contents .= '<div class="clear"></div>';
+                        }
 
-                        // if not an array of controls
-                        } else
+                        // close the table cell
+                        $contents .= '</td>';
 
-                            // if control is required but has the label as a tip inside the control
-                            // we need to manually add the asterisk after the control
-                            if (array_key_exists('required', $this->controls[$control]->rules) && preg_match('/\binside\b/', $this->controls[$control]->attributes['class'])) {
+                        // the second cell contains the actual controls
+                        $contents .= '<td>';
 
-                                // first, make sure the control is inline so that the asterisk will be placed to the right of the control
-                                $this->controls[$control]->set_attributes(array('class' => 'inline'), false);
+                        // iterate through the controls to be rendered
+                        foreach ($controls as $control) {
 
-                                // add the required symbol after the control
-                                $contents .= $this->controls[$control]->toHTML() . '<span class="required">*</span>';
+                            // if array of controls
+                            // (radio buttons/checkboxes and their labels)
+                            if (is_array($control)) {
 
-                            // else, render the control
-                            } else $contents .= $this->controls[$control]->toHTML();
+                                // iterate through the array's items
+                                foreach ($control as $ctrl)
+
+                                    // and display them on the same line
+                                    $contents .= '<div class="cell">' . $this->controls[$ctrl]->toHTML() . '</div>';
+
+                                // clear floats
+                                $contents .= '<div class="clear"></div>';
+
+                            // if not an array of controls
+                            } else
+
+                                // if control is required but has the label as a tip inside the control
+                                // we need to manually add the asterisk after the control
+                                if (array_key_exists('required', $this->controls[$control]->rules) && preg_match('/\binside\b/', $this->controls[$control]->attributes['class'])) {
+
+                                    // first, make sure the control is inline so that the asterisk will be placed to the right of the control
+                                    $this->controls[$control]->set_attributes(array('class' => 'inline'), false);
+
+                                    // add the required symbol after the control
+                                    $contents .= $this->controls[$control]->toHTML() . '<span class="required">*</span>';
+
+                                // else, render the control
+                                } else $contents .= $this->controls[$control]->toHTML();
+
+                        }
+
+                        // close the cell
+                        $contents .= '</td>';
+
+                        // add a "separator" row
+                        $contents .= '</tr>';
 
                     }
-
-                    // close the cell
-                    $contents .= '</td>';
-
-                    // add a "separator" row
-                    $contents .= '</tr>';
 
                 }
 
@@ -2034,48 +2046,61 @@ class Zebra_Form
                 $rows = count($blocks);
 
                 // iterate through blocks
-                foreach ($blocks as $controls) {
+                foreach ($blocks as $main_control => $controls) {
 
-                    // ...then block is contained in its own row
-                    $contents .= '<div class="row' . (++$counter % 2 == 0 ? ' even' : '') . ($counter == $rows ? ' last' : '') . '">';
+                    $main_control_attributes = $this->controls[$main_control]->get_attributes('type');
 
-                    // iterate through the controls to be rendered
-                    foreach ($controls as $control) {
+                    $main_control_attrs = $this->controls[$main_control]->get_attributes('type');
 
-                        // if array of controls
-                        // (radio buttons/checkboxes and their labels)
-                        if (is_array($control)) {
+                    if($main_control_attrs['type'] === 'raw')
+                    {
 
-                            // iterate through the array's items
-                            foreach ($control as $ctrl)
-
-                                // and display them on the same line
-                                $contents .= '<div class="cell">' . $this->controls[$ctrl]->toHTML() . '</div>';
-
-                            // clear floats
-                            $contents .= '<div class="clear"></div>';
-
-                        // if not an array of controls
-                        } else
-
-                            // if control is required but has the label as a tip inside the control
-                            // we need to manually add the asterisk after the control
-                            if (array_key_exists('required', $this->controls[$control]->rules) && preg_match('/\binside\b/', $this->controls[$control]->attributes['class'])) {
-
-                                // first, make sure the control is inline so that the asterisk will be placed to the right of the control
-                                $this->controls[$control]->set_attributes(array('class' => 'inline'), false);
-
-                                // add the required symbol after the control
-                                $contents .= $this->controls[$control]->toHTML() . '<span class="required">*</span>';
-
-                            // else, render the control
-                            } else $contents .= $this->controls[$control]->toHTML();
+                        $contents .= $this->controls[$main_control]->toHTML();
 
                     }
+                    else
+                    {
 
-                    // ...finish rendering
-                    $contents .= '</div>';
+                        // ...then block is contained in its own row
+                        $contents .= '<div class="row' . (++$counter % 2 == 0 ? ' even' : '') . ($counter == $rows ? ' last' : '') . '">';
 
+                        // iterate through the controls to be rendered
+                        foreach ($controls as $control) {
+
+                            // if array of controls
+                            // (radio buttons/checkboxes and their labels)
+                            if (is_array($control)) {
+
+                                // iterate through the array's items
+                                foreach ($control as $ctrl)
+
+                                    // and display them on the same line
+                                    $contents .= '<div class="cell">' . $this->controls[$ctrl]->toHTML() . '</div>';
+
+                                // clear floats
+                                $contents .= '<div class="clear"></div>';
+
+                            // if not an array of controls
+                            } else
+
+                                // if control is required but has the label as a tip inside the control
+                                // we need to manually add the asterisk after the control
+                                if (array_key_exists('required', $this->controls[$control]->rules) && preg_match('/\binside\b/', $this->controls[$control]->attributes['class'])) {
+
+                                    // first, make sure the control is inline so that the asterisk will be placed to the right of the control
+                                    $this->controls[$control]->set_attributes(array('class' => 'inline'), false);
+
+                                    // add the required symbol after the control
+                                    $contents .= $this->controls[$control]->toHTML() . '<span class="required">*</span>';
+
+                                // else, render the control
+                                } else $contents .= $this->controls[$control]->toHTML();
+
+                        }
+
+                        // ...finish rendering
+                        $contents .= '</div>';
+                    }
                 }
 
             }
@@ -2225,9 +2250,9 @@ class Zebra_Form
         $output .=
             '<script type="text/javascript">function ' . $function_name . '(){if(typeof jQuery=="undefined"||typeof jQuery.fn.Zebra_Form=="undefined"' .
             (isset($datepicker_javascript) ? '|| jQuery.fn.Zebra_DatePicker=="undefined"' : '') . '){setTimeout("' . $function_name . '()",100);return}else{' .
-            '$(document).ready(function(){' .
+            'jQuery(document).ready(function(){' .
             (isset($datepicker_javascript) ? $datepicker_javascript : '') .
-            '$("#' . $this->form_properties['name'] . '").Zebra_Form(' . ($javascript_object_properties != '' ? '{' . $javascript_object_properties . '}' : '') . ')})}}' .
+            'jQuery("#' . $this->form_properties['name'] . '").Zebra_Form(' . ($javascript_object_properties != '' ? '{' . $javascript_object_properties . '}' : '') . ')})}}' .
             $function_name . '()</script>';
 
         // if $return argument was TRUE, return the result

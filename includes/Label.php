@@ -173,13 +173,13 @@ class Zebra_Form_Label extends Zebra_Form_Control
         $attributes = $this->get_attributes('label');
         
         // if access key needs to be showed
-        if (preg_match('/\$(.{1})/', $attributes['label'], $matches) > 0) {
+        if (preg_match('/jQuery(.{1})/', $attributes['label'], $matches) > 0) {
         
             // set the requested accesskey
             $this->set_attributes(array('accesskey' => strtolower($matches[1])));
             
             // make the accesskey visible
-            $attributes['label'] = preg_replace('/\$(.{1})/', '<span class="underline">$1</span>', $attributes['label']);
+            $attributes['label'] = preg_replace('/jQuery(.{1})/', '<span class="underline">$1</span>', $attributes['label']);
 
         }
 
