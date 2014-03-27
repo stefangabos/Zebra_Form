@@ -8,7 +8,7 @@
  *  For more resources visit {@link http://stefangabos.ro/}
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @version    2.9.4 (last revision: March 17, 2014)
+ *  @version    2.9.4 (last revision: March 27, 2014)
  *  @copyright  (c) 2011 - 2014 Stefan Gabos
  *  @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU LESSER GENERAL PUBLIC LICENSE
  *  @package    Zebra_Form
@@ -1020,6 +1020,9 @@
 
                         // show the attached error message
                         plugin.show_errors($element);
+
+                        // clear file info information
+                        $element.data('file_info', '');
 
                     // if control validates
                     } else {
