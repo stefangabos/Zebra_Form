@@ -302,8 +302,9 @@
     display: block;
     width: 10px;
     height: 10px;
-    background: url('close.png');
+    background: url('close.png') no-repeat;
     text-indent: -9000px;
+    padding:0;
     overflow: hidden;
     *right: 3px;
     *top: 3px;
