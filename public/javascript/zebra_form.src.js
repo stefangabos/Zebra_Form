@@ -8,7 +8,7 @@
  *  For more resources visit {@link http://stefangabos.ro/}
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @version    2.9.4 (last revision: May 13, 2014)
+ *  @version    2.9.4 (last revision: May 30, 2014)
  *  @copyright  (c) 2011 - 2014 Stefan Gabos
  *  @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU LESSER GENERAL PUBLIC LICENSE
  *  @package    Zebra_Form
@@ -2114,11 +2114,14 @@
                                                 // if everything was ok so far
                                                 if (valid) {
 
-                                                    // if date format does not include day make day = 1
+                                                    // if date format does not include day, make day = 1
                                                     if (!original_day) original_day = 1;
 
-                                                    // if date format does not include month make month = 1
+                                                    // if date format does not include month, make month = 1
                                                     if (!original_month) original_month = 1;
+
+                                                    // if date format does not include year, use the current year
+                                                    if (!original_year) original_year = new Date().getFullYear();
 
                                                     // generate a Date object using the values entered by the user
                                                     var date = new Date(original_year, original_month - 1, original_day);

@@ -1341,11 +1341,14 @@ class Zebra_Form_Date extends Zebra_Form_Control
                 // if entered value seems valid
                 if ($valid) {
 
-                    // if date format does not include day make day = 1
-                    if (!isset($original_day) || $original_day == 0) $original_day = 1;
+                    // if date format does not include day, make day = 1
+                    if ($original_day == 0) $original_day = 1;
 
-                    // if date format does not include month make month = 0 (January)
-                    if (!isset($original_month)) $original_month = 0;
+                    // if date format does not include month, make month = 0 (January)
+                    if ($original_month == 0) $original_month = 0;
+
+                    // if date format does not include year, use the current year
+                    if ($original_year == 0) $original_year = date('Y');
 
                     // if date is still valid after we process it with strtotime
                     // (we do this because, so far, a date like "Feb 31 2010" would be valid
