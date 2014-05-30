@@ -2158,7 +2158,18 @@ class Zebra_Form
                         $controls[$attributes['id']] = $control->toHTML() . '<span class="required">*</span>';
 
                     // otherwise, add generated HTML code to the $controls array
-                    } else $controls[$attributes['id']] = $control->toHTML();
+                    } else {
+
+                        // if element name was given as an array (i.e. car[name])
+                        if (preg_match('/^([^\[]+)\[([^\]]+)\]$/', $attributes['id'], $matches))
+
+                            // assign the variable accordingly
+                            $controls[$matches[1]][$matches[2]] = $control->toHTML();
+
+                        // if element name was not given as an array, assign the variable accordingly
+                        else $controls[$attributes['id']] = $control->toHTML();
+
+                    }
 
             }
 
