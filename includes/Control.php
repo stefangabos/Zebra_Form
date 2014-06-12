@@ -4,7 +4,7 @@
  *  A generic class containing common methods, shared by all the controls.
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @copyright  (c) 2006 - 2013 Stefan Gabos
+ *  @copyright  (c) 2006 - 2014 Stefan Gabos
  *  @package    Generic
  */
 class Zebra_Form_Control extends XSS_Clean
@@ -219,6 +219,8 @@ class Zebra_Form_Control extends XSS_Clean
      *  </code>
      *
      *  @return void
+     *
+     *  @access private
      */
     function get_submitted_value()
     {

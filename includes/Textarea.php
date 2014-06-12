@@ -4,7 +4,7 @@
  *  Class for textarea controls
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @copyright  (c) 2006 - 2013 Stefan Gabos
+ *  @copyright  (c) 2006 - 2014 Stefan Gabos
  *  @package    Controls
  */
 class Zebra_Form_Textarea extends Zebra_Form_Control
