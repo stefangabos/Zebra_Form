@@ -1561,7 +1561,7 @@
                     var element_position = $.extend(element.offset());
 
                     // find element's "right"
-                    element_position = $.extend(element_position, {'right': Math.floor(element_position.left + element.width())});
+                    element_position = $.extend(element_position, {'right': Math.floor(element_position.left + element.outerWidth())});
 
 //                     // weird behaviour...
 //                     // if an item somewhere far below in a long list of a dropdown is selected, positions get messed up
@@ -1649,7 +1649,21 @@
                         arrow_size = {'x': arrow.outerWidth(), 'y': arrow.outerHeight()},
 
                         // the "left" of the container is set based on the "tips_position" property
-                        left = (plugin.settings.tips_position == 'left' ? element_position.left : element_position.right) - (container_size.x / 2);
+                        left = 'undef';
+
+                    switch(plugin.settings.tips_position) {
+                        case 'left':
+                            left = element_position.left - (container_size.x / 2);
+                            break;
+                        case 'right':
+                            left = element_position.right - (container_size.x / 2);
+                            break;
+                        case 'center':
+                            left = element_position.left - (container_size.x / 2) + (element.outerWidth() / 2);
+                            break;
+                        default:
+                            console.log('invalid tips_position!');
+                    }
 
                     // set the arrow centered horizontally
                     arrow.css('left', (container_size.x / 2) - (arrow_size.x / 2) - 1);
@@ -1658,7 +1672,7 @@
                     if (attributes['type'] == 'radio' || attributes['type'] == 'checkbox')
 
                         // set the "left" of the container centered on the radio button/checkbox
-                        left = element_position.right - (container_size.x / 2) - (element.outerWidth() / 2) + 1;
+                        left = element_position.right - (container_size.x / 2) - (element.outerWidth() / 2);
 
                     // if "left" is outside the visible part of the page, adjust it
                     if (left < 0) left = 2;
