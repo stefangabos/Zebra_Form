@@ -1,4 +1,4 @@
-    <?php
+<?php
 
 /**
  *  Class for button controls.
