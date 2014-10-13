@@ -1361,7 +1361,7 @@ class Zebra_Form
                                 $this->controls[$key]->set_attributes(array('maxlength' => $properties[1]));
 
                             // fot the "length" rule, for text and textarea elements
-                            if ($rule == 'length' && in_array($attributes['type'], array('text', 'textarea')))
+                            if ($rule == 'length' && in_array($attributes['type'], array('text', 'textarea')) && $properties[1] > 0)
 
                                 // make sure the default value, if there is one, is not longer than the maximum allowed length
                                 $control->set_attributes(array('value' => substr($control->attributes['value'], 0, $properties[1])));
