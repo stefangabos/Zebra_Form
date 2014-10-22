@@ -147,22 +147,6 @@
                     // sanitize element's name by removing square brackets (if available)
                     attributes['name'] = attributes['name'].replace(/\[\]$/, '');
 
-                // if a parent element having the "row" class exists
-                if (parent.length)
-
-                    // bind these events to the element
-                    element.bind({
-
-                        // when the element receives focus
-                        // add the "highlight" class to the parent element
-                        'focus':    function() { parent.addClass('highlight') },
-
-                        // when the element receives focus
-                        // remove the "highlight" class from the parent element
-                        'blur':     function() { parent.removeClass('highlight') }
-
-                    });
-
                 if (
 
                     // if element has the "inside" class set
@@ -209,6 +193,22 @@
                     }).appendTo(element_wrapper);
 
                 }
+
+                // if a parent element having the "row" class exists
+                if (parent.length)
+
+                    // bind these events to the element
+                    element.bind({
+
+                        // when the element receives focus
+                        // add the "highlight" class to the parent element
+                        'focus':    function() { parent.addClass('highlight') },
+
+                        // when the element receives focus
+                        // remove the "highlight" class from the parent element
+                        'blur':     function() { parent.removeClass('highlight') }
+
+                    });
 
                 if (
 
