@@ -27,7 +27,7 @@ define('ZEBRA_FORM_UPLOAD_RANDOM_NAMES', false);
  *  For more resources visit {@link http://stefangabos.ro/}
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @version    2.9.4 (last revision: May 30, 2014)
+ *  @version    2.9.4 (last revision: October 31, 2014)
  *  @copyright  (c) 2006 - 2014 Stefan Gabos
  *  @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU LESSER GENERAL PUBLIC LICENSE
  *  @package    Zebra_Form
@@ -2081,7 +2081,7 @@ class Zebra_Form
             }
 
         // if a function with the name given as $template, and the function exists
-        } elseif (function_exists($template)) {
+        } elseif (is_callable($template)) {
 
             // this variable will contain all the rendered controls
             $controls = array();
