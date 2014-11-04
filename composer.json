@@ -16,7 +16,7 @@
     "require": {
         "php": ">=5.0.2"
     },
-    "version": "2.9.4",
+    "version": "2.9.5",
     "autoload": {
         "psr-0": { "Zebra_Form": "" }
     }
