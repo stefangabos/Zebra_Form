@@ -18,6 +18,8 @@
     },
     "version": "2.9.5",
     "autoload": {
-        "psr-0": { "Zebra_Form": "" }
+        "classmap": [
+            "Zebra_Form.php"
+        ]
     }
 }
