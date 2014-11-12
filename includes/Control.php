@@ -1891,7 +1891,7 @@ class Zebra_Form_Control extends XSS_Clean
                 if ($rule_name == 'custom')
 
                     // if more custom rules are specified at once
-                    if (is_array($rule_properties[0]) && count($rule_properties[0]) == 3)
+                    if (is_array($rule_properties[0]) && count($rule_properties[0]) >= 3)
 
                         // iterate through the custom rules
                         // and add them one by one
