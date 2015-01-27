@@ -27,8 +27,8 @@ define('ZEBRA_FORM_UPLOAD_RANDOM_NAMES', false);
  *  For more resources visit {@link http://stefangabos.ro/}
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @version    2.9.5 (last revision: October 31, 2014)
- *  @copyright  (c) 2006 - 2014 Stefan Gabos
+ *  @version    2.9.5 (last revision: January 27, 2015)
+ *  @copyright  (c) 2006 - 2015 Stefan Gabos
  *  @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU LESSER GENERAL PUBLIC LICENSE
  *  @package    Zebra_Form
  */
@@ -814,7 +814,7 @@ class Zebra_Form
      *                                      or not.<br>
      *                                      Default is <b>TRUE</b>.
      *
-     *                                  -   <b>tips_position</b>, string, <i>left</i> or <i>right</i><br>
+     *                                  -   <b>tips_position</b>, string, <i>left</i>, <i>right</i> or <i>center</i><br>
      *                                      Specifies where the error message tip should be positioned relative to the
      *                                      control.<br>
      *                                      Default is <b>left</b>.
