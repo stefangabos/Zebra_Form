@@ -1646,15 +1646,9 @@
                         container_size = {'x': container.outerWidth(), 'y': container.outerHeight()},
 
                         // get arrow's size
-                        arrow_size = {'x': arrow.outerWidth(), 'y': arrow.outerHeight()},
-
-                        // the "left" of the container is set based on the "tips_position" property
-                        left = 'undef';
+                        arrow_size = {'x': arrow.outerWidth(), 'y': arrow.outerHeight()};
 
                     switch(plugin.settings.tips_position) {
-                        case 'left':
-                            left = element_position.left - (container_size.x / 2);
-                            break;
                         case 'right':
                             left = element_position.right - (container_size.x / 2);
                             break;
@@ -1662,7 +1656,7 @@
                             left = element_position.left - (container_size.x / 2) + (element.outerWidth() / 2);
                             break;
                         default:
-                            console.log('invalid tips_position!');
+                            left = element_position.left - (container_size.x / 2);
                     }
 
                     // set the arrow centered horizontally
