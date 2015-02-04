@@ -302,7 +302,7 @@ function dump()
 
         <script type="text/javascript" src="libraries/highlight/public/javascript/highlight.js"></script>
         <script type="text/javascript" src="public/javascript/jquery-1.11.1.js"></script>
-        <script type="text/javascript" src="../public/javascript/zebra_form.src.js"></script>
+        <script type="text/javascript" src="../public/javascript/zebra_form.js"></script>
         <script type="text/javascript" src="public/javascript/core.js"></script>
 
     </body>
