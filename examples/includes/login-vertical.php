@@ -9,27 +9,32 @@
     $form = new Zebra_Form('form', 'post', '', array('autocomplete' => 'off'));
 
     // the label for the "email" element
-    $form->add('label', 'label_email', 'email', 'Email');
+    $form->add('label', 'label_colorp', 'colorp', 'Colorpicker');
 
     // add the "email" element
-    $obj = $form->add('text', 'email');
+    $obj = $form->add('colorpicker', 'colorp');
+    
+    /*$obj = $form->add('date', 'datetest', date('Y-m-d'));
+    $obj->format('M d, Y');
+    $obj->set_rule(array('date' => array('error', 'Invalid date!')));*/
 
     // set rules
-    $obj->set_rule(array(
+    // REMOVE RULES TO SIMPLIFIED THE TESTS
+    /*$obj->set_rule(array(
 
         // error messages will be sent to a variable called "error", usable in custom templates
         'required'  =>  array('error', 'Email is required!'),
         'email'     =>  array('error', 'Email address seems to be invalid!'),
 
-    ));
+    ));*/
 
     // "password"
     $form->add('label', 'label_password', 'password', 'Password');
     $obj = $form->add('password', 'password');
-    $obj->set_rule(array(
+    /*$obj->set_rule(array(
         'required'  => array('error', 'Password is required!'),
         'length'    => array(6, 10, 'error', 'The password must have between 6 and 10 characters!'),
-    ));
+    ));*/
 
     // "remember me"
     $form->add('checkbox', 'remember_me', 'yes');
