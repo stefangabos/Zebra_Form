@@ -8,8 +8,8 @@
  *  For more resources visit {@link http://stefangabos.ro/}
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @version    2.9.4 (last revision: May 30, 2014)
- *  @copyright  (c) 2011 - 2014 Stefan Gabos
+ *  @version    2.9.4 (last revision: March 03, 2015)
+ *  @copyright  (c) 2011 - 2015 Stefan Gabos
  *  @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU LESSER GENERAL PUBLIC LICENSE
  *  @package    Zebra_Form
  */
@@ -3183,7 +3183,7 @@
         return this.each(function() {
             var plugin = new $.Zebra_Form(this, options);
             $(this).data('Zebra_Form', plugin);
-            if (typeof plugin.settings.on_ready == 'function') plugin.settings.on_ready();
+            if (typeof plugin.settings.on_ready == 'function') plugin.settings.on_ready($(this).attr('id'));
         });
 
     }
