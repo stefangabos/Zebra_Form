@@ -102,7 +102,7 @@ class Zebra_Form_Textarea extends Zebra_Form_Control
             array(
 
                 'name'      =>  $id,
-                'id'        =>  $id,
+                'id'        =>  str_replace(array('[', ']'), '', $id),
                 'rows'      =>  5,
                 'cols'      =>  '80',           // used only for passing W3C validation
                 'class'     =>  'control',

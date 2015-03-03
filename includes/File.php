@@ -104,7 +104,7 @@ class Zebra_Form_File extends Zebra_Form_Control
 
 		        'type'      =>  'file',
                 'name'      =>  $id,
-                'id'        =>  $id,
+                'id'        =>  str_replace(array('[', ']'), '', $id),
                 'class'     =>  'control file',
 
 		    )

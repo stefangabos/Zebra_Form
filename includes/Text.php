@@ -137,7 +137,7 @@ class Zebra_Form_Text extends Zebra_Form_Control
 
 		        'type'      =>  'text',
                 'name'      =>  $id,
-                'id'        =>  $id,
+                'id'        =>  str_replace(array('[', ']'), '', $id),
                 'value'     =>  $default,
                 'class'     =>  'control text',
 
