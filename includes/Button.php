@@ -4,7 +4,7 @@
  *  Class for button controls.
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @copyright  (c) 2006 - 2014 Stefan Gabos
+ *  @copyright  (c) 2006 - 2015 Stefan Gabos
  *  @package    Controls
  */
 class Zebra_Form_Button extends Zebra_Form_Control
