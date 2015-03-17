@@ -180,7 +180,7 @@ class Zebra_Form
             'attributes'                =>  $attributes,
             'auto_fill'                 =>  false,
             'captcha_storage'           =>  'cookie',
-            'csrf_cookie_config'        =>  array('path' => '/', 'domain' => '', 'secure' => false, 'httponly' => false),
+            'csrf_cookie_config'        =>  array('path' => '/', 'domain' => '', 'secure' => false, 'httponly' => true),
             'csrf_cookie_name'          =>  'zebra_csrf_token_' . $name,
             'csrf_storage_method'       =>  'auto',
             'csrf_token'                =>  '',
@@ -1015,7 +1015,7 @@ class Zebra_Form
      *
      *  @return void
      */
-    function csrf($csrf_storage_method = 'auto', $csrf_token_lifetime = 0, $csrf_cookie_config = array('path' => '/', 'domain' => '', 'secure' => false, 'httponly' => false))
+    function csrf($csrf_storage_method = 'auto', $csrf_token_lifetime = 0, $csrf_cookie_config = array('path' => '/', 'domain' => '', 'secure' => false, 'httponly' => true))
     {
 
         // continue only if protection against CSRF attacks is not disabled and a token was not already generated
