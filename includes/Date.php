@@ -25,6 +25,11 @@ class Zebra_Form_Date extends Zebra_Form_Control
      *  // add a date control to the form
      *  $mydate = $form->add('date', 'my_date', date('Y-m-d'));
      *
+     *  // you *have* to set the "date" rule
+     *  $mydate->set_rule(array(
+     *      array('date', 'error', 'Invalid date specified!'),
+     *  ));
+     *
      *  // set the date's format
      *  $mydate->format('M d, Y');
      *
