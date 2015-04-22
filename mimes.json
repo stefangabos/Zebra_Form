@@ -81,7 +81,7 @@
     "p7m"   :   ["application\/pkcs7-mime", "application\/x-pkcs7-mime"],
     "p7r"   :   "application\/x-pkcs7-certreqresp",
     "p7s"   :   "application\/pkcs7-signature",
-    "pdf"   :   ["application\/pdf", "application\/force-download", "application\/x-download", "binary\/octet-stream"],
+    "pdf"   :   ["application\/pdf", "application\/force-download", "application\/x-download", "binary\/octet-stream", "application\/x-pdf"],
     "pem"   :   ["application\/x-x509-user-cert", "application\/x-pem-file", "application\/octet-stream"],
     "pgp"   :   "application\/pgp",
     "php"   :   ["application\/x-httpd-php", "application\/php", "application\/x-php", "text\/php", "text\/x-php", "application\/x-httpd-php-source"],
