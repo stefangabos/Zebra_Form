@@ -30,7 +30,8 @@ class Zebra_Form_Checkbox extends Zebra_Form_Control
      *  // "mycheckbox_0", "mycheckbox_1" and "mycheckbox_2".
      *  // label controls will be automatically created having the names "label_mycheckbox_0", "label_mycheckbox_1" and
      *  // "label_mycheckbox_2" (label + underscore + control name + underscore + value with anything else other than
-     *  // letters and numbers replaced with an underscore)
+     *  // letters and numbers replaced with underscores - also, note that multiple consecutive underscores will be
+     *  // replaced by a single one)
      *  // $obj is a reference to the first checkbox
      *  $obj = $form->add('checkboxes', 'mycheckbox',
      *      array(
@@ -45,7 +46,8 @@ class Zebra_Form_Checkbox extends Zebra_Form_Control
      *  // "mycheckbox_v1", "mycheckbox_v2" and "mycheckbox_v3".
      *  // label controls will be automatically created having the names "label_mycheckbox_v1", "label_mycheckbox_v2" and
      *  // "label_mycheckbox_v3" (label + underscore + control name + underscore + value with anything else other than
-     *  // letters and numbers replaced with an underscore)
+     *  // letters and numbers replaced with underscores - also, note that multiple consecutive underscores will be
+     *  // replaced by a single one)
      *  $obj = $form->add('checkboxes', 'mycheckbox',
      *      array(
      *          'v1' => 'Value 1',

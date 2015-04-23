@@ -27,7 +27,7 @@ define('ZEBRA_FORM_UPLOAD_RANDOM_NAMES', false);
  *  For more resources visit {@link http://stefangabos.ro/}
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @version    2.9.5 (last revision: March 03, 2015)
+ *  @version    2.9.5 (last revision: April 23, 2015)
  *  @copyright  (c) 2006 - 2015 Stefan Gabos
  *  @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU LESSER GENERAL PUBLIC LICENSE
  *  @package    Zebra_Form
@@ -345,6 +345,12 @@ class Zebra_Form
                 // iterate through values and their respective labels
                 foreach ($values as $value => $caption) {
 
+                    // sanitize controls' name (remove square brackets)
+                    $sanitize_name = preg_replace('/\[\]$/', '', $name);
+
+                    // santize the value
+                    $value = preg_replace('/\_{1,}/', '_', preg_replace('/[^a-z0-9\_]/', '_', $value));
+
                     // create control
                     $obj = & $this->add(
                         ($type == 'radios' ? 'radio' : 'checkbox'), $name, $value,
@@ -355,12 +361,6 @@ class Zebra_Form
                     // if this is the first control in the array
                     // we will later need to return a reference to it
                     if ($counter++ == 0) $pointer = &$obj;
-
-                    // sanitize controls' name (remove square brackets)
-                    $sanitize_name = preg_replace('/\[\]$/', '', $name);
-
-                    // santize the value
-                    $value = str_replace(array(' '), array('_'), $value);
 
                     // add the label for the control
                     $this->add('label', 'label_' . $sanitize_name . '_' . $value, $sanitize_name . '_' . $value, $caption);

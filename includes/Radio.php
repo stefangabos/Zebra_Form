@@ -28,7 +28,8 @@ class Zebra_Form_Radio extends Zebra_Form_Control
      *  // "myradio_0", "myradio_1" and "myradio_2".
      *  // label controls will be automatically created having the names "label_myradio_0", "label_myradio_1" and
      *  // "label_myradio_2" (label + underscore + control name + underscore + value with anything else other than
-     *  // letters and numbers replaced with an underscore)
+     *  // letters and numbers replaced with underscores - also, note that multiple consecutive underscores will be
+     *  // replaced by a single one)
      *  // $obj is a reference to the first radio button
      *  $obj = $form->add('radios', 'myradio',
      *      array(
@@ -43,7 +44,8 @@ class Zebra_Form_Radio extends Zebra_Form_Control
      *  // like "myradio_v1", "myradio_v2" and "myradio_v3".
      *  // label controls will be automatically created having the names "label_myradio_v1", "label_myradio_v2" and
      *  // "label_myradio_v3" (label + underscore + control name + underscore + value with anything else other than
-     *  // letters and numbers replaced with an underscore)
+     *  // letters and numbers replaced with underscores - also, note that multiple consecutive underscores will be
+     *  // replaced by a single one)
      *  $obj = $form->add('radios', 'myradio',
      *      array(
      *          'v1' => 'Value 1',
