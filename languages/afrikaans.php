@@ -21,5 +21,5 @@ $this->language = array(
     'today'         => 'Vandag',
 
 );
-
+ 
 ?>
