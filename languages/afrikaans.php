@@ -17,7 +17,7 @@ $this->language = array(
     'new_captcha'   => 'Kry nuwe kode',
     'other'         => 'Ander...',
     'select'        => '- Kies Opsie -',
-    'spam_detected' => 'Moontlike plapos poging opgemerk . Die geposte forum data is verwerp.',
+    'spam_detected' => 'Moontlike plapos poging opgemerk . Die geposte vorm data is verwerp.',
     'today'         => 'Vandag',
 
 );
