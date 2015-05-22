@@ -941,7 +941,7 @@ class Zebra_Form_Date extends Zebra_Form_Control
                 else
 
                     // figure out the starting date
-                    $this->first_selectable_date = strtotime('+' . (!is_array($this->attributes['direction']) ? (int)($this->attributes['direction']) : (int)($this->attributes['direction'][0] === true ? 0 : $this->attributes['direction'][0])) . ' day', $system_date);
+                    $this->first_selectable_date = strtotime('+' . (!is_array($this->attributes['direction']) ? (int)($this->attributes['direction']) : (int)($this->attributes['direction'][1] === false ? 0 : $this->attributes['direction'][1])) . ' day', $system_date);
 
                 // if an exact ending date was given and the date is after the starting date, use that as a ending date
                 if (isset($tmp_end_date) && $tmp_end_date >= $this->first_selectable_date) $this->last_selectable_date = $tmp_end_date;
