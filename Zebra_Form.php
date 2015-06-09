@@ -27,7 +27,7 @@ define('ZEBRA_FORM_UPLOAD_RANDOM_NAMES', false);
  *  For more resources visit {@link http://stefangabos.ro/}
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @version    2.9.5 (last revision: April 23, 2015)
+ *  @version    2.9.5 (last revision: June 09, 2015)
  *  @copyright  (c) 2006 - 2015 Stefan Gabos
  *  @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU LESSER GENERAL PUBLIC LICENSE
  *  @package    Zebra_Form
@@ -2571,7 +2571,8 @@ class Zebra_Form
                             (isset($control->attributes['multiple']) && strtolower(trim($control->attributes['multiple'])) == 'multiple' ? 0 : 1)
                         );
 
-                        $control->set_attributes(array('value' => $keys[array_rand($keys)]));
+                        // if the select has any values, set a random value
+                        if (!empty($keys)) $control->set_attributes(array('value' => $keys[array_rand($keys)]));
 
                     // if control is "password"
                     } elseif ($attributes['type'] == 'password') {
