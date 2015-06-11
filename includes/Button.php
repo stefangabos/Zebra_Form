@@ -53,6 +53,10 @@ class Zebra_Form_Button extends Zebra_Form_Control
      *
      *                                  Can be HTML markup.
      *
+     *  @param  string  $type           (Optional) Type of the button: button, submit or reset.
+     *
+     *                                  Default is "button".
+     *
      *  @param  array   $attributes     (Optional) An array of attributes valid for
      *                                  {@link http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.4 input}
      *                                  controls (size, readonly, style, etc)
@@ -77,10 +81,6 @@ class Zebra_Form_Button extends Zebra_Form_Control
      *                                  The following attributes are automatically set when the control is created and
      *                                  should not be altered manually:<br>
      *                                  <b>id</b>, <b>name</b>, <b>class</b>
-     *
-     *  @param  string  $type           (Optional) Type of the button: button, submit or reset.
-     *
-     *                                  Default is "button".
      *
      *  @return void
      */
