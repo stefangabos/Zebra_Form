@@ -8,7 +8,7 @@
  *  For more resources visit {@link http://stefangabos.ro/}
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @version    2.9.4 (last revision: March 03, 2015)
+ *  @version    2.9.4 (last revision: June 11, 2015)
  *  @copyright  (c) 2011 - 2015 Stefan Gabos
  *  @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU LESSER GENERAL PUBLIC LICENSE
  *  @package    Zebra_Form
@@ -501,7 +501,7 @@
             });
 
             // bind a function to the "click" event for all submit buttons/images
-            $('input.submit, input.image', $form).bind('click', function() {
+            $('input.submit, input.image, button', $form).bind('click', function() {
 
                 // set the value of a flag (used for dependencies validation)
                 $form.data('zf_clicked_button', $(this).attr('id'));
@@ -530,7 +530,7 @@
                             for (var proxy in conditions) {
 
                                 // find the proxy / proxies (as more radio buttons can share the same name)
-                                var $proxy = $('input[name="' + proxy + '"],select[name="' + proxy + '"],textarea[name="' + proxy + '"]', form);
+                                var $proxy = $('input[name="' + proxy + '"],select[name="' + proxy + '"],textarea[name="' + proxy + '"],button[name="' + proxy + '"]', form);
 
                                 // if no elements were found search again as checkbox groups and multiple selects
                                 // also have [] in their name
@@ -594,6 +594,7 @@
                                                     break;
 
                                                 // if it is a submit button
+                                                case 'button':
                                                 case 'image':
                                                 case 'submit':
 
