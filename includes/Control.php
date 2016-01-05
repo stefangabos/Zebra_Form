@@ -4,7 +4,7 @@
  *  A generic class containing common methods, shared by all the controls.
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @copyright  (c) 2006 - 2015 Stefan Gabos
+ *  @copyright  (c) 2006 - 2016 Stefan Gabos
  *  @package    Generic
  */
 class Zebra_Form_Control extends XSS_Clean

@@ -4,7 +4,7 @@
  *  Class for submit controls.
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @copyright  (c) 2006 - 2015 Stefan Gabos
+ *  @copyright  (c) 2006 - 2016 Stefan Gabos
  *  @package    Controls
  */
 class Zebra_Form_Submit extends Zebra_Form_Control
