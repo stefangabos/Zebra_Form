@@ -435,8 +435,12 @@ class Zebra_Form_Control extends XSS_Clean
     }
 
     /**
-     *  Locks the control's value. A <i>locked</i> control will preserve its default value after the form is submitted
+     *  Locks the control's value. A <i>locked</i> control will preserve its <b>default</b> value after the form is submitted
      *  even if the user altered it.
+     *
+     *  <i>This doesn't mean that the submitted value will be the default one! It will still be the one selected by the
+     *  user, but when and if the form is repainted, the value shown in the control will be the locked one, not the one
+     *  selected by the user</i>
      *
      *  <code>
      *  // $obj is a reference to a control
