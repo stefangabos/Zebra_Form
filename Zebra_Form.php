@@ -27,7 +27,7 @@ define('ZEBRA_FORM_UPLOAD_RANDOM_NAMES', false);
  *  For more resources visit {@link http://stefangabos.ro/}
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @version    2.9.5 (last revision: June 09, 2015)
+ *  @version    2.9.5 (last revision: January 05, 2016)
  *  @copyright  (c) 2006 - 2015 Stefan Gabos
  *  @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU LESSER GENERAL PUBLIC LICENSE
  *  @package    Zebra_Form
@@ -2738,7 +2738,8 @@ class Zebra_Form
                         // if control was submitted
                         // (as there can also be no selections for a select box with the "multiple" attribute set, case in
                         // which there's no submission)
-                        if ($control->submitted_value) {
+                        // (also, the isset() check is for when we "lock" controls)
+                        if (isset($control->submitted_value) && $control->submitted_value) {
 
                             // flatten array (in case we have select groups)
                             $values = $this->_extract_values($control->attributes['options']);
