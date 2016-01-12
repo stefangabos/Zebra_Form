@@ -27,7 +27,7 @@ define('ZEBRA_FORM_UPLOAD_RANDOM_NAMES', false);
  *  For more resources visit {@link http://stefangabos.ro/}
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @version    2.9.6 (last revision: January 05, 2016)
+ *  @version    2.9.6 (last revision: January 12, 2016)
  *  @copyright  (c) 2006 - 2016 Stefan Gabos
  *  @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU LESSER GENERAL PUBLIC LICENSE
  *  @package    Zebra_Form
@@ -4643,18 +4643,37 @@ class Zebra_Form
                 // if we don't have a cached result of the result
                 else {
 
+                    $is_radio_or_checkbox = false;
+
+                    // $this->controls[$proxy] will never be set for radio or checkbox controls (as $proxy is the ID, not the name)
+                    if (!isset($this->controls[$proxy]))
+
+                        // iterate through all the controls
+                        foreach ($this->controls as $control_properties)
+
+                            // if we found a control radio/checkbox element with the sought name
+                            if ($control_properties->attributes['name'] == $proxy && ($control_properties->attributes['type'] == 'radio' || $control_properties->attributes['name'] == 'checkbox')) {
+
+                                // set this flag
+                                $is_radio_or_checkbox = true;
+
+                                // don't look further
+                                break;
+
+                            }
+
                     $found = false;
 
                     // a proxy may also depend on the values of or or more other proxies
                     // therefore, continue only if those conditions are met
                     if (
-                        isset($this->controls[$proxy]) &&
-                        (($this->controls[$proxy]->attributes['type'] == 'image' && isset($method[$proxy . '_x']) && isset($method[$proxy . '_y'])) || isset($method[$proxy])) &&
+                        (isset($this->controls[$proxy]) || $is_radio_or_checkbox) &&
+                        ((!$is_radio_or_checkbox && $this->controls[$proxy]->attributes['type'] == 'image' && isset($method[$proxy . '_x']) && isset($method[$proxy . '_y'])) || isset($method[$proxy])) &&
                         $this->_validate_dependencies($proxy, $referer)
                     ) {
 
                         // if proxy is a submit or an image submit button
-                        if (in_array($this->controls[$proxy]->attributes['type'], array('image', 'submit'))) $current_values = array('click');
+                        if (!$is_radio_or_checkbox && in_array($this->controls[$proxy]->attributes['type'], array('image', 'submit'))) $current_values = array('click');
 
                         // otherwise, get the proxy's current value/values
                         // (we'll treat the values as an array even if there's only a single value)

@@ -8,8 +8,8 @@
  *  For more resources visit {@link http://stefangabos.ro/}
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @version    2.9.4 (last revision: June 11, 2015)
- *  @copyright  (c) 2011 - 2015 Stefan Gabos
+ *  @version    2.9.4 (last revision: January 12, 2016)
+ *  @copyright  (c) 2011 - 2016 Stefan Gabos
  *  @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU LESSER GENERAL PUBLIC LICENSE
  *  @package    Zebra_Form
  */
@@ -566,107 +566,113 @@
                                         // get the type of the proxy by checking the first item
                                         type = _type($($proxy[0]));
 
-                                    // if for this proxy we haven't yet stored a function that checks for this/these values, create it now
-                                    if (!proxies[proxy]['conditions'][function_name]) proxies[proxy]['conditions'][function_name] = function() {
+                                    // in order to scope these values when creating the function after this one, we use
+                                    // them as arguments to an anonymous function
+                                    (function($proxy, proxy, type) {
 
-                                        var
+                                        // if for this proxy we haven't yet stored a function that checks for this/these values, create it now
+                                        if (!proxies[proxy]['conditions'][function_name]) proxies[proxy]['conditions'][function_name] = function() {
 
-                                            // the condition/conditions to compare the proxy's current value with
-                                            condition = conditions[proxy],
+                                            var
 
-                                            // the current values/values of the proxy
-                                            value = [];
+                                                // the condition/conditions to compare the proxy's current value with
+                                                condition = conditions[proxy],
 
-                                        // let's get the current value/values of the proxy
-                                        // iterate through the whole group
-                                        $proxy.each(function() {
+                                                // the current values/values of the proxy
+                                                value = [];
 
-                                            // based on the proxy's type
-                                            switch (type) {
+                                            // let's get the current value/values of the proxy
+                                            // iterate through the whole group
+                                            $proxy.each(function() {
 
-                                                // if it's radio buttons or checkboxes we're talking about
-                                                case 'radio':
-                                                case 'checkbox':
+                                                // based on the proxy's type
+                                                switch (type) {
 
-                                                    // and get the value of the checked radio button
-                                                    if (this.checked) value.push($(this).val());
+                                                    // if it's radio buttons or checkboxes we're talking about
+                                                    case 'radio':
+                                                    case 'checkbox':
 
-                                                    break;
+                                                        // and get the value of the checked radio button
+                                                        if (this.checked) value.push($(this).val());
 
-                                                // if it is a submit button
-                                                case 'button':
-                                                case 'image':
-                                                case 'submit':
+                                                        break;
 
-                                                    // if the correct button was clicked
-                                                    if ($form.data('zf_clicked_button') == $(this).attr('id')) value.push('click');
+                                                    // if it is a submit button
+                                                    case 'button':
+                                                    case 'image':
+                                                    case 'submit':
 
-                                                    break;
+                                                        // if the correct button was clicked
+                                                        if ($form.data('zf_clicked_button') == $(this).attr('id')) value.push('click');
 
-                                                // for the other controls
-                                                default:
+                                                        break;
 
-                                                    // and get the value/values of the element
-                                                    value.push($(this).val());
+                                                    // for the other controls
+                                                    default:
 
-                                                    break;
+                                                        // and get the value/values of the element
+                                                        value.push($(this).val());
 
-                                            }
+                                                        break;
 
-                                        });
+                                                }
 
-                                        // now let's see if the proxy's value is what is required by the condition/conditions
-                                        var found = false;
+                                            });
 
-                                        // if proxy has any value
-                                        if (value.length > 0)
+                                            // now let's see if the proxy's value is what is required by the condition/conditions
+                                            var found = false;
 
-                                            // if condition is not an array
-                                            if (!$.isArray(condition)) {
+                                            // if proxy has any value
+                                            if (value.length > 0)
 
-                                                // iterate through the proxy's values
-                                                // (remember, we store it as an array even if there's a single value)
-                                                $.each(value, function(index) {
+                                                // if condition is not an array
+                                                if (!$.isArray(condition)) {
 
-                                                    // if the value of the condition is amongst the proxy's values
-                                                    // flag it
-                                                    if (condition == value[index]) found = true;
-
-                                                });
-
-                                            // if condition is given as an array
-                                            } else {
-
-                                                // iterate through all the conditions
-                                                $.each(condition, function(key) {
-
-                                                    var matches = 0;
-
-                                                    // iterate through the values of the proxy element
+                                                    // iterate through the proxy's values
                                                     // (remember, we store it as an array even if there's a single value)
                                                     $.each(value, function(index) {
 
-                                                        // if current entry in the conditions list is not an array
-                                                        // and its value is equal to the current value
-                                                        if (!$.isArray(condition[key]) && value[index] == condition[key]) found = true;
-
-                                                        // if current entry in the conditions list is an array
-                                                        // and the current value is part of that array
-                                                        else if ($.isArray(condition[key]) && $.inArray(value[index], condition[key]) > -1) matches++;
+                                                        // if the value of the condition is amongst the proxy's values
+                                                        // flag it
+                                                        if (condition == value[index]) found = true;
 
                                                     });
 
-                                                    // if conditions are met
-                                                    if (!found && matches == condition[key].length) found = true;
+                                                // if condition is given as an array
+                                                } else {
 
-                                                });
+                                                    // iterate through all the conditions
+                                                    $.each(condition, function(key) {
 
-                                            }
+                                                        var matches = 0;
 
-                                        // return true or false
-                                        return found;
+                                                        // iterate through the values of the proxy element
+                                                        // (remember, we store it as an array even if there's a single value)
+                                                        $.each(value, function(index) {
 
-                                    }
+                                                            // if current entry in the conditions list is not an array
+                                                            // and its value is equal to the current value
+                                                            if (!$.isArray(condition[key]) && value[index] == condition[key]) found = true;
+
+                                                            // if current entry in the conditions list is an array
+                                                            // and the current value is part of that array
+                                                            else if ($.isArray(condition[key]) && $.inArray(value[index], condition[key]) > -1) matches++;
+
+                                                        });
+
+                                                        // if conditions are met
+                                                        if (!found && matches == condition[key].length) found = true;
+
+                                                    });
+
+                                                }
+
+                                            // return true or false
+                                            return found;
+
+                                        }
+
+                                    })($proxy, proxy, type);
 
                                 }
 
