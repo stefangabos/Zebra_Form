@@ -27,7 +27,7 @@ define('ZEBRA_FORM_UPLOAD_RANDOM_NAMES', false);
  *  For more resources visit {@link http://stefangabos.ro/}
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @version    2.9.6 (last revision: January 12, 2016)
+ *  @version    2.9.6 (last revision: January 13, 2016)
  *  @copyright  (c) 2006 - 2016 Stefan Gabos
  *  @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU LESSER GENERAL PUBLIC LICENSE
  *  @package    Zebra_Form
@@ -349,7 +349,7 @@ class Zebra_Form
                     $sanitize_name = preg_replace('/\[\]$/', '', $name);
 
                     // santize the value
-                    $value = preg_replace('/\_{1,}/', '_', preg_replace('/[^a-z0-9\_]/', '_', $value));
+                    $value = preg_replace('/\_{1,}/', '_', preg_replace('/[^a-z0-9\_]/i', '_', $value));
 
                     // create control
                     $obj = & $this->add(
