@@ -1304,6 +1304,9 @@ class Zebra_Form_Control extends XSS_Clean
      *
      *  Validates if the value contains only digits (0 to 9) <b>plus</b> characters given as additional characters (if any).
      *
+     *  <b>When this rule is set, element's "type" attribute will be automatically changed to "number", making
+     *  the element more friendly to mobile users</b>
+     *
      *  Available for the following controls: {@link Zebra_Form_Password password}, {@link Zebra_Form_Text text},
      *  {@link Zebra_Form_Textarea textarea}
      *
@@ -1329,6 +1332,9 @@ class Zebra_Form_Control extends XSS_Clean
      *  -   <i>error_message</i> is the error message to be shown when rule is not obeyed
      *
      *  Validates if the value is a properly formatted email address.
+     *
+     *  <b>When this rule is set, element's "type" attribute will be automatically changed to "email", making
+     *  the element more friendly to mobile users</b>
      *
      *  Available for the following controls: {@link Zebra_Form_Password password}, {@link Zebra_Form_Text text},
      *  {@link Zebra_Form_Textarea textarea}
@@ -1453,6 +1459,9 @@ class Zebra_Form_Control extends XSS_Clean
      *  and/or <b>one</b> minus sign (but only if it is the very first character) <b>plus</b> characters given as
      *  additional characters (if any).
      *
+     *  <b>When this rule is set, element's "type" attribute will be automatically changed to "number", making
+     *  the element more friendly to mobile users</b>
+     *
      *  Available for the following controls: {@link Zebra_Form_Password password}, {@link Zebra_Form_Text text},
      *  {@link Zebra_Form_Textarea textarea}
      *
@@ -1550,6 +1559,9 @@ class Zebra_Form_Control extends XSS_Clean
      *
      *  Validates if the value contains only digits (0 to 9) and/or <b>one</b> minus sign (but only if it is the very
      *  first character) <b>plus</b> characters given as additional characters (if any).
+     *
+     *  <b>When this rule is set, element's "type" attribute will be automatically changed to "number", making
+     *  the element more friendly to mobile users</b>
      *
      *  Available for the following controls: {@link Zebra_Form_Password password}, {@link Zebra_Form_Text text},
      *  {@link Zebra_Form_Textarea textarea}
