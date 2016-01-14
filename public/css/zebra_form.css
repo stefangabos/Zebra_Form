@@ -484,6 +484,17 @@ input:-moz-placeholder { color:#9C9CA2 !important }
 /* don't change this! */
 .Zebra_Form input.password { font-family: 'Verdana', 'Tahoma', 'Arial' }
 
+/* hide spinners on numeric type fields */
+.Zebra_Form input[type=number]::-webkit-outer-spin-button,
+.Zebra_Form input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.Zebra_Form input[type=number] {
+    -moz-appearance:textfield;
+}
+
 /*******************************
  *  STYLES FOR ZEBRA_DATEPICKER
  *******************************/

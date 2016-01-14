@@ -1923,6 +1923,12 @@ class Zebra_Form_Control extends XSS_Clean
 
                         $this->set_attributes(array('onkeypress' => 'javascript:return $(\'#' . $this->form_properties['name'] . '\').data(\'Zebra_Form\').filter_input(\'' . $rule_name . '\', event' . ($rule_properties[0] != '' ? ', \'' . addcslashes($rule_properties[0], '\'') . '\'' : '') . ');'));
 
+                        // for controls having these rules,
+                        if (in_array($rule_name, array('digits', 'number', 'float')))
+
+                            // change the control's type to "number"
+                            $this->set_attributes(array('type' => 'number'));
+
                         break;
 
                     // if the rule is about the length of the input
