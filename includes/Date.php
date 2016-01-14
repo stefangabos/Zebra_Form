@@ -120,6 +120,7 @@ class Zebra_Form_Date extends Zebra_Form_Control
             'months',
             'months_abbr',
             'offset',
+            'open_icon_only',
             'pair',
             'readonly_element',
             'show_clear_date',
@@ -580,6 +581,23 @@ class Zebra_Form_Date extends Zebra_Form_Control
 
         // set the date picker's attribute
         $this->set_attributes(array('offset' => $value));
+
+    }
+
+    /**
+     *  Sets whether the date picker should be shown *only* when clicking the icon.
+     *
+     *  @param  array  $value       An array indicating the offset, in pixels (x, y), to shift the date picker’s position
+     *                              relative to the top-left of the icon that toggles the date picker.
+     *
+     *                              Default is FALSE.
+     *
+     *  @return void
+     */
+    function open_icon_only($value) {
+
+        // set the date picker's attribute
+        $this->set_attributes(array('open_icon_only' => $value));
 
     }
 
