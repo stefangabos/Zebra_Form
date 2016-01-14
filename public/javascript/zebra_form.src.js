@@ -8,7 +8,7 @@
  *  For more resources visit {@link http://stefangabos.ro/}
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @version    2.9.4 (last revision: January 14, 2016)
+ *  @version    2.9.6 (last revision: January 14, 2016)
  *  @copyright  (c) 2011 - 2016 Stefan Gabos
  *  @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU LESSER GENERAL PUBLIC LICENSE
  *  @package    Zebra_Form
@@ -2792,7 +2792,7 @@
             }
 
             // if there are any errors, show them
-            if (!form_is_valid) plugin.show_errors();
+            if (!form_is_valid && undefined === arguments[0]) plugin.show_errors();
 
             // set this flag to true
             // this is used for not running this method twice when using

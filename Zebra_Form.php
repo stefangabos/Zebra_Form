@@ -745,6 +745,8 @@ class Zebra_Form
      *  -   <b>clear_errors()</b>               -   hides all error messages;
      *  -   <b>submit()</b>                     -   submits the form;
      *  -   <b>validate()</b>                   -   checks if the form is valid; returns TRUE or FALSE;
+     *                                              <i>if called with the "false" boolean argument, error messages will
+     *                                              not be shown in case form does not validate</i>
      *
      *  Here's how you can use these methods, in JavaScript:
      *
