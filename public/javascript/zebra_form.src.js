@@ -8,7 +8,7 @@
  *  For more resources visit {@link http://stefangabos.ro/}
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @version    2.9.4 (last revision: January 12, 2016)
+ *  @version    2.9.4 (last revision: January 14, 2016)
  *  @copyright  (c) 2011 - 2016 Stefan Gabos
  *  @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU LESSER GENERAL PUBLIC LICENSE
  *  @package    Zebra_Form
@@ -672,135 +672,135 @@
 
                                         }
 
-                                    })($proxy, proxy, type);
+                                        // if proxy was found and we've not already attached the function to handle the value change
+                                        if ($proxy.length > 0 && false == proxies[proxy]['event']) {
 
-                                }
+                                            proxies[proxy]['event'] = function(e) {
 
-                            }
+                                                // iterate through elements that depend on the current proxy
+                                                $.each(proxies[proxy]['elements'], function(index) {
 
-                            // if proxy was found and we've not already attached the function to handle the value change
-                            if ($proxy.length > 0 && false == proxies[proxy]['event']) {
+                                                    var
 
-                                proxies[proxy]['event'] = function(e) {
+                                                        // the current element
+                                                        $element = proxies[proxy]['elements'][index],
 
-                                    // iterate through elements that depend on the current proxy
-                                    $.each(proxies[proxy]['elements'], function(index) {
+                                                        // get all the conditions needed to validate the element
+                                                        conditions = plugin.settings.validation_rules[$element]['dependencies'],
 
-                                        var
+                                                        // by default, we assume that all conditions are met
+                                                        result = true;
 
-                                            // the current element
-                                            $element = proxies[proxy]['elements'][index],
+                                                    // if the name of a callback function is also given
+                                                    if (typeof conditions[1] == 'string') {
 
-                                            // get all the conditions needed to validate the element
-                                            conditions = plugin.settings.validation_rules[$element]['dependencies'],
+                                                        var
 
-                                            // by default, we assume that all conditions are met
-                                            result = true;
+                                                            // first, split by comma (,)
+                                                            segments = conditions[1].split(','),
 
-                                        // if the name of a callback function is also given
-                                        if (typeof conditions[1] == 'string') {
+                                                            // trim any white space (as it may be "mycallback,1" or "mycallback, 1")
+                                                            segments = $.map(segments, function(n) { return $.trim(n) }),
 
-                                            var
+                                                            // the name of the callback function is the first entry
+                                                            callback = segments.shift(),
 
-                                                // first, split by comma (,)
-                                                segments = conditions[1].split(','),
+                                                            // the additional arguments come next, if any
+                                                            arguments = segments,
 
-                                                // trim any white space (as it may be "mycallback,1" or "mycallback, 1")
-                                                segments = $.map(segments, function(n) { return $.trim(n) }),
+                                                            // the actual conditions are in the first entry of the array
+                                                            conditions = conditions[0];
 
-                                                // the name of the callback function is the first entry
-                                                callback = segments.shift(),
+                                                    }
 
-                                                // the additional arguments come next, if any
-                                                arguments = segments,
+                                                    // iterate through the elements in the condition
+                                                    for (var element in conditions) {
 
-                                                // the actual conditions are in the first entry of the array
-                                                conditions = conditions[0];
+                                                        // each condition has a function
+                                                        var function_name = _toString(conditions[element]);
 
-                                        }
+                                                        // execute the appropriate function and update the result accordingly
+                                                        if (!proxies[element]['conditions'][function_name]()) result = false;
 
-                                        // iterate through the elements in the condition
-                                        for (var element in conditions) {
+                                                    }
 
-                                            // each condition has a function
-                                            var function_name = _toString(conditions[element]);
+                                                    // if a callback function exists for the current condition/conditions
+                                                    if (undefined != conditions[proxy]) {
 
-                                            // execute the appropriate function and update the result accordingly
-                                            if (!proxies[element]['conditions'][function_name]()) result = false;
+                                                        // if all conditions are met, there's a callback function to be called
+                                                        // and the callback function needs to be called
+                                                        if (undefined != callback) {
 
-                                        }
+                                                            // get ready to call the callback function
+                                                            var
 
-                                        // if a callback function exists for the current condition/conditions
-                                        if (undefined != conditions[proxy]) {
+                                                                // base context is the "window" object
+                                                                context = window,
 
-                                            // if all conditions are met, there's a callback function to be called
-                                            // and the callback function needs to be called
-                                            if (undefined != callback) {
+                                                                // split by dot (.) in case the callback function is namespaced
+                                                                namespaces = callback.split('.'),
 
-                                                // get ready to call the callback function
-                                                var
+                                                                // function is the last in list
+                                                                // also, remove it from the array
+                                                                fn = namespaces.pop();
 
-                                                    // base context is the "window" object
-                                                    context = window,
+                                                            // iterate through the namespaces (if any)
+                                                            for (var i = 0; i < namespaces.length; i++)
 
-                                                    // split by dot (.) in case the callback function is namespaced
-                                                    namespaces = callback.split('.'),
+                                                                // if namespace exists
+                                                                if (undefined != context[namespaces[i]])
 
-                                                    // function is the last in list
-                                                    // also, remove it from the array
-                                                    fn = namespaces.pop();
+                                                                    // set the context
+                                                                    context = context[namespaces[i]];
 
-                                                // iterate through the namespaces (if any)
-                                                for (var i = 0; i < namespaces.length; i++)
+                                                                // throw an error and stop execution if context doesn't exist
+                                                                else throw new Error('"' + namespaces[i] + '" namespace doesn\'t exist in the global scope!');
 
-                                                    // if namespace exists
-                                                    if (undefined != context[namespaces[i]])
+                                                            // finally
+                                                            try {
 
-                                                        // set the context
-                                                        context = context[namespaces[i]];
+                                                                // try to execute the function
+                                                                context[fn].apply(undefined, [result].concat(arguments));
 
-                                                    // throw an error and stop execution if context doesn't exist
-                                                    else throw new Error('"' + namespaces[i] + '" namespace doesn\'t exist in the global scope!');
+                                                            // or
+                                                            } catch(error) {
 
-                                                // finally
-                                                try {
+                                                                // throw an error otherwise
+                                                                throw new Error('"' + fn + '" callback function was not found!');
 
-                                                    // try to execute the function
-                                                    context[fn].apply(undefined, [result].concat(arguments));
+                                                            }
 
-                                                // or
-                                                } catch(error) {
+                                                        }
 
-                                                    // throw an error otherwise
-                                                    throw new Error('"' + fn + '" callback function was not found!');
+                                                    }
 
-                                                }
+                                                });
 
                                             }
 
+                                            // we need to check all the conditions whenever the proxy changes its value
+                                            $proxy.bind(
+
+                                                // for checkboxes, radio buttons, submits, buttons and multiple selects, we do it on click
+                                                type == 'checkbox' ||
+                                                type == 'radio' ||
+                                                type == 'select-multiple' ||
+                                                type == 'submit' ||
+                                                type == 'button' ? 'click' : (
+
+                                                // for selects we do it on change
+                                                type == 'select-one' ? 'change' :
+
+                                                // for the other controls we do it on blur
+                                                'blur'
+
+                                            ), proxies[proxy]['event']);
+
                                         }
 
-                                    });
+                                    })($proxy, proxy, type);
 
                                 }
-
-                                // we need to check all the conditions whenever the proxy changes its value
-                                $proxy.bind(
-
-                                    // for checkboxes, radio buttons, submits, buttons and multiple selects, we do it on click
-                                    type == 'checkbox' ||
-                                    type == 'radio' ||
-                                    type == 'select-multiple' ||
-                                    type == 'submit' ||
-                                    type == 'button' ? 'click' : (
-
-                                    // for selects we do it on change
-                                    type == 'select-one' ? 'change' :
-
-                                    // for the other controls we do it on blur
-                                    'blur'
-
-                                ), proxies[proxy]['event']);
 
                             }
 
@@ -808,7 +808,7 @@
                             // execute the function now so it handles default values, if it is the case, for all of the
                             // elements that depend on it
                             // (needs to be here so it is executed for each proxy)
-                            if ($proxy.length) proxies[proxy]['event']();
+                            for (proxy in proxies) proxies[proxy]['event']();
 
                         })();
 
