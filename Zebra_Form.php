@@ -27,7 +27,7 @@ define('ZEBRA_FORM_UPLOAD_RANDOM_NAMES', false);
  *  For more resources visit {@link http://stefangabos.ro/}
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @version    2.9.6 (last revision: January 13, 2016)
+ *  @version    2.9.6 (last revision: January 14, 2016)
  *  @copyright  (c) 2006 - 2016 Stefan Gabos
  *  @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU LESSER GENERAL PUBLIC LICENSE
  *  @package    Zebra_Form
@@ -1364,7 +1364,7 @@ class Zebra_Form
                             if ($rule == 'length' && in_array($attributes['type'], array('text', 'textarea')) && $properties[1] > 0)
 
                                 // make sure the default value, if there is one, is not longer than the maximum allowed length
-                                $control->set_attributes(array('value' => substr($control->attributes['value'], 0, $properties[1])));
+                                $control->set_attributes(array('value' => mb_substr($control->attributes['value'], 0, $properties[1])));
 
                             break;
 
