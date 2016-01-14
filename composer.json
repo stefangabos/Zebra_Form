@@ -16,7 +16,7 @@
     "require": {
         "php": ">=5.0.2"
     },
-    "version": "2.9.6",
+    "version": "2.9.7",
     "autoload": {
         "classmap": [
             "Zebra_Form.php"
