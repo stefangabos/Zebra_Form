@@ -1946,6 +1946,14 @@ class Zebra_Form_Control extends XSS_Clean
 
                         break;
 
+                    // if the "email" rule is set
+                    case 'email':
+
+                        // change the element's type to "email"
+                        $this->set_attributes(array('type' => 'email'));
+
+                        break;
+
                 }
 
             }
