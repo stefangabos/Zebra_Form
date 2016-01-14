@@ -3083,7 +3083,7 @@
             for (index in html5_types)
 
                 // if we found the element's type to be one of those, treate element as input type="text"
-                if ($element.attr('type').toLowerCase() == html5_types[index]) return 'text';
+                if ($element.attr('type') && $element.attr('type').toLowerCase() == html5_types[index]) return 'text';
 
             // iterate through the possible types
             for (index in types)
