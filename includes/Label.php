@@ -173,7 +173,7 @@ class Zebra_Form_Label extends Zebra_Form_Control
         $attributes = $this->get_attributes('label');
         
         // if access key needs to be showed
-        if (preg_match('/\$(.{1})/', $attributes['label'], $matches) > 0) {
+        if (preg_match('/(?<!\\\)\$(.{1})/', $attributes['label'], $matches) > 0) {
         
             // set the requested accesskey
             $this->set_attributes(array('accesskey' => strtolower($matches[1])));
@@ -183,7 +183,7 @@ class Zebra_Form_Label extends Zebra_Form_Control
 
         }
 
-        return '<label ' . $this->_render_attributes() . '>' . $attributes['label'] . '</label>';
+        return '<label ' . $this->_render_attributes() . '>' . preg_replace('/\\\\\$/', '$', $attributes['label']) . '</label>';
 
     }
 
