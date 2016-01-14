@@ -3060,17 +3060,30 @@
 
             // values that may be returned by the is() function
             var types = [
-                'button',
-                'input:checkbox',
-                'input:file',
-                'input:image',
-                'input:password',
-                'input:radio',
-                'input:submit',
-                'input:text',
-                'select',
-                'textarea'
-            ];
+                    'button',
+                    'input:checkbox',
+                    'input:file',
+                    'input:image',
+                    'input:password',
+                    'input:radio',
+                    'input:submit',
+                    'input:text',
+                    'select',
+                    'textarea'
+                ],
+                html5_types = [
+                    'email',
+                    'number'
+                ];
+
+            // because elements of type "email" and "number" were not yet added to jQuery (as of jQuery 1.11.1)
+            // we'll test for those separately
+
+            // iterate through the possible types
+            for (index in html5_types)
+
+                // if we found the element's type to be one of those, treate element as input type="text"
+                if ($element.attr('type').toLowerCase() == html5_types[index]) return 'text';
 
             // iterate through the possible types
             for (index in types)
