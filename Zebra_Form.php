@@ -27,7 +27,7 @@ define('ZEBRA_FORM_UPLOAD_RANDOM_NAMES', false);
  *  For more resources visit {@link http://stefangabos.ro/}
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @version    2.9.7 (last revision: January 14, 2016)
+ *  @version    2.9.8 (last revision: January 22, 2016)
  *  @copyright  (c) 2006 - 2016 Stefan Gabos
  *  @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU LESSER GENERAL PUBLIC LICENSE
  *  @package    Zebra_Form
@@ -1177,7 +1177,8 @@ class Zebra_Form
             ($this->form_properties['doctype'] == 'html' ? 'name="' . $this->form_properties['name'] . '" ' : '') .
             'id="' . $this->form_properties['name'] . '" ' .
             'action="' . htmlspecialchars($this->form_properties['action']) . '" ' .
-            'method="' . strtolower($this->form_properties['method']) . '" ';
+            'method="' . strtolower($this->form_properties['method']) . '" ' .
+            'novalidate="novalidate"';
 
         // if custom classes are to be set for the form
         if (isset($this->form_properties['attributes']['class']))
@@ -2724,6 +2725,10 @@ class Zebra_Form
 
             // get some attributes of the control
             $attribute = $control->get_attributes(array('name', 'id', 'type', 'value', 'multiple', 'format', 'disable_spam_filter', 'other'));
+
+            // treat "email" and "number" types as "text"
+            if (in_array($attribute['type'], array('email', 'number'))) $attribute['type'] = 'text';
+
 
             // if control doesn't have the SPAM filter disabled
             if (!isset($attribute['disable_spam_filter']) || $attribute['disable_spam_filter'] !== true) {
