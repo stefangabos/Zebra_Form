@@ -2720,15 +2720,14 @@ class Zebra_Form
             // reference to control
             $control = & $this->controls[$control];
 
+            // treat "email" and "number" types as "text"
+            if (in_array($control->attributes['type'], array('email', 'number'))) $control->attributes['type'] = 'text';
+
             // manage submitted value
             $control->get_submitted_value();
 
             // get some attributes of the control
             $attribute = $control->get_attributes(array('name', 'id', 'type', 'value', 'multiple', 'format', 'disable_spam_filter', 'other'));
-
-            // treat "email" and "number" types as "text"
-            if (in_array($attribute['type'], array('email', 'number'))) $attribute['type'] = 'text';
-
 
             // if control doesn't have the SPAM filter disabled
             if (!isset($attribute['disable_spam_filter']) || $attribute['disable_spam_filter'] !== true) {
