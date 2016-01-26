@@ -27,7 +27,7 @@ define('ZEBRA_FORM_UPLOAD_RANDOM_NAMES', false);
  *  For more resources visit {@link http://stefangabos.ro/}
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @version    2.9.8 (last revision: January 22, 2016)
+ *  @version    2.9.8 (last revision: January 26, 2016)
  *  @copyright  (c) 2006 - 2016 Stefan Gabos
  *  @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU LESSER GENERAL PUBLIC LICENSE
  *  @package    Zebra_Form
@@ -1219,6 +1219,9 @@ class Zebra_Form
 
         // iterate through the form's controls
         foreach ($this->controls as $key => $control) {
+
+            // treat "email" and "number" types as "text"
+            if (in_array($control->attributes['type'], array('email', 'number'))) $control->attributes['type'] = 'text';
 
             // get some attributes for each control
             $attributes = $control->get_attributes(array('type', 'for', 'name', 'id', 'multiple', 'other', 'class', 'default_other', 'disable_zebra_datepicker'));
