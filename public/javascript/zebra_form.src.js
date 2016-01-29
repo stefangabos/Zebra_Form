@@ -1811,8 +1811,8 @@
 
                                 case 'text':
 
-                                    // current element was validated and contains a valid date as the value
-                                    if (undefined != element.data('timestamp')) {
+                                    // value is not an empty string and current element was validated and contains a valid date as the value
+                                    if ($.trim(element.val()) != '' && undefined != element.data('timestamp')) {
 
                                         // compute age
                                         var today = new Date(),
@@ -2595,6 +2595,46 @@
 
                                     // the rule doesn't validate
                                     ) control_is_valid = false;
+
+                                    break;
+
+                            }
+
+                            break;
+
+                        case 'range':
+
+                            // if element type is one of the following
+                            switch (attributes['type']) {
+
+                                case 'text':
+
+                                    // value is not an empty string
+                                    if ($.trim(element.val()) != '') {
+
+                                        // get the allowed min and max
+                                        var min = control_validation_rules['rules'][rule][0][0],
+                                            max = control_validation_rules['rules'][rule][0][1],
+
+                                            // make sure the value is a number
+                                            value = $.trim(parseFloat(element.val()));
+
+                                        // if
+                                        if (
+
+                                            // element's value is not a number
+                                            NaN === value ||
+
+                                            // after applying parseFloat, the value is different than what the user entered
+                                            value != $.trim(element.val()) ||
+
+                                            // or the value is not within range
+                                            (!((min === 0 || value >= min) && (max === 0 || value <= max)))
+
+                                        // the rule doesn't validate
+                                        ) control_is_valid = false;
+
+                                    }
 
                                     break;
 

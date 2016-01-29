@@ -1339,6 +1339,7 @@ class Zebra_Form
                         case 'filetype':
                         case 'float':
                         case 'number':
+                        case 'range':
                         case 'regexp':
                         case 'url':
 
@@ -2886,13 +2887,16 @@ class Zebra_Form
                     // check the rule's name
                     switch ($rule_name) {
 
-                        // if rule is 'age'
+                        // if rule is "age"
                         case 'age':
 
                             if (
 
                                 // control is 'text'
                                 $attribute['type'] == 'text' &&
+
+                                // a value was entered
+                                $attribute['value'] != '' &&
 
                                 // control was validated
                                 isset($control->attributes['date']) &&
@@ -2903,8 +2907,8 @@ class Zebra_Form
                             ) {
 
                                 // the allowed age interval
-                                $min_age = $control->rules['age'][0][0];
-                                $max_age = $control->rules['age'][0][1];
+                                $min_age = $rule_attributes[0][0];
+                                $max_age = $rule_attributes[0][1];
 
                                 // compute age
                                 $datetime1 = new DateTime();
@@ -3722,6 +3726,54 @@ class Zebra_Form
                                 // no further checking needs to be done for the control, making sure that only one
                                 // error message is displayed at a time for each erroneous control
                                 break 2;
+
+                            }
+
+                            break;
+
+                        // if rule is "range"
+                        case 'range':
+
+                            if (
+
+                                // control is 'text'
+                                $attribute['type'] == 'text' &&
+
+                                // a value was entered
+                                $attribute['value'] != ''
+
+                            ) {
+
+                                // get the allowed min and max
+                                $min = $rule_attributes[0][0];
+                                $max = $rule_attributes[0][1];
+
+                                // make sure the value is a number
+                                $value = (float)$attribute['value'];
+
+
+                                // if
+                                if (
+
+                                    // parsed value is different than what the user entered
+                                    $value != $attribute['value'] ||
+
+                                    // or the value is not within range
+                                    !(($min == 0 || $value >= $min) && ($max == 0 || $value <= $max))
+
+                                ) {
+
+                                    // add error message to indicated error block
+                                    $this->add_error($rule_attributes[1], $rule_attributes[2]);
+
+                                    // the control does not validate
+                                    $valid = false;
+
+                                    // no further checking needs to be done for the control, making sure that only one
+                                    // error message is displayed at a time for each erroneous control
+                                    break 2;
+
+                                }
 
                             }
 
