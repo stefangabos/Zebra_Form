@@ -8,7 +8,7 @@
  *  For more resources visit {@link http://stefangabos.ro/}
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @version    2.9.7 (last revision: January 14, 2016)
+ *  @version    2.9.8 (last revision: January 29, 2016)
  *  @copyright  (c) 2011 - 2016 Stefan Gabos
  *  @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU LESSER GENERAL PUBLIC LICENSE
  *  @package    Zebra_Form
@@ -1803,6 +1803,40 @@
 
                     // check the rule's name
                     switch (rule) {
+
+                        case 'age':
+
+                            // if element type is one of the following
+                            switch (attributes['type']) {
+
+                                case 'text':
+
+                                    // current element was validated and contains a valid date as the value
+                                    if (undefined != element.data('timestamp')) {
+
+                                        // compute age
+                                        var today = new Date(),
+                                            birthDate = new Date(element.data('timestamp')),
+                                            age = today.getFullYear() - birthDate.getFullYear(),
+                                            months = today.getMonth() - birthDate.getMonth(),
+                                            min_age = control_validation_rules['rules'][rule][0][0],
+                                            max_age = control_validation_rules['rules'][rule][0][1];
+
+                                        if (months < 0 || (months === 0 && today.getDate() < birthDate.getDate())) age--;
+
+                                        // if age is invalid
+                                        if (!((min_age == 0 || age >= min_age) && (max_age == 0 || age <= max_age)))
+
+                                            // the rule doesn't validate
+                                            control_is_valid = false;
+
+                                    }
+
+                                    break;
+
+                            }
+
+                            break;
 
                         case 'alphabet':
 

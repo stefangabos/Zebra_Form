@@ -664,6 +664,7 @@ class Zebra_Form_Control extends XSS_Clean
      *  are to be displayed to the user upon client-side validation.</b>
      *
      *  Available rules are
+     *  -   age
      *  -   alphabet
      *  -   alphanumeric
      *  -   captcha
@@ -689,6 +690,36 @@ class Zebra_Form_Control extends XSS_Clean
      *  -   url
      *
      *  Rules description:
+     *
+     *  -   <b>age</b>
+     *
+     *  <code>'age' => array($interval, $error_block, $error_message)</code>
+     *
+     *  where
+     *
+     *  -   <i>interval</i> is an array with 2 values, representing the minimum and maximum age allowed. 0 (zero) means
+     *      "any age". Therefore, an interval of array(21, 0) would validate ages of 21 or more, array(6, 12) would
+     *      validate ages between 6 and 12 (inclusive), while (0, 12) would validate ages from 0 untill 12 (inclusive)
+     *
+     *  -   <i>error_block</i> is the PHP variable to append the error message to, in case the rule does not validate
+     *
+     *  -   <i>error_message</i> is the error message to be shown when rule is not obeyed
+     *
+     *  Validates if the difference between the current date and the date entered in the control is inside the alloed
+     *  interval
+     *
+     *  Available for the following controls: {@link Zebra_Form_Text text}
+     *
+     *  <code>
+     *  // $obj is a reference to a control
+     *  $obj->set_rule(
+     *       'age' => array(
+     *          array(21, 0)                            // allow ages above 20
+     *          'error',                                // variable to add the error message to
+     *          'Only alphabetic characters allowed!'   // error message if value doesn't validate
+     *       )
+     *  );
+     *  </code>
      *
      *  -   <b>alphabet</b>
      *

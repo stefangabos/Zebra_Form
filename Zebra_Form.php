@@ -27,7 +27,7 @@ define('ZEBRA_FORM_UPLOAD_RANDOM_NAMES', false);
  *  For more resources visit {@link http://stefangabos.ro/}
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @version    2.9.8 (last revision: January 26, 2016)
+ *  @version    2.9.8 (last revision: January 29, 2016)
  *  @copyright  (c) 2006 - 2016 Stefan Gabos
  *  @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU LESSER GENERAL PUBLIC LICENSE
  *  @package    Zebra_Form
@@ -1267,6 +1267,12 @@ class Zebra_Form
                 // create the variable holding client-side error messages
                 if (!$this->form_properties['clientside_validation']['clientside_disabled'] && !isset($clientside_validation)) $clientside_validation = array();
 
+                // if we applied the "age" rule to an element not being of "date" type
+                if (isset($control->rules['age']) && !array_key_exists('pair', $control->attributes))
+
+                    // trigger an error message
+                    _zebra_form_show_error('The <strong>age</strong> rule can only be applied to a <strong>date</strong> element', E_USER_ERROR);
+
                 // we need to make sure that rules are in propper order, the order of priority being "dependencies",
                 // "required" and "upload"
 
@@ -1324,6 +1330,7 @@ class Zebra_Form
                     switch ($rule) {
 
                         // for these rules
+                        case 'age':
                         case 'alphabet':
                         case 'alphanumeric':
                         case 'compare':
@@ -2878,6 +2885,51 @@ class Zebra_Form
 
                     // check the rule's name
                     switch ($rule_name) {
+
+                        // if rule is 'age'
+                        case 'age':
+
+                            if (
+
+                                // control is 'text'
+                                $attribute['type'] == 'text' &&
+
+                                // control was validated
+                                isset($control->attributes['date']) &&
+
+                                // control contains a valid date
+                                date('Y-m-d', strtotime($control->attributes['date'])) == $control->attributes['date']
+
+                            ) {
+
+                                // the allowed age interval
+                                $min_age = $control->rules['age'][0][0];
+                                $max_age = $control->rules['age'][0][1];
+
+                                // compute age
+                                $datetime1 = new DateTime();
+                                $datetime2 = new DateTime($control->attributes['date']);
+                                $interval = $datetime1->diff($datetime2);
+                                $age = $interval->format('%y');
+
+                                // if age is invalid
+                                if (!(($min_age == 0 || $age >= $min_age) && ($max_age == 0 || $age <= $max_age))) {
+
+                                    // add error message to indicated error block
+                                    $this->add_error($rule_attributes[1], $rule_attributes[2]);
+
+                                    // the control does not validate
+                                    $valid = false;
+
+                                    // no further checking needs to be done for the control, making sure that only one
+                                    // error message is displayed at a time for each erroneous control
+                                    break 2;
+
+                                }
+
+                            }
+
+                            break;
 
                         // if rule is 'alphabet'
                         case 'alphabet':
