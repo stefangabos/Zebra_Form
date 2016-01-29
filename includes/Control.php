@@ -683,6 +683,7 @@ class Zebra_Form_Control extends XSS_Clean
      *  -   image
      *  -   length
      *  -   number
+     *  -   range
      *  -   regexp
      *  -   required
      *  -   resize
@@ -693,20 +694,20 @@ class Zebra_Form_Control extends XSS_Clean
      *
      *  -   <b>age</b>
      *
-     *  <code>'age' => array($interval, $error_block, $error_message)</code>
+     *  <code>'age' => array($range, $error_block, $error_message)</code>
      *
      *  where
      *
-     *  -   <i>interval</i> is an array with 2 values, representing the minimum and maximum age allowed. 0 (zero) means
-     *      "any age". Therefore, an interval of array(21, 0) would validate ages of 21 or more, array(6, 12) would
-     *      validate ages between 6 and 12 (inclusive), while (0, 12) would validate ages from 0 untill 12 (inclusive)
+     *  -   <i>range</i> is an array with 2 values, representing the minimum and maximum age allowed. 0 (zero) means
+     *      "any age". Therefore, a range of array(21, 0) would validate ages above 20, array(6, 12) would
+     *      validate ages between 6 and 12 (inclusive), while (0, 12) would validate ages below 13
      *
      *  -   <i>error_block</i> is the PHP variable to append the error message to, in case the rule does not validate
      *
      *  -   <i>error_message</i> is the error message to be shown when rule is not obeyed
      *
-     *  Validates if the difference between the current date and the date entered in the control is inside the alloed
-     *  interval
+     *  Validates if the difference in years between the current date and the date entered in the control is whitin the
+     *  allowed range
      *
      *  Available for the following controls: {@link Zebra_Form_Text text}
      *
@@ -714,9 +715,9 @@ class Zebra_Form_Control extends XSS_Clean
      *  // $obj is a reference to a control
      *  $obj->set_rule(
      *       'age' => array(
-     *          array(21, 0)                            // allow ages above 20
-     *          'error',                                // variable to add the error message to
-     *          'Only alphabetic characters allowed!'   // error message if value doesn't validate
+     *          array(21, 0)            // allow ages above 20
+     *          'error',                // variable to add the error message to
+     *          'Age must be above 20'  // error message if value doesn't validate
      *       )
      *  );
      *  </code>
@@ -1604,6 +1605,35 @@ class Zebra_Form_Control extends XSS_Clean
      *          ''                  // don't allow any extra characters
      *          'error',            // variable to add the error message to
      *          'Invalid integer!'  // error message if value doesn't validate
+     *       )
+     *  );
+     *  </code>
+     *
+     *  -   <b>range</b>
+     *
+     *  <code>'range' => array($range, $error_block, $error_message)</code>
+     *
+     *  where
+     *
+     *  -   <i>range</i> is an array with 2 values, representing the minimum and maximum allowed values. 0 (zero) means
+     *      "any value". Therefore, a range of array(100, 0) would validate values of 100 and above, array(50, 100)
+     *      would validate values between 50 and 100 (inclusive), while (0, 50) would validate values below 51
+     *
+     *  -   <i>error_block</i> is the PHP variable to append the error message to, in case the rule does not validate
+     *
+     *  -   <i>error_message</i> is the error message to be shown when rule is not obeyed
+     *
+     *  Validates if the value is within range
+     *
+     *  Available for the following controls: {@link Zebra_Form_Text text}
+     *
+     *  <code>
+     *  // $obj is a reference to a control
+     *  $obj->set_rule(
+     *       'range' => array(
+     *          array(50, 100)                                                  // allow values between 50 and 100 (inclusive)
+     *          'error',                                                        // variable to add the error message to
+     *          'The entered value must be between 50 and 100 (inclusive)'      // error message if value doesn't validate
      *       )
      *  );
      *  </code>
