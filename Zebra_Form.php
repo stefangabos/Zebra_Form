@@ -20,7 +20,7 @@ define('ZEBRA_FORM_UPLOAD_RANDOM_NAMES', false);
  *  deal of time when it comes to validation and assures that your forms are secure and have a consistent look and feel
  *  throughout your projects!
  *
- *  Requires PHP 5.0.2+ (compiled with the php_fileinfo extension), and jQuery 1.6.2+
+ *  Requires PHP 5.3.0+ (compiled with the php_fileinfo extension), and jQuery 1.6.2+
  *
  *  Visit {@link http://stefangabos.ro/php-libraries/zebra-form/} for more information.
  *
