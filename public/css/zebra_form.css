@@ -22,7 +22,7 @@
 .Zebra_Form .button,
 .Zebra_Form .reset,
 .Zebra_Form input.password,
-.Zebra_Form input.text,
+.Zebra_Form input.text, .Zebra_Form input.colorpicker,
 .Zebra_Form select,
 .Zebra_Form textarea {
     display: block
@@ -48,7 +48,7 @@
 .Zebra_Form .button,
 .Zebra_Form .reset,
 .Zebra_Form input.password,
-.Zebra_Form input.text,
+.Zebra_Form input.text, .Zebra_Form input.colorpicker,
 .Zebra_Form select,
 .Zebra_Form textarea,
 .Zebra_Form label.button {
@@ -60,7 +60,7 @@
 .Zebra_Form .button,
 .Zebra_Form input.password,
 .Zebra_Form .reset,
-.Zebra_Form input.text,
+.Zebra_Form input.text, .Zebra_Form input.colorpicker,
 .Zebra_Form .submit,
 .Zebra_Form select,
 .Zebra_Form textarea,
@@ -69,14 +69,14 @@
 }
 
 .Zebra_Form input.password,
-.Zebra_Form input.text,
+.Zebra_Form input.text, .Zebra_Form input.colorpicker,
 .Zebra_Form select,
 .Zebra_Form textarea {
     padding: 6px 5px
 }
 
 .Zebra_Form input.password:focus,
-.Zebra_Form input.text:focus,
+.Zebra_Form input.text:focus, .Zebra_Form input.colorpicker:focus,
 .Zebra_Form textarea:focus {
 }
 
@@ -106,13 +106,13 @@
 }
 
 .Zebra_Form input.password,
-.Zebra_Form input.text,
+.Zebra_Form input.text, .Zebra_Form input.colorpicker,
 .Zebra_Form textarea {
     background: #FFF url('textbox-background.gif') repeat-x top
 }
 
 .Zebra_Form input.password,
-.Zebra_Form input.text {
+.Zebra_Form input.text, .Zebra_Form input.colorpicker {
     width: 200px
 }
 
