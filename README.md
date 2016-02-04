@@ -1,10 +1,10 @@
-##Zebra_Form
+## Zebra_Form
+
+#### A jQuery augmented PHP library for creating and validating HTML forms
 
 [Packagist](https://packagist.org/) stats
 
 [![Latest Stable Version](https://poser.pugx.org/stefangabos/zebra_form/v/stable)](https://packagist.org/packages/stefangabos/zebra_form) [![Total Downloads](https://poser.pugx.org/stefangabos/zebra_form/downloads)](https://packagist.org/packages/stefangabos/zebra_form) [![Monthly Downloads](https://poser.pugx.org/stefangabos/zebra_form/d/monthly)](https://packagist.org/packages/stefangabos/zebra_form) [![Daily Downloads](https://poser.pugx.org/stefangabos/zebra_form/d/daily)](https://packagist.org/packages/stefangabos/zebra_form) [![License](https://poser.pugx.org/stefangabos/zebra_form/license)](https://packagist.org/packages/stefangabos/zebra_form)
-
-####A jQuery augmented PHP library for creating and validating HTML forms
 
 Zebra_Form is a PHP library that greatly simplifies the process of creating and validating HTML forms. Its object-oriented structure promotes rapid HTML forms development and encourages developers to write clean and easily maintainable code and it frees the developers from the repetitive task of writing the code for validating forms by offering powerful built-in client-side and server-side validation.
 
