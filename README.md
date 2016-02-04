@@ -1,4 +1,4 @@
-## Zebra_Form
+### Zebra_Form
 
 #### A jQuery augmented PHP library for creating and validating HTML forms
 
