@@ -2,6 +2,7 @@
 
 #### A jQuery augmented PHP library for creating and validating HTML forms
 
+----
 [Packagist](https://packagist.org/) stats
 
 [![Latest Stable Version](https://poser.pugx.org/stefangabos/zebra_form/v/stable)](https://packagist.org/packages/stefangabos/zebra_form) [![Total Downloads](https://poser.pugx.org/stefangabos/zebra_form/downloads)](https://packagist.org/packages/stefangabos/zebra_form) [![Monthly Downloads](https://poser.pugx.org/stefangabos/zebra_form/d/monthly)](https://packagist.org/packages/stefangabos/zebra_form) [![Daily Downloads](https://poser.pugx.org/stefangabos/zebra_form/d/daily)](https://packagist.org/packages/stefangabos/zebra_form) [![License](https://poser.pugx.org/stefangabos/zebra_form/license)](https://packagist.org/packages/stefangabos/zebra_form)
