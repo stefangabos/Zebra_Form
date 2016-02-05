@@ -2596,7 +2596,7 @@ class Zebra_Form
                         $control->set_attributes(array('value' => '12345678'));
 
                     // if control is "text" or "textarea" and does not already have a value
-                    } elseif (($attributes['type'] == 'text' || $attributes['type'] == 'textarea') && $attributes['value'] === '') {
+                    } elseif (in_array($attributes['type'], array('text', 'textarea', 'email', 'number')) && $attributes['value'] === '') {
 
                         // if this is a "date" control
                         if (strtolower(get_class($control)) == 'zebra_form_date') {
