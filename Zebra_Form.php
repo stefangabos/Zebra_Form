@@ -27,7 +27,7 @@ define('ZEBRA_FORM_UPLOAD_RANDOM_NAMES', false);
  *  For more resources visit {@link http://stefangabos.ro/}
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @version    2.9.8 (last revision: January 29, 2016)
+ *  @version    2.9.8 (last revision: Februarty 05, 2016)
  *  @copyright  (c) 2006 - 2016 Stefan Gabos
  *  @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU LESSER GENERAL PUBLIC LICENSE
  *  @package    Zebra_Form
@@ -593,8 +593,9 @@ class Zebra_Form
     }
 
     /**
-     *  Call this method anytime *before* calling the {@link render()} method to instruct the library to automatically
-     *  fill out all of the form's fields with random content while obeying any rules that might be set for each control.
+     *  Call this method anytime *before* calling the {@link validate()} method (preferably, right after instantiating
+     *  the class) to instruct the library to automatically fill out all of the form's fields with random content while
+     *  obeying any rules that might be set for each control.
      *
      *  You can also use this method to set defaults for the form's elements by setting the method's second argument to TRUE.
      *
