@@ -8,7 +8,7 @@
  *  For more resources visit {@link http://stefangabos.ro/}
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @version    2.9.8 (last revision: February 17, 2016)
+ *  @version    2.9.8 (last revision: February 18, 2016)
  *  @copyright  (c) 2011 - 2016 Stefan Gabos
  *  @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU LESSER GENERAL PUBLIC LICENSE
  *  @package    Zebra_Form
@@ -2299,7 +2299,21 @@
                                 case 'textarea':
 
                                     // if value is not an empty string and the regular expression is not matched, the rule doesn't validate
-                                    if ($.trim(element.val()) != '' && (null !== element.val().match(/\s/) || element.val().length > 254 || null == element.val().match(/^([a-zA-Z0-9_\-\+\~\^\{\}]+[\.]?){1,64}@{1}([a-zA-Z0-9_\-\+\~\^\{\}]+[\.]?)+\.[A-Za-z0-9]{2,255}$/))) control_is_valid = false;
+                                    if (
+                                        $.trim(element.val()) != '' &&
+                                        (
+
+                                            // email address contains unallowed characters
+                                            null !== element.val().match(/[^a-zA-Z0-9\_\-\+\~\^\{\}\.\@]/) ||
+
+                                            // email address is longer than the maximum allowed length
+                                            element.val().length > 254 ||
+
+                                            // email address has an invalid format
+                                            null == element.val().match(/^([a-zA-Z0-9_\-\+\~\^\{\}]+[\.]?){1,64}@{1}([a-zA-Z0-9_\-\+\~\^\{\}]+[\.]?)+\.[A-Za-z0-9]{2,255}$/)
+                                        )
+
+                                    ) control_is_valid = false;
 
                                     break;
                             }
