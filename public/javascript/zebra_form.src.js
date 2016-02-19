@@ -2303,9 +2303,6 @@
                                         $.trim(element.val()) != '' &&
                                         (
 
-                                            // email address contains unallowed characters
-                                            null !== element.val().match(/[^a-z0-9\_\-\+\~\^\{\}\.\@]/i) ||
-
                                             // email address contains consecutive dots
                                             null !== element.val().match(/\.{2,}/) ||
 
@@ -2313,7 +2310,7 @@
                                             element.val().length > 254 ||
 
                                             // email address has an invalid format
-                                            null == element.val().match(/^[a-z0-9_\-\+\~\^\{\}\.]{1,64}@([a-z0-9_\-\+\~\^\{\}\.]{1,255}\.[a-z0-9]{2,}$/i)
+                                            null == element.val().match(/^[a-z0-9_\-\+\~\^\{\}\.]{1,64}@[a-z0-9_\-\+\~\^\{\}\.]{1,255}\.[a-z0-9]{2,}$/i)
                                         )
 
                                     ) control_is_valid = false;
