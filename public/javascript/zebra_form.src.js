@@ -8,7 +8,7 @@
  *  For more resources visit {@link http://stefangabos.ro/}
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @version    2.9.8 (last revision: February 18, 2016)
+ *  @version    2.9.8 (last revision: February 19, 2016)
  *  @copyright  (c) 2011 - 2016 Stefan Gabos
  *  @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU LESSER GENERAL PUBLIC LICENSE
  *  @package    Zebra_Form
@@ -2304,13 +2304,16 @@
                                         (
 
                                             // email address contains unallowed characters
-                                            null !== element.val().match(/[^a-zA-Z0-9\_\-\+\~\^\{\}\.\@]/) ||
+                                            null !== element.val().match(/[^a-z0-9\_\-\+\~\^\{\}\.\@]/i) ||
+
+                                            // email address contains consecutive dots
+                                            null !== element.val().match(/\.{2,}/) ||
 
                                             // email address is longer than the maximum allowed length
                                             element.val().length > 254 ||
 
                                             // email address has an invalid format
-                                            null == element.val().match(/^([a-zA-Z0-9_\-\+\~\^\{\}]+[\.]?){1,64}@{1}([a-zA-Z0-9_\-\+\~\^\{\}]+[\.]?)+\.[A-Za-z0-9]{2,255}$/)
+                                            null == element.val().match(/^[a-z0-9_\-\+\~\^\{\}\.]{1,64}@([a-z0-9_\-\+\~\^\{\}\.]{1,255}\.[a-z0-9]{2,}$/i)
                                         )
 
                                     ) control_is_valid = false;
