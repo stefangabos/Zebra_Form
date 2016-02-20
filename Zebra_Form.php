@@ -27,7 +27,7 @@ define('ZEBRA_FORM_UPLOAD_RANDOM_NAMES', false);
  *  For more resources visit {@link http://stefangabos.ro/}
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @version    2.9.8 (last revision: Februarty 05, 2016)
+ *  @version    2.9.8 (last revision: Februarty 20, 2016)
  *  @copyright  (c) 2006 - 2016 Stefan Gabos
  *  @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU LESSER GENERAL PUBLIC LICENSE
  *  @package    Zebra_Form
@@ -3348,10 +3348,18 @@ class Zebra_Form
                                 ) &&
 
                                 // a value was entered
-                                $attribute['value'] != '' &&
+                                $attribute['value'] != '' && (
 
-                                // but is not a valid email address
-                                !preg_match('/^([a-zA-Z0-9_\-\+\~\^\{\}]+[\.]?)+@{1}([a-zA-Z0-9_\-\+\~\^\{\}]+[\.]?)+\.[A-Za-z0-9]{2,}$/', $attribute['value'])
+                                    // email address contains consecutive dots
+                                    preg_match('/\.{2,}/', $attribute['value']) ||
+
+                                    // email address is longer than the maximum allowed length
+                                    strlen($attribute['value']) > 254 ||
+
+                                    // email address has an invalid format
+                                    !preg_match('/^[^\.][a-z0-9_\-\+\~\^\{\}\.]{1,64}@[a-z0-9_\-\+\~\^\{\}\.]{1,255}\.[a-z0-9]{2,}$/i', $attribute['value'])
+
+                                )
 
                             ) {
 

@@ -8,7 +8,7 @@
  *  For more resources visit {@link http://stefangabos.ro/}
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @version    2.9.8 (last revision: February 19, 2016)
+ *  @version    2.9.8 (last revision: February 20, 2016)
  *  @copyright  (c) 2011 - 2016 Stefan Gabos
  *  @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU LESSER GENERAL PUBLIC LICENSE
  *  @package    Zebra_Form
@@ -2298,8 +2298,10 @@
                                 case 'text':
                                 case 'textarea':
 
-                                    // if value is not an empty string and the regular expression is not matched, the rule doesn't validate
+                                    // if 
                                     if (
+
+                                        // value is not an empty string 
                                         $.trim(element.val()) != '' &&
                                         (
 
@@ -2310,7 +2312,8 @@
                                             element.val().length > 254 ||
 
                                             // email address has an invalid format
-                                            null == element.val().match(/^[a-z0-9_\-\+\~\^\{\}\.]{1,64}@[a-z0-9_\-\+\~\^\{\}\.]{1,255}\.[a-z0-9]{2,}$/i)
+                                            null == element.val().match(/^[^\.][a-z0-9_\-\+\~\^\{\}\.]{1,64}@[a-z0-9_\-\+\~\^\{\}\.]{1,255}\.[a-z0-9]{2,}$/i)
+
                                         )
 
                                     ) control_is_valid = false;
