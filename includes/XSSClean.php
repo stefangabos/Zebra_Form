@@ -85,7 +85,7 @@ class XSS_Clean
      *
      *  @return string          Returns filtered string
      */
-	function sanitize($str)
+	function sanitize($str, $rawurldecode = true)
 	{
 
 		// Remove Invisible Characters
@@ -100,7 +100,7 @@ class XSS_Clean
 		 *
 		 * Note: Use rawurldecode() so it does not remove plus signs
 		 */
-		$str = rawurldecode($str);
+		if ($rawurldecode) $str = rawurldecode($str);
 
 		/*
 		 * Convert character entities to ASCII
@@ -152,7 +152,6 @@ class XSS_Clean
 			'javascript', 'expression', 'vbscript', 'script', 'base64',
 			'applet', 'alert', 'document', 'write', 'cookie', 'window'
 		);
-
 
 		foreach ($words as $word)
 		{
