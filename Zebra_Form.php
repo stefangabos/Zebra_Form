@@ -176,7 +176,7 @@ class Zebra_Form
 
             'action'                    =>  ($action == '' ? $_SERVER['REQUEST_URI'] : $action),
             'assets_server_path'        =>  rtrim(dirname(__FILE__), '\\/') . DIRECTORY_SEPARATOR,
-            'assets_url'                =>  rtrim(str_replace('\\', '/', 'http' . (isset($_SERVER['HTTPS']) ? 's' : '') . '://' . rtrim($_SERVER['HTTP_HOST'], '\\/') . '/' . substr(rtrim(dirname(__FILE__), '\\/'), strlen($_SERVER['DOCUMENT_ROOT']))), '\\/') . '/',
+            'assets_url'                =>  rtrim(str_replace('\\', '/', 'http' . (isset($_SERVER['HTTPS']) || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') ? 's' : '') . '://' . rtrim($_SERVER['HTTP_HOST'], '\\/') . '/' . substr(rtrim(dirname(__FILE__), '\\/'), strlen($_SERVER['DOCUMENT_ROOT']))), '\\/') . '/',
             'attributes'                =>  $attributes,
             'auto_fill'                 =>  false,
             'captcha_storage'           =>  'cookie',
