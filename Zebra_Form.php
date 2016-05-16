@@ -27,7 +27,7 @@ define('ZEBRA_FORM_UPLOAD_RANDOM_NAMES', false);
  *  For more resources visit {@link http://stefangabos.ro/}
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @version    2.9.8 (last revision: Februarty 20, 2016)
+ *  @version    2.9.8 (last revision: May 16, 2016)
  *  @copyright  (c) 2006 - 2016 Stefan Gabos
  *  @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU LESSER GENERAL PUBLIC LICENSE
  *  @package    Zebra_Form
@@ -2857,7 +2857,7 @@ class Zebra_Form
 
                 }
 
-                // if the "requried" rule exists
+                // if the "required" rule exists
                 if (isset($control->rules['required'])) {
 
                     // remove it from wherever it is
@@ -4048,7 +4048,7 @@ class Zebra_Form
                                 $attribute['value'] != '' &&
 
                                 // value does not match regular expression
-                                !preg_match('/^(http(s)?\:\/\/)' . ($rule_attributes[0] === true ? '' : '?') . '[^\s\.]+\..{2,}/i', $attribute['value'])
+                                !preg_match('/^(https?\:\/\/)' . ($rule_attributes[0] === true ? '' : '?') . '[^\s\.]+\..{2,}/i', $attribute['value'])
 
                             ) {
 

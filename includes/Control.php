@@ -314,7 +314,15 @@ class Zebra_Form_Control extends XSS_Clean
                             $this->submitted_value[$key] = htmlspecialchars(!$attribute['disable_xss_filters'] ? $this->sanitize($value) : $value);
 
                     // if submitted value is not an array, filter the control's value for XSS injection and/or convert applicable characters to their equivalent HTML entities
-                    else $this->submitted_value = htmlspecialchars(!$attribute['disable_xss_filters'] ? $this->sanitize($this->submitted_value) : $this->submitted_value);
+                    else {
+
+                        // don't apply htmlspecialchars to URLs and don't use rawurldecode neither
+                        if (isset($this->rules['url'])) $this->submitted_value = (!$attribute['disable_xss_filters'] ? $this->sanitize($this->submitted_value, false) : $this->submitted_value);
+
+                        // for all other values
+                        else $this->submitted_value = htmlspecialchars(!$attribute['disable_xss_filters'] ? $this->sanitize($this->submitted_value) : $this->submitted_value);
+
+                    }
 
                     // set the respective $_POST/$_GET value to the filtered value
                     $method[$attribute['name']] = $this->submitted_value;
