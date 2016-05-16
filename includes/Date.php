@@ -934,19 +934,19 @@ class Zebra_Form_Date extends Zebra_Form_Control
 
                     // and first entry is boolean TRUE
                     $this->attributes['direction'][0] === true ||
-                    // or an integer > 0
-                    (is_numeric($this->attributes['direction'][0]) && $this->attributes['direction'][0] > 0) ||
                     // or a valid date
-                    ($tmp_start_date = $this->_is_format_valid($this->attributes['direction'][0]))
+                    ($tmp_start_date = $this->_is_format_valid($this->attributes['direction'][0])) ||
+                    // or an integer > 0
+                    (is_numeric($this->attributes['direction'][0]) && $this->attributes['direction'][0] > 0)
 
                 ) && (
 
                     // and second entry is boolean FALSE
                     $this->attributes['direction'][1] === false ||
-                    // or integer >= 0
-                    (is_numeric($this->attributes['direction'][1]) && $this->attributes['direction'][1] >= 0) ||
                     // or a valid date
-                    ($tmp_end_date = $this->_is_format_valid($this->attributes['direction'][1]))
+                    ($tmp_end_date = $this->_is_format_valid($this->attributes['direction'][1])) ||
+                    // or integer >= 0
+                    (is_numeric($this->attributes['direction'][1]) && $this->attributes['direction'][1] >= 0)
 
                 ))
 
