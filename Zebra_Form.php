@@ -741,8 +741,8 @@ class Zebra_Form
      *
      *  From JavaScript, these are the methods that can be called on this object:
      *
-     *  -   <b>attach_tip(element, message)</b> -   displays a custom error message, attached to the element with the
-     *                                              indicated ID (so, remember, "element" is string, not an object!)
+     *  -   <b>attach_tip(element, message)</b> -   displays a custom error message, attached to the specified jQuery
+     *                                              element
      *  -   <b>clear_errors()</b>               -   hides all error messages;
      *  -   <b>submit()</b>                     -   submits the form;
      *  -   <b>validate()</b>                   -   checks if the form is valid; returns TRUE or FALSE;
