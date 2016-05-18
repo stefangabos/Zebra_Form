@@ -106,8 +106,11 @@ class Zebra_Form_Date extends Zebra_Form_Control
             'disable_zebra_datepicker',
             'date',
             'always_visible',
+            'container',
+            'custom_classes',
             'days',
             'days_abbr',
+            'default_position',
             'direction',
             'disabled_dates',
             'enabled_dates',
@@ -115,6 +118,7 @@ class Zebra_Form_Date extends Zebra_Form_Control
             'format',
             'header_captions',
             'header_navigation',
+            'icon_position',
             'inside_icon',
             'lang_clear_date',
             'months',
@@ -124,6 +128,7 @@ class Zebra_Form_Date extends Zebra_Form_Control
             'pair',
             'readonly_element',
             'show_clear_date',
+            'show_icon',
             'show_other_months',
             'show_select_today',
             'show_week_number',
@@ -141,8 +146,11 @@ class Zebra_Form_Date extends Zebra_Form_Control
         $this->javascript_attributes = array(
 
             'always_visible',
+            'container',
+            'custom_classes',
             'days',
             'days_abbr',
+            'default_position',
             'direction',
             'disabled_dates',
             'enabled_dates',
@@ -150,6 +158,7 @@ class Zebra_Form_Date extends Zebra_Form_Control
             'format',
             'header_captions',
             'header_navigation',
+            'icon_position',
             'inside_icon',
             'lang_clear_date',
             'months',
@@ -158,6 +167,7 @@ class Zebra_Form_Date extends Zebra_Form_Control
             'pair',
             'readonly_element',
             'show_clear_date',
+            'show_icon',
             'show_other_months',
             'show_select_today',
             'show_week_number',
@@ -256,6 +266,117 @@ class Zebra_Form_Date extends Zebra_Form_Control
 
         // set the date picker's attribute
         $this->set_attributes(array('always_visible' => $element));
+
+    }
+
+    /**
+     *  Use this method to instruct the library to open a date picker inside a specific element - useful when you want
+     *  the date picker to open at a specific position.
+     *
+     *  <code>
+     *  $date = $form->add('date', 'my_date');
+     *
+     *  // the date picker will open inside this element
+     *  $date->container('$("#container")');
+     *  </code>
+     *
+     *  @param  string  $element    A jQuery selector pointing to an existing element from the page to be used as the
+     *                              date picker's container.
+     *
+     *  By default, all date pickers are placed at the end of the <body> element
+     *
+     *  @since 2.9.8
+     *
+     *  @return void
+     */
+    function container($element)
+    {
+
+        // set the date picker's attribute
+        $this->set_attributes(array('container' => $element));
+
+    }
+
+    /**
+     *  Dates that should have custom classes applied to them.
+     *
+     *  <code>
+     *  $date = $form->add('date', 'my_date');
+     *
+     *  // apply "myclass1" custom class to the first day, of every month, of every year
+     *  $date->custom_classes(array(
+     *      'myclass1'  =>  array('01 * *'),
+     *  ));
+     *  </code>
+     *
+     *  @param  array   $custom_classes An array in the form of
+     *
+     *                                  <code>
+     *                                  array(
+     *                                      'myclass1': array(dates_to_apply_myclass1_to),
+     *                                      'myclass2': array(dates_to_apply_myclass2_to),
+     *                                  )
+     *                                  </code>
+     *
+     *                                  ...where "dates_to_apply_myclassx_to" is an array of dates in the same format as
+     *                                  required for {@link disabled_dates} property.
+     *
+     *                                  Custom classes will be applied <b>only</b> in the day picker view and not on
+     *                                  month/year views! Also note that the class name will have the “_disabled” suffix
+     *                                  added if the day the class is applied to is disabled.
+     *
+     *                                  In order for the styles in your custom classes to be applied, make sure you are
+     *                                  using the following syntax:
+     *
+     *                                  <code>
+     *                                  .Zebra_DatePicker .dp_daypicker td.myclass1 { .. }
+     *                                  .Zebra_DatePicker .dp_daypicker td.myclass1_disabled { .. }
+     *                                  </code>
+     *
+     *                                  Default is FALSE, no custom classes
+     *
+     *  @since 2.9.8
+     *
+     *  @return void
+     */
+    function custom_classes($custom_classes)
+    {
+
+        // set the date picker's attribute
+        $this->set_attributes(array('custom_classes' => $custom_classes));
+
+    }
+
+    /**
+     *  The position of the date picker relative to the element it is attached to.
+     *
+     *  Note that, regardless of this setting, the date picker's position will be automatically adjusted to fit in the
+     *  view port, if needed.
+     *
+     *  <i>This property will be ignored if {@link always_visible} or {@link container} properties are set</i>
+     *
+     *  <code>
+     *  $date = $form->add('date', 'my_date');
+     *
+     *  // the date picker will open *below* the element is attached to
+     *  $date->default_position('below');
+     *  </code>
+     *
+     *  @param  string  $position   The position of the date picker relative to the element it is attached to.
+     *
+     *                              Possible values are "above" and "below".
+     *
+     *                              Default is "above"
+     *
+     *  @since 2.9.8
+     *
+     *  @return void
+     */
+    function default_position($position)
+    {
+
+        // set the date picker's attribute
+        $this->set_attributes(array('default_position' => $position));
 
     }
 
@@ -548,6 +669,34 @@ class Zebra_Form_Date extends Zebra_Form_Control
     }
 
     /**
+     *  The position of the date picker's inside the element it is attached to.
+     *
+     *  <code>
+     *  $date = $form->add('date', 'my_date');
+     *
+     *  // position the date picker's icon to the left
+     *  $date->icon_position('left');
+     *  </code>
+     *
+     *  @param  string  $position   The position of the date picker's inside the element it is attached to.
+     *
+     *                              Possible values are "left" and "right".
+     *
+     *                              Default is "right"
+     *
+     *  @since 2.9.8
+     *
+     *  @return void
+     */
+    function icon_position($position)
+    {
+
+        // set the date picker's attribute
+        $this->set_attributes(array('icon_position' => $position));
+
+    }
+
+    /**
      *  Sets whether the icon for opening the datepicker should be inside or outside the element.
      *
      *  @param  boolean $value      If set to FALSE, the icon will be placed to the right of the parent element, while
@@ -708,6 +857,33 @@ class Zebra_Form_Date extends Zebra_Form_Control
 
         // set the date picker's attribute
         $this->set_attributes(array('show_clear_date' => $value));
+
+    }
+
+    /**
+     *  Should a calendar icon be added to the elements the plugin is attached to?
+     *
+     *  <code>
+     *  $date = $form->add('date', 'my_date');
+     *
+     *  // do not show the icon
+     *  $date->show_icon(false);
+     *  </code>
+     *
+     *  @param  boolean $visible    When set to TRUE the plugin will attach a calendar icon to the elements the plugin
+     *                              is attached to.
+     *
+     *                              Default is TRUE
+     *
+     *  @since 2.9.8
+     *
+     *  @return void
+     */
+    function show_icon($visible)
+    {
+
+        // set the date picker's attribute
+        $this->set_attributes(array('show_icon' => $visible));
 
     }
 
