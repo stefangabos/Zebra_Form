@@ -8,7 +8,7 @@
  *  For more resources visit {@link http://stefangabos.ro/}
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @version    2.9.8 (last revision: February 20, 2016)
+ *  @version    2.9.8 (last revision: May 18, 2016)
  *  @copyright  (c) 2011 - 2016 Stefan Gabos
  *  @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU LESSER GENERAL PUBLIC LICENSE
  *  @package    Zebra_Form
@@ -333,8 +333,8 @@
 
                 }
 
-                // if there are any validation rules set for this element
-                if ('undefined' != typeof plugin.settings.validation_rules[attributes['name']])
+                // if there are any validation rules set for this element (the extra check is for time controls)
+                if ('undefined' != typeof plugin.settings.validation_rules[attributes['name']] || 'undefined' != typeof plugin.settings.validation_rules[attributes['name'].replace(/\_(hours|minutes|seconds|ampm)$/, '')])
 
                     // register the element
                     plugin.register(element, false);
