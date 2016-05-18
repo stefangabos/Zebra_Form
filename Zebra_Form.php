@@ -1527,7 +1527,7 @@ class Zebra_Form
                                 // iterate through the values
                                 foreach ($value as $key => $val)
 
-                                    $properties .= (!is_numeric($key) ? '\'' . $key . '\':' : '') . ($val === true ? 'true' : ($val === false ? 'false' : (is_numeric($val) ? $val : '\'' . $val . '\''))) . ',';
+                                    $properties .= (!is_numeric($key) ? '\'' . $key . '\':' : '') . ($val === true ? 'true' : ($val === false ? 'false' : (is_numeric($val) ? $val : (is_array($val) ? json_encode($val) : '\'' . $val . '\'')))) . ',';
 
                                 $properties = rtrim($properties, ',') . ($is_object ? '}' : ']');
 
