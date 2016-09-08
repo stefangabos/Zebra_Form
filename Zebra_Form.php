@@ -669,8 +669,6 @@ class Zebra_Form
      *  they will never be able to get past the CAPTCHA control. If it's the case, call this method and set the storage
      *  method to "session".
      *
-     *  In this case, call this method and set the the storage method to "session".
-     *
      *  @param  string  $method     Storage method for CAPTCHA values.
      *
      *                              Valid values are "cookie" and "session".
