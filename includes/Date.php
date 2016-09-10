@@ -1061,9 +1061,8 @@ class Zebra_Form_Date extends Zebra_Form_Control
         if (!isset($this->rules['date'])) _zebra_form_show_error('The control named <strong>"' . $this->attributes['name'] . '"</strong> in form <strong>"' . $this->form_properties['name'] . '"</strong> must have the <em>"date"</em> rule set', E_USER_ERROR);
 
         return '
-            <div>
+            <div class="clearfix">
                 <input ' . $this->_render_attributes() . ($this->form_properties['doctype'] == 'xhtml' ? '/' : '') . '>
-                <div class="clear"></div>
             </div>
         ';
 

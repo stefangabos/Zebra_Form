@@ -205,7 +205,7 @@ class Zebra_Form_Time extends Zebra_Form_Control
         }
 
 
-        $output = '';
+        $output = '<div class="clearfix">';
 
         // if the hour picker is to be shown
         if ($hour_position !== false) {
@@ -281,7 +281,7 @@ class Zebra_Form_Time extends Zebra_Form_Control
 
         }
 
-        $output .= '<div class="clear"></div>';
+        $output .= '</div>';
 
         return $output;
 
