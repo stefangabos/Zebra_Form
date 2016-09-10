@@ -393,31 +393,11 @@
 
                             // create the character counter
                             character_counter = jQuery('<div>', {
-                                'class': 'Zebra_Character_Counter',
-                                'css':  {
-                                    'visibility':   'hidden'
-                                }
+                                'class': 'Zebra_Character_Counter'
                             })
 
-                            // use as initial content the value of maxlength attribute
-                            // to get the element's width
-                            .html(element.data('maxlength'))
-
                             // inject it into the DOM right after the textarea element
-                            // (we need to do this so we can get its width and height)
                             .insertAfter(element);
-
-                            // get the character counter's width and height
-                            width = character_counter.outerWidth(),
-                            height = character_counter.outerHeight();
-
-                        // position the character counter at the bottom-right of the textarea, and make it visible
-                        character_counter.css({
-                            'top':          position.top + element.outerHeight() - (height / 1.5),
-                            'left':         position.left + element.outerWidth() - (width / 1.5),
-                            'width':        character_counter.width(),
-                            'visibility':   'visible'
-                        });
 
                         // trigger the "onKeyUp" event to do the initial computing if there is already content in the textarea
                         element.trigger('keyup');
