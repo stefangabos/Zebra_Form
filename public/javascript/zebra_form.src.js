@@ -133,11 +133,7 @@
                 var element = $(this),
 
                     // get some attributes of the element
-                    attributes = {'id': element.attr('id'), 'name': element.attr('name'), 'type': _type(element)},
-
-                    // in order to highlight the row that the element is in
-                    // get the parent element having the "row" class set
-                    parent = element.closest('.row');
+                    attributes = {'id': element.attr('id'), 'name': element.attr('name'), 'type': _type(element)};
 
                 // if element also has the "name" attribute
                 // (some plugins copy the original element's classes and Zebra_Form will falsely belive they are form elements
@@ -193,22 +189,6 @@
                     }).appendTo(element_wrapper);
 
                 }
-
-                // if a parent element having the "row" class exists
-                if (parent.length)
-
-                    // bind these events to the element
-                    element.bind({
-
-                        // when the element receives focus
-                        // add the "highlight" class to the parent element
-                        'focus':    function() { parent.addClass('highlight') },
-
-                        // when the element receives focus
-                        // remove the "highlight" class from the parent element
-                        'blur':     function() { parent.removeClass('highlight') }
-
-                    });
 
                 if (
 
