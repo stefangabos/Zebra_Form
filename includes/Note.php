@@ -115,7 +115,7 @@ class Zebra_Form_Note extends Zebra_Form_Control
 
             array(
 
-                'class'     =>  'note',
+                'class'     =>  Zebra_Form::$template['controls_classes']['note'],
                 'caption'   =>  $caption,
                 'for'       =>  $attach_to,
                 'id'    	=>  $id,

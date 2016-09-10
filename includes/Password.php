@@ -137,7 +137,7 @@ class Zebra_Form_Password extends Zebra_Form_Control
                 'name'      =>  $id,
                 'id'        =>  $id,
                 'value'     =>  $default,
-                'class'     =>  'control password',
+                'class'     =>  Zebra_Form::$template['controls_classes']['password'],
 
 		    )
 

@@ -81,7 +81,7 @@ class Zebra_Form_Textarea extends Zebra_Form_Control
     
         // call the constructor of the parent class
         parent::__construct();
-    
+
         // set the private attributes of this control
         // these attributes are private for this control and are for internal use only
         // and will not be rendered by the _render_attributes() method
@@ -105,7 +105,7 @@ class Zebra_Form_Textarea extends Zebra_Form_Control
                 'id'        =>  $id,
                 'rows'      =>  5,
                 'cols'      =>  '80',           // used only for passing W3C validation
-                'class'     =>  'control',
+                'class'     =>  Zebra_Form::$template['controls_classes']['textarea'],
                 'type'      =>  'textarea',
                 'value'     =>  $default,
 

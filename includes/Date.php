@@ -190,7 +190,7 @@ class Zebra_Form_Date extends Zebra_Form_Control
                 'name'                      =>  $id,
                 'id'                        =>  $id,
                 'value'                     =>  $default,
-                'class'                     =>  'control text date',
+                'class'                     =>  Zebra_Form::$template['controls_classes']['date'],
 
                 'always_visible'            =>  null,
                 'days'                      =>  null,

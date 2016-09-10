@@ -75,7 +75,7 @@ class Zebra_Form_Captcha extends Zebra_Form_Control
 
         // call the constructor of the parent class
         parent::__construct();
-        
+
         // set the private attributes of this control
         // these attributes are private for this control and are for internal use only
         // and will not be rendered by the _render_attributes() method

@@ -183,7 +183,7 @@ class Zebra_Form_Select extends Zebra_Form_Control
 
                 'name'          =>  $id,
                 'id'            =>  str_replace(array('[', ']'), '', $id),
-                'class'         =>  'control',
+                'class'         =>  Zebra_Form::$template['controls_classes']['select'],
                 'options'       =>  array(),
 			    'type'          =>  'select',
                 'value'         =>  $default,

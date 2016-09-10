@@ -97,7 +97,7 @@ class Zebra_Form_Time extends Zebra_Form_Control
     
         // call the constructor of the parent class
         parent::__construct();
-    
+
         // these will hold the default selectable hours, minutes and seconds
         $hours = $minutes = $seconds = array();
 
@@ -135,7 +135,7 @@ class Zebra_Form_Time extends Zebra_Form_Control
                 'name'      =>  $id,
                 'id'        =>  $id,
                 'value'     =>  $default,
-                'class'     =>  'control time',
+                'class'     =>  Zebra_Form::$template['controls_classes']['time'],
                 'format'    =>  'hm',
                 'hours'     =>  $hours,
                 'minutes'   =>  $minutes,
