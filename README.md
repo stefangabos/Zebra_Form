@@ -19,7 +19,7 @@ The client-side validation is done using jQuery 1.5.2+
 
 Zebra\_Form's code is heavily commented and generates no warnings/errors/notices when PHP’s error reporting level is set to E_ALL.
 
-##Features
+## Features
 
 - provides protection against cross-site scripting (XSS) and cross-site request forgery (CSRF) attacks out of the box
 it automatically prevents automated SPAM posts using the “honeypot” technique (CAPTCHAs can also be used for even stronger protection)
@@ -38,7 +38,7 @@ jQuery 1.5.2+
 
 ## How to use
 
-#####The HTML
+##### The HTML
 
 ```html
 <!-- must be in strict mode! -->
@@ -72,7 +72,7 @@ jQuery 1.5.2+
 </html>
 ```
 
-#####The PHP
+##### The PHP
 
 ```php
 <?php
