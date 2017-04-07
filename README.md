@@ -75,8 +75,6 @@ jQuery 1.5.2+
 ##### The PHP
 
 ```php
-<?php
-
 // include the Zebra_Form class
 require 'path/to/Zebra_Form.php';
 
@@ -127,8 +125,6 @@ if ($form->validate()) {
 
 // auto generate output, labels above form elements
 $form->render();
-
-?>
 ```
 
 For demos and more information visit the **[project's homepage](http://stefangabos.ro/php-libraries/zebra-form/)**
