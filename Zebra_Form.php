@@ -27,8 +27,8 @@ define('ZEBRA_FORM_UPLOAD_RANDOM_NAMES', false);
  *  For more resources visit {@link http://stefangabos.ro/}
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @version    2.9.8 (last revision: May 18, 2016)
- *  @copyright  (c) 2006 - 2016 Stefan Gabos
+ *  @version    2.9.8 (last revision: May 22, 2017)
+ *  @copyright  (c) 2006 - 2017 Stefan Gabos
  *  @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU LESSER GENERAL PUBLIC LICENSE
  *  @package    Zebra_Form
  */
@@ -177,7 +177,7 @@ class Zebra_Form
             'action'                    =>  ($action == '' ? $_SERVER['REQUEST_URI'] : $action),
             'assets_server_path'        =>  rtrim(dirname(__FILE__), '\\/') . DIRECTORY_SEPARATOR,
             'assets_url'                =>  rtrim(str_replace('\\', '/', 'http' . (isset($_SERVER['HTTPS']) || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') ? 's' : '') . '://' . rtrim($_SERVER['HTTP_HOST'], '\\/') . '/' . substr(rtrim(dirname(__FILE__), '\\/'), strlen($_SERVER['DOCUMENT_ROOT']))), '\\/') . '/',
-            'attributes'                =>  $attributes,
+            'attributes'                =>  $attributes == '' ? array() : $attributes,
             'auto_fill'                 =>  false,
             'captcha_storage'           =>  'cookie',
             'csrf_cookie_config'        =>  array('path' => '/', 'domain' => '', 'secure' => false, 'httponly' => true),
