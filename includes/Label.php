@@ -144,8 +144,8 @@ class Zebra_Form_Label extends Zebra_Form_Control
 
 			array(
 
-                'for'   =>  $attach_to,
-			    'id'    =>  $id,
+                'for'   => trim(preg_replace(array('/[^a-z0-9\_]/i', '/\s{1,}/'), array('', '_'), $attach_to), ' _'),
+                'id'    => trim(preg_replace(array('/[^a-z0-9\_]/i', '/\s{1,}/'), array('', '_'), $id), ' _'),
                 'label' =>  $caption,
                 'name'  =>  $id,
                 'type'  =>  'label',
@@ -158,7 +158,7 @@ class Zebra_Form_Label extends Zebra_Form_Control
         $this->set_attributes($attributes);
 
     }
-    
+
     /**
      *  Generates the control's HTML code.
      *
@@ -171,13 +171,13 @@ class Zebra_Form_Label extends Zebra_Form_Control
 
         // get private attributes
         $attributes = $this->get_attributes('label');
-        
+
         // if access key needs to be showed
         if (preg_match('/(?<!\\\)\$(.{1})/', $attributes['label'], $matches) > 0) {
-        
+
             // set the requested accesskey
             $this->set_attributes(array('accesskey' => strtolower($matches[1])));
-            
+
             // make the accesskey visible
             $attributes['label'] = preg_replace('/\$(.{1})/', '<span class="underline">$1</span>', $attributes['label']);
 
