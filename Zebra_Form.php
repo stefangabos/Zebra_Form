@@ -27,7 +27,7 @@ define('ZEBRA_FORM_UPLOAD_RANDOM_NAMES', false);
  *  For more resources visit {@link http://stefangabos.ro/}
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @version    2.9.8 (last revision: May 22, 2017)
+ *  @version    2.9.8 (last revision: June 19, 2017)
  *  @copyright  (c) 2006 - 2017 Stefan Gabos
  *  @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU LESSER GENERAL PUBLIC LICENSE
  *  @package    Zebra_Form
@@ -346,7 +346,7 @@ class Zebra_Form
                 foreach ($values as $value => $caption) {
 
                     // sanitize controls' name (remove square brackets)
-                    $sanitize_name = preg_replace('/\[\]$/', '', $name);
+                    $sanitize_name = preg_replace('/[\[\]]/', '', $name);
 
                     // santize the value
                     $value = preg_replace('/\_{1,}/', '_', preg_replace('/[^a-z0-9\_]/i', '_', $value));
@@ -430,7 +430,7 @@ class Zebra_Form
                         // array to easily determine if a master label exists when rendering the form
 
                         // sanitize the control's name
-                        $attributes['name'] = preg_replace('/\[\]$/', '', $attributes['name']);
+                        $attributes['name'] = preg_replace('/[\[\]]/', '', $attributes['name']);
 
                         // if there isn't a master label for the group the current control is part of
                         if (!isset($this->master_labels[$attributes['name']]))
@@ -1228,7 +1228,7 @@ class Zebra_Form
             $attributes = $control->get_attributes(array('type', 'for', 'name', 'id', 'multiple', 'other', 'class', 'default_other', 'disable_zebra_datepicker'));
 
             // sanitize the control's name
-            $attributes['name'] = preg_replace('/\[\]/', '', $attributes['name']);
+            $attributes['name'] = preg_replace('/[\[\]]/', '', $attributes['name']);
 
             // validate the control's name
             switch ($attributes['name']) {
@@ -1598,7 +1598,7 @@ class Zebra_Form
             $attributes = $control->get_attributes(array('type', 'for', 'name', 'label', 'inside'));
 
             // sanitize the control's name
-            $attributes['name'] = preg_replace('/\[\]$/', '', $attributes['name']);
+            $attributes['name'] = preg_replace('/[\[\]]/', '', $attributes['name']);
 
             // if control is a "hidden" control
             if ($attributes['type'] == 'hidden') {
@@ -1650,7 +1650,7 @@ class Zebra_Form
                     $ctrl_attributes = $this->controls[$attributes['for']]->get_attributes(array('name', 'id', 'type'));
 
                     // sanitize the control's name
-                    $ctrl_attributes['name'] = preg_replace('/\[\]$/', '', $ctrl_attributes['name']);
+                    $ctrl_attributes['name'] = preg_replace('/[\[\]]/', '', $ctrl_attributes['name']);
 
                     // if
                     if (
@@ -1826,7 +1826,7 @@ class Zebra_Form
                 if ($attributes['type'] == 'label' && isset($attributes['inside'])) continue;
 
                 // sanitize control's name
-                $attributes['name'] = preg_replace('/\[\]$/', '', $attributes['name']);
+                $attributes['name'] = preg_replace('/[\[\]]/', '', $attributes['name']);
 
                 // if the control is a text box that is to be shown when user selects "other" in a select control
                 if (preg_match('/(.*)' . preg_quote($this->form_properties['other_suffix']) . '$/', $attributes['name'], $matches) > 0)
@@ -1864,7 +1864,7 @@ class Zebra_Form
                             )
 
                                 // save both the "master" parent and, separated by a dot, the actual parent
-                                $parent = preg_replace('/\[\]$/', '', $this->controls[$parent]->attributes['name']) . '.' . $parent;
+                                $parent = preg_replace('/[\[\]]/', '', $this->controls[$parent]->attributes['name']) . '.' . $parent;
 
                             // if control is a label and the parent control doesn't exist (the label is most probably a "master" label)
                             elseif ($attributes['type'] == 'label' && !isset($this->controls[$parent]))
@@ -2494,7 +2494,7 @@ class Zebra_Form
                 $attributes = $control->get_attributes(array('type', 'name', 'value'));
 
                 // sanitize controls' name (remove square brackets)
-                $attributes['name'] = preg_replace('/\[\]$/', '', $attributes['name']);
+                $attributes['name'] = preg_replace('/[\[\]]/', '', $attributes['name']);
 
                 // if we need to select predefined values for specific controls
                 if (isset($this->form_properties['auto_fill'][0][$attributes['name']])) {
@@ -4716,7 +4716,7 @@ class Zebra_Form
             foreach ($this->controls as $control)
 
                 // and if we find the control we're looking for
-                if (preg_replace('/\[\]$/', '', $control->attributes['name']) == $id) {
+                if (preg_replace('/[\[\]]/', '', $control->attributes['name']) == $id) {
 
                     // get the ID of the control
                     $id = $control->attributes['id'];

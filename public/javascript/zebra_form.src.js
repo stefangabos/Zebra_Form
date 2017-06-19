@@ -8,8 +8,8 @@
  *  For more resources visit {@link http://stefangabos.ro/}
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @version    2.9.8 (last revision: June 08, 2016)
- *  @copyright  (c) 2011 - 2016 Stefan Gabos
+ *  @version    2.9.8 (last revision: June 19, 2017)
+ *  @copyright  (c) 2011 - 2017 Stefan Gabos
  *  @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU LESSER GENERAL PUBLIC LICENSE
  *  @package    Zebra_Form
  */
@@ -145,7 +145,7 @@
                 if (undefined != attributes['name'])
 
                     // sanitize element's name by removing square brackets (if available)
-                    attributes['name'] = attributes['name'].replace(/\[\]$/, '');
+                    attributes['name'] = attributes['name'].replace(/[\[\]]/g, '');
 
                 if (
 
@@ -706,7 +706,7 @@
                                                             callback = segments.shift(),
 
                                                             // the additional arguments come next, if any
-                                                            arguments = segments,
+                                                            args = segments,
 
                                                             // the actual conditions are in the first entry of the array
                                                             conditions = conditions[0];
@@ -760,7 +760,7 @@
                                                             try {
 
                                                                 // try to execute the function
-                                                                context[fn].apply(undefined, [result].concat(arguments));
+                                                                context[fn].apply(undefined, [result].concat(args));
 
                                                             // or
                                                             } catch(error) {
@@ -1180,7 +1180,7 @@
             if (undefined != attributes['name']) {
 
                 // sanitize element's name by removing square brackets (if available)
-                attributes['name'] = attributes['name'].replace(/\[\]$/, '');
+                attributes['name'] = attributes['name'].replace(/[\[\]]/g, '');
 
                 // if element has the "time" class, we assume it is part of a time picker
                 // as all elements are treated as one single element, we have to remove the prefixes
@@ -1545,7 +1545,7 @@
                     attributes = {'id': element.attr('id'), 'name': element.attr('name'), 'type': _type(element)},
 
                     // we'll use this later for associating an error block with the element
-                    id = (attributes['type'] == 'radio' || attributes['type'] == 'checkbox' ? attributes['name'].replace(/\[\]$/, '') : attributes['id']);
+                    id = (attributes['type'] == 'radio' || attributes['type'] == 'checkbox' ? attributes['name'].replace(/[\[\]]/g, '') : attributes['id']);
 
                 // if element has the "time" class, we assume it is part of a time picker
                 // as all elements are treated as one single element, we have to remove the prefixes
@@ -1768,7 +1768,7 @@
                 control_validation_rules = validation_rules[attributes['id']],
 
                 // we'll use this later for associating an error block with the element
-                id = (attributes['type'] == 'radio' || attributes['type'] == 'checkbox' ? attributes['name'].replace(/\[\]$/, '') : attributes['id']);
+                id = (attributes['type'] == 'radio' || attributes['type'] == 'checkbox' ? attributes['name'].replace(/[\[\]]/g, '') : attributes['id']);
 
             // if element has the "time" class, we assume it is part of a time picker
             // as all elements are treated as one single element, we have to remove the prefixes
@@ -2305,10 +2305,10 @@
                                 case 'text':
                                 case 'textarea':
 
-                                    // if 
+                                    // if
                                     if (
 
-                                        // value is not an empty string 
+                                        // value is not an empty string
                                         $.trim(element.val()) != '' &&
                                         (
 
