@@ -168,7 +168,7 @@ class Zebra_Form
 
         $this->controls = $this->variables = $this->errors = $this->master_labels = array();
 
-        // default filesysyem permissions for uploaded files
+        // default filesystem permissions for uploaded files
         $this->file_upload_permissions = '0755';
 
         // default values for the form's properties
@@ -348,7 +348,7 @@ class Zebra_Form
                     // sanitize controls' name (remove square brackets)
                     $sanitize_name = preg_replace('/[\[\]]/', '', $name);
 
-                    // santize the value
+                    // sanitize the value
                     $value = preg_replace('/\_{1,}/', '_', preg_replace('/[^a-z0-9\_]/i', '_', $value));
 
                     // create control
@@ -631,7 +631,7 @@ class Zebra_Form
      *
      *                                      // auto-fill all fields with random values
      *                                      // except a checkboxes group where we select multiple values
-     *                                      // note that we use "my_checkboxes" insteas of "my_checkboxes[]"
+     *                                      // note that we use "my_checkboxes" instead of "my_checkboxes[]"
      *                                      // (the same goes for "selects" with the "multiple" attribute set)
      *                                      $form->auto_fill(array(
      *                                          'my_checkboxes' =>  array('value_1', 'value_2'),
@@ -2372,7 +2372,7 @@ class Zebra_Form
 
             ) {
 
-                // remove the honeypot and csrf entries so that we don't polute the $_POST array
+                // remove the honeypot and csrf entries so that we don't pollute the $_POST array
                 unset($method[$this->form_properties['honeypot']]);
                 unset($method[$this->form_properties['csrf_token_name']]);
 
@@ -2604,7 +2604,7 @@ class Zebra_Form
                             // get the date control's starting/ending date
                             $limits = $control->_init();
 
-                            // set the value to the first selectabel date
+                            // set the value to the first selectable date
                             $control->set_attributes(array('value' => date($control->attributes['format'], $limits[0] > 0 ? $limits[0] : time())));
 
                         // continue only if the control doesn't have the "regexp" or the "captcha" rule set
@@ -2843,7 +2843,7 @@ class Zebra_Form
 
             ) {
 
-                // we need to make sure that rules are in propper order, the order of priority being "dependencies",
+                // we need to make sure that rules are in proper order, the order of priority being "dependencies",
                 // "required" and "upload"
 
                 // if the upload rule exists
@@ -3841,7 +3841,7 @@ class Zebra_Form
                                 // build the regular expression for validating the time
                                 for ($i = 0; $i < strlen($attribute['format']); $i++) {
 
-                                    // for each characher in the format we use a particular regular expression
+                                    // for each character in the format we use a particular regular expression
                                     switch (strtolower(substr($attribute['format'], $i, 1))) {
 
                                         case 'h':
@@ -4586,7 +4586,7 @@ class Zebra_Form
      *                                          the image will be resized to the exact given width and height and the
      *                                          aspect ratio will be preserved by using on of the following methods:
      *
-     *                                          -   <b>ZEBRA_IMAGE_BOXED</b> - the image will be scalled so that it will
+     *                                          -   <b>ZEBRA_IMAGE_BOXED</b> - the image will be scaled so that it will
      *                                              fit in a box with the given width and height (both width/height will
      *                                              be smaller or equal to the required width/height) and then it will
      *                                              be centered both horizontally and vertically. The blank area will be
@@ -4594,7 +4594,7 @@ class Zebra_Form
      *                                              argument. (the blank area will be filled only if the image is not
      *                                              transparent!)
      *
-     *                                          -   <b>ZEBRA_IMAGE_NOT_BOXED</b> - the image will be scalled so that it
+     *                                          -   <b>ZEBRA_IMAGE_NOT_BOXED</b> - the image will be scaled so that it
      *                                              <i>could</i> fit in a box with the given width and height but will
      *                                              not be enclosed in a box with given width and height. The new width/
      *                                              height will be both smaller or equal to the required width/height
@@ -4843,7 +4843,7 @@ class Zebra_Form
                         // if not all conditions are met, don't check any further
                         if (!$found) { $result = false; break; }
 
-                    // if proxy is not submitted, or proxy's dependendecies are not ok, don't check the other conditions
+                    // if proxy is not submitted, or proxy's dependencies are not ok, don't check the other conditions
                     } else $result = false;
 
                 }
