@@ -169,6 +169,7 @@ class Zebra_Form_Select extends Zebra_Form_Control
             'disable_xss_filters',
             'locked',
             'options',
+			'titles',
             'other',
             'type',
             'value',
@@ -185,6 +186,7 @@ class Zebra_Form_Select extends Zebra_Form_Control
                 'id'            =>  str_replace(array('[', ']'), '', $id),
                 'class'         =>  'control',
                 'options'       =>  array(),
+				'titles'		=>	array(),
 			    'type'          =>  'select',
                 'value'         =>  $default,
                 'default_other' =>  $default_other,
@@ -289,7 +291,7 @@ class Zebra_Form_Select extends Zebra_Form_Control
     {
 
         // get the options of the select control
-        $attributes = $this->get_attributes(array('options', 'value', 'multiple', 'other'));
+        $attributes = $this->get_attributes(array('options', 'value' ,'titles', 'multiple', 'other'));
 
         // if select box is not "multi-select" and the "other" attribute is set
         if (!isset($attributes['multiple']) && isset($attributes['other']))
@@ -305,7 +307,7 @@ class Zebra_Form_Select extends Zebra_Form_Control
             $attributes['options'][$key] = $this->form_properties['language']['select'];
 
         // use a private, recursive method to generate the select's content
-        $optContent = $this->_generate($attributes['options'], $attributes['value']);
+        $optContent = $this->_generate($attributes['options'], $attributes['value'], $attributes['titles']);
 
         // return generated HTML
         return '<select '. $this->_render_attributes() . '>' . $optContent . '</select>';
@@ -319,7 +321,7 @@ class Zebra_Form_Select extends Zebra_Form_Control
      *
      *  @access private
      */
-    private function _generate(&$options, &$selected, $level = 0)
+    private function _generate(&$options, &$selected, &$titles, $level = 0)
     {
 
         $content = '';
@@ -344,8 +346,15 @@ class Zebra_Form_Select extends Zebra_Form_Control
                     </optgroup>
                 ';
 
+				// get titles array for option group, if there is oone
+				if (is_array($titles) && isset($titles[$value]) && is_array($titles[$value])) {
+				  $sub_titles = $titles[$value];
+				} else {
+				  $sub_titles = "";
+				}
+
                 // call the method recursively to generate the output for the children options
-                $content .= $this->_generate($caption, $selected, $level + 1);
+                $content .= $this->_generate($caption, $selected, $sub_titles, $level + 1);
 
             // if entry is a standard option
             } else {
@@ -365,6 +374,12 @@ class Zebra_Form_Select extends Zebra_Form_Control
 
                         // set the appropriate attribute
     					) ? ' selected="selected"' : ''
+
+					) . (
+
+						// if any titles provided
+						(is_array($titles) && isset($titles[$value]))
+						  ? ' title="' . $titles[$value] . '"' : '' 
 
                     ) . '>' .
 
