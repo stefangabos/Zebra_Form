@@ -27,8 +27,8 @@ define('ZEBRA_FORM_UPLOAD_RANDOM_NAMES', false);
  *  For more resources visit {@link http://stefangabos.ro/}
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @version    2.9.8 (last revision: June 19, 2017)
- *  @copyright  (c) 2006 - 2017 Stefan Gabos
+ *  @version    2.9.8 (last revision: September 24, 2018)
+ *  @copyright  (c) 2006 - 2018 Stefan Gabos
  *  @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU LESSER GENERAL PUBLIC LICENSE
  *  @package    Zebra_Form
  */
