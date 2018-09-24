@@ -2791,7 +2791,8 @@ class Zebra_Form
                     case 'radio':
 
                         // if control was submitted
-                        if ($control->submitted_value) {
+                        // (we use the isset() for checkboxes)
+                        if (isset($control->submitted_value) && $control->submitted_value) {
 
                             $values = array();
 
