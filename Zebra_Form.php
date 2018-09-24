@@ -1578,7 +1578,7 @@ class Zebra_Form
         // add a "honeypot" - a text field that we'll use to try and prevent spam-bots
         // this field will be hidden from users and we expect only spam-bots to fill it. if this field will not be empty
         // when submitting the form, we'll consider that the form was submitted by a spam-bot
-        $this->add('text', $this->form_properties['honeypot'], '', array('autocomplete' => 'off'));
+        $this->add('text', $this->form_properties['honeypot'], '', array('autocomplete' => 'off', 'tabindex' => -1));
 
         // if CSRF protection is enabled (is not boolean FALSE)
         if ($this->form_properties['csrf_storage_method'] !== false)
