@@ -2767,7 +2767,7 @@ class Zebra_Form
 
                             // we need to treat all values as strings
                             // or the in_array below will fail in strict mode
-                            array_walk($values, create_function('&$value', '$value = (string)$value;'));
+                            array_walk($values, function(&$value) { $value = (string)$value; } );
 
                             // if an array was submitted and there are values that are not in the list allowable values
                             if (is_array($control->submitted_value) && $control->submitted_value != array_intersect($control->submitted_value, $values))
@@ -3494,7 +3494,7 @@ class Zebra_Form
                                 } else $mime = $_FILES[$attribute['name']]['type'];
 
                                 // get the allowed file types
-                                $allowed_file_types = array_map(create_function('$value', 'return trim($value);'), explode(',', $rule_attributes[0]));
+                                $allowed_file_types = array_map('trim', explode(',', $rule_attributes[0]));
 
                                 // this will contain an array of file types that match for the currently uploaded file's
                                 // mime type
@@ -4491,7 +4491,7 @@ class Zebra_Form
                     if (strpos($items[1], '[') !== false)
 
                         // convert to array
-                        $value = array_diff(array_map(create_function('&$value', 'return trim($value);'), explode(',', str_replace(array('[', ']', '"', '\/'), array('', '', '', '/'), $items[1]))), array(''));
+                        $value = array_diff(array_map('trim', explode(',', str_replace(array('[', ']', '"', '\/'), array('', '', '', '/'), $items[1]))), array(''));
 
                     // if a single mime type is attached
                     else
