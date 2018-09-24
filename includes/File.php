@@ -24,7 +24,7 @@ class Zebra_Form_File extends Zebra_Form_Control
      *
      *  // don't forget to always call this method before rendering the form
      *  if ($form->validate()) {
-     *      
+     *
      *      // all the information about the uploaded file will be
      *      // available in the "file_upload" property
      *      print_r('<pre>');
@@ -81,10 +81,10 @@ class Zebra_Form_File extends Zebra_Form_Control
      */
     function __construct($id, $attributes = '')
     {
-    
+
         // call the constructor of the parent class
         parent::__construct();
-    
+
         // set the private attributes of this control
         // these attributes are private for this control and are for internal use only
         // and will not be rendered by the _render_attributes() method
@@ -99,7 +99,7 @@ class Zebra_Form_File extends Zebra_Form_Control
         // set the default attributes for the text control
         // put them in the order you'd like them rendered
         $this->set_attributes(
-        
+
             array(
 
 		        'type'      =>  'file',
@@ -124,7 +124,7 @@ class Zebra_Form_File extends Zebra_Form_Control
 
         // sets user specified attributes for the control
         $this->set_attributes($attributes);
-        
+
     }
 
     /**
@@ -136,7 +136,7 @@ class Zebra_Form_File extends Zebra_Form_Control
      */
     function toHTML()
     {
-    
+
         // all file upload controls must have the "upload" rule set or we trigger an error
         if (!isset($this->rules['upload'])) _zebra_form_show_error('The control named <strong>"' . $this->attributes['name'] . '"</strong> in form <strong>"' . $this->form_properties['name'] . '"</strong> must have the <em>"upload"</em> rule set', E_USER_ERROR);
 
@@ -150,7 +150,7 @@ class Zebra_Form_File extends Zebra_Form_Control
         elseif (isset($this->rules['filetype']))
 
             // get the array of allowed file extensions
-            $allowed_file_types = array_map(create_function('$value', 'return trim($value);'), explode(',', $this->rules['filetype'][0]));
+            $allowed_file_types = array_map('trim', explode(',', $this->rules['filetype'][0]));
 
         // if file selection should be restricted to certain file types
         if (isset($allowed_file_types)) {
