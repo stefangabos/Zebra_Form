@@ -27,7 +27,7 @@ define('ZEBRA_FORM_UPLOAD_RANDOM_NAMES', false);
  *  For more resources visit {@link http://stefangabos.ro/}
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @version    2.9.8 (last revision: September 24, 2018)
+ *  @version    2.9.8 (last revision: June 04, 2019)
  *  @copyright  (c) 2006 - 2018 Stefan Gabos
  *  @license    http://www.gnu.org/licenses/lgpl-3.0.txt GNU LESSER GENERAL PUBLIC LICENSE
  *  @package    Zebra_Form
@@ -163,7 +163,7 @@ class Zebra_Form
      *
      *  @return void
      */
-    function __construct($name, $method = 'POST', $action = '', $attributes = '')
+    function __construct($name, $method = 'POST', $action = '', $attributes = array())
     {
 
         $this->controls = $this->variables = $this->errors = $this->master_labels = array();
