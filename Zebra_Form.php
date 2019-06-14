@@ -607,7 +607,7 @@ class Zebra_Form
      *  -   unless overridden, the value of controls having the "url" {@link Zebra_Form_Control::set_rule() rule} set will
      *      be in the form of <i>random_text.com</i>, prefixed or not with "http://", depending on the rule's attributes;
      *  -   {@link Zebra_Form_File file upload} controls and controls having the "captcha" or "regexp"
-     *      {@link Zebra_Form_Control::set_rule() rule} set will *not* be autofilled;
+     *      {@link Zebra_Form_Control::set_rule() rule} set will *not* be autofiled;
      *
      *  <samp>This method will produce results *only* if the form has not yet been submitted! Also, this method will fill
      *  elements with random content *only* if the element does not already has a default value! And finally, this method
@@ -1274,7 +1274,7 @@ class Zebra_Form
                     // trigger an error message
                     _zebra_form_show_error('The <strong>age</strong> rule can only be applied to a <strong>date</strong> element', E_USER_ERROR);
 
-                // we need to make sure that rules are in propper order, the order of priority being "dependencies",
+                // we need to make sure that rules are in proper order, the order of priority being "dependencies",
                 // "required" and "upload"
 
                 // if the upload rule exists
@@ -2391,7 +2391,7 @@ class Zebra_Form
                     // validate the control
                     $valid = $this->validate_control($key);
 
-                    // do some extra checkings and cleanup
+                    // do some extra checking and cleanup
                     if (
 
                         //if type is password OR
