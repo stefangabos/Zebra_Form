@@ -81,7 +81,7 @@ class Zebra_Form_Select extends Zebra_Form_Control
      *  // output the form using an automatically generated template
      *  $form->render();
      *  </code>
-     *  
+     *
      *  <samp>By default, for checkboxes, radio buttons and select boxes, the library will prevent the submission of other
      *  values than those declared when creating the form, by triggering the error: "SPAM attempt detected!". Therefore,
      *  if you plan on adding/removing values dynamically, from JavaScript, you will have to call the
@@ -170,6 +170,7 @@ class Zebra_Form_Select extends Zebra_Form_Control
             'locked',
             'options',
             'other',
+            'overwrite',
             'type',
             'value',
 
@@ -255,15 +256,14 @@ class Zebra_Form_Select extends Zebra_Form_Control
                 $options = array('' => $this->form_properties['language']['select']) + $options;
 
             // set the options attribute of the control
-            $this->set_attributes(
+            $this->set_attributes(array(
+                'options'   =>  ($overwrite ? $options : $attributes['options'] + $options),
+			));
 
-				array(
-
-				    'options'   =>  ($overwrite ? $options : $attributes['options'] + $options)
-
-				)
-
-			);
+            // if we overwrite the options, we set a flag so the default "- select -" is not added if $options array is empty
+            $this->set_attributes(array(
+                'overwrite'   =>    $overwrite,
+            ));
 
         // if options are not specified as an array
         } else {
@@ -289,7 +289,7 @@ class Zebra_Form_Select extends Zebra_Form_Control
     {
 
         // get the options of the select control
-        $attributes = $this->get_attributes(array('options', 'value', 'multiple', 'other'));
+        $attributes = $this->get_attributes(array('options', 'value', 'multiple', 'other', 'overwrite'));
 
         // if select box is not "multi-select" and the "other" attribute is set
         if (!isset($attributes['multiple']) && isset($attributes['other']))
@@ -299,7 +299,7 @@ class Zebra_Form_Select extends Zebra_Form_Control
 
         // if the default value, as added when instantiating the object is still there
         // or if no options were specified
-        if (($key = array_search('#replace-with-language#', $attributes['options'])) !== false || empty($attributes['options']))
+        if (($key = array_search('#replace-with-language#', $attributes['options'])) !== false || (!$attributes['overwrite'] && empty($attributes['options'])))
 
             // put the label from the language file
             $attributes['options'][$key] = $this->form_properties['language']['select'];
