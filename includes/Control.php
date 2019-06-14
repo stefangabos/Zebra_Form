@@ -658,7 +658,7 @@ class Zebra_Form_Control extends XSS_Clean
      *
      *  <code>echo (isset($zf_error) ? $zf_error : (isset($error) ? $error : ''));</code>
      *
-     *  <samp>The above code nees to be used only for custom templates, or when the output is generated via callback
+     *  <samp>The above code needs to be used only for custom templates, or when the output is generated via callback
      *  functions! For automatically generated templates it is all taken care for you automatically by the library! Notice
      *  the $zf_error variable which is automatically created by the library if there is a SPAM or a CSRF error! Unless
      *  you use it, these errors will not be visible for the user. Again, remember, we're talking about custom templates,
@@ -714,7 +714,7 @@ class Zebra_Form_Control extends XSS_Clean
      *
      *  -   <i>error_message</i> is the error message to be shown when rule is not obeyed
      *
-     *  Validates if the difference in years between the current date and the date entered in the control is whitin the
+     *  Validates if the difference in years between the current date and the date entered in the control is within the
      *  allowed range
      *
      *  Available for the following controls: {@link Zebra_Form_Text text}
@@ -1029,7 +1029,7 @@ class Zebra_Form_Control extends XSS_Clean
      *  }
      *  </code>
      *
-     *  I also have a "validation.php" "helper" file which contains the PHP functions that do the actual checkings. This
+     *  I also have a "validation.php" "helper" file which contains the PHP functions that do the actual checking. This
      *  file is included both in the page where I create the form (used by the server-side validation) and also by the
      *  file defined by the "url" property of the AJAX object (used for client-side validation). This might look something
      *  like:
@@ -1102,7 +1102,7 @@ class Zebra_Form_Control extends XSS_Clean
      *
      *  -   <i>error_message</i> is the error message to be shown when rule is not obeyed
      *
-     *  Validates if the value is a propper date, formated according to the format set through the
+     *  Validates if the value is a proper date, formated according to the format set through the
      *  {@link Zebra_Form_Date::format() format()} method.
      *
      *  Available only for the {@link Zebra_Form_Date date} control.
@@ -1182,7 +1182,7 @@ class Zebra_Form_Control extends XSS_Clean
      *  value "2"; now, even if B has the value "1", as long as A doesn't have the value "2", control C will not be
      *  validated.
      *
-     *  <samp>The library will terminate exection and will trigger an error message if an infinite loop of dependencies is
+     *  <samp>The library will terminate execution and will trigger an error message if an infinite loop of dependencies is
      *  detected. Also, dependencies on non-existing elements will be ignored. And finally, this rule should only be used
      *  with custom templates.</samp>
      *
@@ -1287,7 +1287,7 @@ class Zebra_Form_Control extends XSS_Clean
      *  // create a variable in the global scope
      *  var my_callback;
      *
-     *  // put your function inside the "doready" event
+     *  // put your function inside the "domready" event
      *  $(document).ready(function() {
      *
      *      // but tied to the variable from the global scope...
@@ -1779,12 +1779,12 @@ class Zebra_Form_Control extends XSS_Clean
      *      arguments are values greater than <b>0</b>, the image will be resized to the exact given width and height
      *      and the aspect ratio will be preserved by using on of the following methods:
      *
-     *  -   <b>ZEBRA_IMAGE_BOXED</b> - the image will be scalled so that it will fit in a box with the given width and
+     *  -   <b>ZEBRA_IMAGE_BOXED</b> - the image will be scaled so that it will fit in a box with the given width and
      *      height (both width/height will be smaller or equal to the required width/height) and then it will be centered
      *      both horizontally and vertically. The blank area will be filled with the color specified by the
      *      <b>background_color</b> argument. (the blank area will be filled only if the image is not transparent!)
      *
-     *  -   <b>ZEBRA_IMAGE_NOT_BOXED</b> - the image will be scalled so that it <i>could</i> fit in a box with the given
+     *  -   <b>ZEBRA_IMAGE_NOT_BOXED</b> - the image will be scaled so that it <i>could</i> fit in a box with the given
      *      width and height but will not be enclosed in a box with given width and height. The new width/height will be
      *      both smaller or equal to the required width/height
      *
@@ -1929,7 +1929,7 @@ class Zebra_Form_Control extends XSS_Clean
      *  <code>/^(http(s)?\:\/\/)?[^\s\.]+\..{2,}/i</code>
      *
      *  Some example URLs that are considered valid by this rule are:
-     *  -   google.com (if the <i>require_protocol</i> attribut is set to FALSE)
+     *  -   google.com (if the <i>require_protocol</i> attribute is set to FALSE)
      *  -   http://google.com
      *  -   http://www.google.com
      *  -   http://www.google.com?foo=bar
