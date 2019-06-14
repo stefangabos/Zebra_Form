@@ -108,7 +108,7 @@ class Zebra_Form_Button extends Zebra_Form_Control
             array(
                 'type'  =>  $type,
                 'name'  =>  $id,
-                'id'    =>  $id,
+                'id'    =>  str_replace(array('[', ']'), '', $id),
                 'value' =>  $caption,
                 'class' =>  'button' . ($type != 'button' ? ' ' . $type : ''),
             )

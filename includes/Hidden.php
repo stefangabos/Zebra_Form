@@ -74,7 +74,7 @@ class Zebra_Form_Hidden extends Zebra_Form_Control
 
                 'type'  =>  'hidden',
                 'name'  =>  $id,
-                'id'    =>  ($id != 'MAX_FILE_SIZE' ? $id : 'mfs_' . rand(0, 100000)),
+                'id'    =>  ($id != 'MAX_FILE_SIZE' ? str_replace(array('[', ']'), '', $id) : 'mfs_' . rand(0, 100000)),
                 'value' =>  $default,
 
             )

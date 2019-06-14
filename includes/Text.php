@@ -114,10 +114,10 @@ class Zebra_Form_Text extends Zebra_Form_Control
      */
     function __construct($id, $default = '', $attributes = '')
     {
-    
+
         // call the constructor of the parent class
         parent::__construct();
-    
+
         // set the private attributes of this control
         // these attributes are private for this control and are for internal use only
         // and will not be rendered by the _render_attributes() method
@@ -132,12 +132,12 @@ class Zebra_Form_Text extends Zebra_Form_Control
         // set the default attributes for the text control
         // put them in the order you'd like them rendered
         $this->set_attributes(
-        
+
             array(
 
 		        'type'      =>  'text',
                 'name'      =>  $id,
-                'id'        =>  $id,
+                'id'        =>  str_replace(array('[', ']'), '', $id),
                 'value'     =>  $default,
                 'class'     =>  'control text',
 
@@ -159,9 +159,9 @@ class Zebra_Form_Text extends Zebra_Form_Control
         // sets user specified attributes for the control
         $this->set_attributes($attributes);
 
-        
+
     }
-    
+
     /**
      *  Generates the control's HTML code.
      *
