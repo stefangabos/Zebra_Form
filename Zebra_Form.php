@@ -517,7 +517,275 @@ class Zebra_Form
             $this->errors[$error_block][] = trim($error_message);
 
     }
+    
+    /**
+     *  Link error message to a spesific field same as clientside validation
+     *
+     *  <code>
+     *  //  create a new form
+     *  $form = new Zebra_Form('my_form');
+     *
+     *  // add a text control to the form
+     *  $obj = $form->add('text', 'my_text');
+     *
+     *  // make the text field required
+     *  $obj->set_rule(
+     *       'required' => array(
+     *          'error',            // variable to add the error message to
+     *          'Field is required' // error message if value doesn't validate
+     *       )
+     *  );
+     *
+     *  // don't forget to always call this method before rendering the form
+     *  if ($form->validate()) {
+     *
+     *      // for the purpose of this example, we will do a custom validation
+     *      // after calling the "validate" method.
+     *      // for custom validations, using the "custom" rule is recommended instead
+     *
+     *      // check if value's is between 1 and 10
+     *      if ((int)$_POST['my_text']) < 1 || (int)$_POST['my_text']) > 10) {
+     *
+     *          $form->add_error_to_field('my_text', 'Value must be an integer between 1 and 10!');
+     *
+     *      } else {
+     *
+     *          // put code here that is to be executed when the form values are ok
+     *
+     *      }
+     *
+     *  }
+     *
+    *  //  Link error message to a spesific field same as clientside validation
+     *  $form->render();
+     *  </code>
+     *
+     *  @param  string  $field_id       The Unique name to identify the control where to attach the error block
+     *  
+     *  @param  string  $error_message  The error message to append to the error block.
+     *
+     *  @return void
+     */
+    function add_error_to_field($field_id,$error_message)
+    {
+		echo "<script type='text/javascript'> 
+				$(document).ready(function(){
+					
+					var plugin = $.Zebra_Form;
+				
+					element = $('#'+'$field_id');
+					
+					parent = element.closest('.row');
+					element.addClass('error')
 
+					// bind these events to the element
+                    element.bind({
+
+                        // when the element receives focus
+                        // add the 'highlight' class to the parent element
+                        'focus':    function() { 
+							parent.addClass('highlight'); 
+
+							if (element.hasClass( 'error' )){
+								build_error();
+							}
+						},
+
+                        'blur':     function() { 
+							parent.removeClass('highlight');
+
+						 	$('.Zebra_Form_error_message').remove();
+
+						 	element.removeClass('error');
+						}
+
+                    });
+					element.change(function() {
+
+						 $('.Zebra_Form_error_message').remove();
+
+						 element.removeClass('error');
+				    });
+					browser = {
+						init: function () {
+							this.name = this.searchString(this.dataBrowser) || '';
+							this.version = this.searchVersion(navigator.userAgent)
+								|| this.searchVersion(navigator.appVersion)
+								|| '';
+						},
+						searchString: function (data) {
+							for (var i=0;i<data.length;i++)	{
+								var dataString = data[i].string;
+								var dataProp = data[i].prop;
+								this.versionSearchString = data[i].versionSearch || data[i].identity;
+								if (dataString) {
+									if (dataString.indexOf(data[i].subString) != -1)
+										return data[i].identity;
+								}
+								else if (dataProp)
+									return data[i].identity;
+							}
+						},
+						searchVersion: function (dataString) {
+							var index = dataString.indexOf(this.versionSearchString);
+							if (index == -1) return;
+							return parseFloat(dataString.substring(index+this.versionSearchString.length+1));
+						},
+						dataBrowser: [
+							{
+								string: navigator.userAgent,
+								subString: 'Firefox',
+								identity: 'firefox'
+							},
+							{
+								string: navigator.userAgent,
+								subString: 'MSIE',
+								identity: 'explorer',
+								versionSearch: 'MSIE'
+							}
+						]
+					}
+					browser.init();
+					
+					element.attr('autofocus','autofocus');
+					
+					if (element.offset().left != 0){
+						element.focus();
+						build_error();
+					}
+					
+
+					function build_error() {
+
+						var element_position = $.extend(element.offset());
+						
+						// find element's 'right'
+						element_position = $.extend(element_position, {'right': Math.floor(element_position.left + element.width())});
+						
+						var validation_rule_message = '$error_message';
+						container = jQuery('<div/>', {
+								'class':    'Zebra_Form_error_message',
+								'id':       'Zebra_Form_error_message_' + '$field_id',
+								'css': {
+									'opacity': 0
+								}
+							}),
+							
+							 message = jQuery('<div/>', {
+							   'class':    'message',
+								'css': {
+									'_width': 'auto'
+								}
+							}).
+							html(validation_rule_message).
+							appendTo(container);
+							
+							var
+	
+							// create the error messages's arrow
+							arrow = jQuery('<div/>', {
+	
+								'class': 'arrow'
+	
+							// add it to the error message
+							}).appendTo(container);
+	
+							// inject the error message into the DOM
+							$('body').append(container);
+							
+							 var
+	
+								// create the close button
+								close = jQuery('<a/>', {
+									'href':     'javascript:void(0)',
+									'class':    'close' + (browser.name == 'explorer' && browser.version == 6 ? '-ie6' : '')
+								}).
+	
+								// all it contains is an 'x'
+								html('x').
+	
+								// add the close button to the error message
+								appendTo(message).
+	
+								// attach the events
+								bind({
+	
+									'click':    function(e) { e.preventDefault(); 
+											element.removeClass('error');
+											container.animate({
+												'opacity':  0
+											},
+											250,
+											function() {
+						
+												// get a reference to the iFrame shim (if any)
+												var shim = container.data('shim');
+						
+												// if an attached iFrame shim exists, remove it from the DOM
+												if (undefined != shim) shim.remove();
+						
+												// remove the container from the DOM
+												container.remove()
+						
+											});
+									},
+									'focus':    function() { $(this).blur() }
+	
+								});
+	
+							var
+	
+							// get container's size
+							container_size = {'x': container.outerWidth(), 'y': container.outerHeight()},
+							
+							// get arrow's size
+							arrow_size = {'x': arrow.outerWidth(), 'y': arrow.outerHeight()},
+	
+							// the 'left' of the container is set based on the 'tips_position' property
+							left = (element_position.left) - (container_size.x / 2);
+	
+							// set the arrow centered horizontally
+							arrow.css('left', (container_size.x / 2) - (arrow_size.x / 2) - 1);
+		
+							// if element is a radio button or a checkbox
+							//if (attributes['type'] == 'radio' || attributes['type'] == 'checkbox')
+		
+								// set the 'left' of the container centered on the radio button/checkbox
+							//    left = element_position.right - (container_size.x / 2) - (element.outerWidth() / 2) + 1;
+		
+							// if 'left' is outside the visible part of the page, adjust it
+							if (left < 0) left = 2;
+		
+							// set left now because this might lead to text wrapping
+							container.css('left', left);
+		
+							// now get the size again
+							container_size = {'x': container.outerWidth(), 'y': container.outerHeight()};
+		
+							// set the container's 'top'
+							var top = (element_position.top - container_size.y + (arrow_size.y / 2) - 1);
+							//console.log(top);
+							// if 'top' is outside the visible part of the page, adjust it
+							if (top < 0) top = 2;
+		
+							// set the final position of the container
+							container.css({
+								'left':     left + 'px',
+								'top':      top + 'px',
+								'height':   (container_size.y - (arrow_size.y / 2)) + 'px'
+							});
+							
+							container.animate({
+								'opacity': .9
+							}, 250);
+							
+							$('html, body').animate({'scrollTop': Math.max(parseInt(container.css('top'), 10) + (parseInt(container.css('height'), 10) / 2) - ($(window).height() / 2), 0)}, 0);
+
+					}
+				});
+			  </script>";	
+
+    }
     /**
      *  Set the server path and URL to the "process.php" and "mimes.json" files.
      *
