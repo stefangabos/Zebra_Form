@@ -186,7 +186,7 @@ class Zebra_Form_Radio extends Zebra_Form_Control
 
 		        'type'  =>  'radio',
                 'name'  =>  $id,
-                'id'    =>  str_replace(array(' ', '[', ']'), array('_', ''), $id) . '_' . str_replace(' ', '_', $value),
+                'id'    =>  str_replace(array(' ', '[', ']'), array('_', ''), $id) . '_' . preg_replace('/[^a-z0-9\_]/i', '_', $value),
                 'value' =>  $value,
                 'class' =>  'control radio',
 

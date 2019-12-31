@@ -177,10 +177,10 @@ class Zebra_Form_Checkbox extends Zebra_Form_Control
      */
     function __construct($id, $value, $attributes = '')
     {
-    
+
         // call the constructor of the parent class
         parent::__construct();
-    
+
         // set the private attributes of this control
         // these attributes are private for this control and are for internal use only
         // and will not be rendered by the _render_attributes() method
@@ -195,19 +195,19 @@ class Zebra_Form_Checkbox extends Zebra_Form_Control
         // set the default attributes for the checkbox control
         // put them in the order you'd like them rendered
         $this->set_attributes(
-        
+
             array(
-            
+
                 'type'  =>  'checkbox',
                 'name'  =>  $id,
-                'id'    =>  str_replace(array(' ', '[', ']'), array('_', ''), $id) . '_' . str_replace(' ', '_', $value),
+                'id'    =>  str_replace(array(' ', '[', ']'), array('_', ''), $id) . '_' . preg_replace('/[^a-z0-9\_]/i', '_', $value),
                 'value' =>  $value,
                 'class' =>  'control checkbox',
 
             )
-            
+
         );
-        
+
         // if "class" is amongst user specified attributes
         if (is_array($attributes) && isset($attributes['class'])) {
 
@@ -221,9 +221,9 @@ class Zebra_Form_Checkbox extends Zebra_Form_Control
 
         // sets user specified attributes for the control
         $this->set_attributes($attributes);
-        
+
     }
-    
+
     /**
      *  Generates the control's HTML code.
      *
@@ -233,7 +233,7 @@ class Zebra_Form_Checkbox extends Zebra_Form_Control
      */
     function toHTML()
     {
-    
+
         return '<input ' . $this->_render_attributes() . ($this->form_properties['doctype'] == 'xhtml' ? '/' : '') . '>';
 
     }
