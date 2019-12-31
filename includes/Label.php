@@ -144,8 +144,8 @@ class Zebra_Form_Label extends Zebra_Form_Control
 
 			array(
 
-                'for'   => trim(preg_replace(array('/[^a-z0-9\_]/i', '/\s{1,}/'), array('', '_'), $attach_to), ' _'),
-                'id'    => trim(preg_replace(array('/[^a-z0-9\_]/i', '/\s{1,}/'), array('', '_'), $id), ' _'),
+                'for'   =>  preg_replace('/[^a-z0-9\_]/i', '_', $attach_to),
+                'id'    =>  preg_replace('/[^a-z0-9\_]/i', '_', $id),
                 'label' =>  $caption,
                 'name'  =>  $id,
                 'type'  =>  'label',
