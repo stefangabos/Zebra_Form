@@ -1129,7 +1129,7 @@ class Zebra_Form_Date extends Zebra_Form_Control
             ) {
 
                 // if an exact starting date was given, use that as a starting date
-                if (isset($tmp_start_date)) $this->first_selectable_date = $tmp_start_date;
+                if (!empty($tmp_start_date)) $this->first_selectable_date = $tmp_start_date;
 
                 // otherwise
                 else
@@ -1138,13 +1138,19 @@ class Zebra_Form_Date extends Zebra_Form_Control
                     $this->first_selectable_date = strtotime('+' . (!is_array($this->attributes['direction']) ? (int)($this->attributes['direction']) : (int)($this->attributes['direction'][0] === true ? 0 : $this->attributes['direction'][0])) . ' day', $system_date);
 
                 // if an exact ending date was given and the date is after the starting date, use that as a ending date
-                if (isset($tmp_end_date) && $tmp_end_date >= $this->first_selectable_date) $this->last_selectable_date = $tmp_end_date;
+                if (!empty($tmp_end_date) && $tmp_end_date >= $this->first_selectable_date) $this->last_selectable_date = $tmp_end_date;
 
                 // if have information about the ending date
-                else if (!isset($tmp_end_date) && $this->attributes['direction'][1] !== false && is_array($this->attributes['direction']))
+                else if (empty($tmp_end_date) && $this->attributes['direction'][1] !== false && is_array($this->attributes['direction']))
 
                     // figure out the ending date
-                    $this->last_selectable_date = strtotime('+' . (int)($this->attributes['direction'][1]) . ' day', $system_date);
+		    if (is_numeric($this->attributes['direction'][0]) && is_numeric($this->attributes['direction'][1]))
+                      $this->last_selectable_date = strtotime('+' . ((int)($this->attributes['direction'][1]) + $this->attributes['direction'][0]). ' day', $system_date);
+                    else
+                      if ($this->_is_format_valid($this->attributes['direction'][0]) && is_numeric($this->attributes['direction'][1]))
+                          $this->last_selectable_date = strtotime('+' . (int)($this->attributes['direction'][1])   . ' day', strtotime($this->attributes['direction'][0]));
+                      else
+                          $this->last_selectable_date = strtotime('+' . (int)($this->attributes['direction'][1]) . ' day', $system_date);
 
             } else if (
 
@@ -1174,18 +1180,24 @@ class Zebra_Form_Date extends Zebra_Form_Control
                 $this->last_selectable_date = strtotime('+' . (!is_array($this->attributes['direction']) ? (int)($this->attributes['direction']) : (int)($this->attributes['direction'][0] === false ? 0 : $this->attributes['direction'][0])) . ' day', $system_date);
 
                 // if an exact starting date was given, and the date is before the ending date, use that as a starting date
-                if (isset($tmp_start_date) && $tmp_start_date < $this->last_selectable_date) $this->first_selectable_date = $tmp_start_date;
+                if (!empty($tmp_start_date) && $tmp_start_date < $this->last_selectable_date) $this->first_selectable_date = $tmp_start_date;
 
                 // if have information about the starting date
-                else if (!isset($tmp_start_date) && is_array($this->attributes['direction']))
+                else if (empty($tmp_start_date) && is_array($this->attributes['direction']))
 
                     // figure out the staring date
-                    $this->first_selectable_date = strtotime('-' . (int)($this->attributes['direction'][1]) . ' day');
+                    if (is_numeric($this->attributes['direction'][0]) && is_numeric($this->attributes['direction'][1]))
+                      $this->first_selectable_date = strtotime('-' . ((int)($this->attributes['direction'][1]) - $this->attributes['direction'][0])  . ' day');
+                    else
+                      if ($this->_is_format_valid($this->attributes['direction'][1]) && is_numeric($this->attributes['direction'][0]))
+                          $this->first_selectable_date = strtotime($this->attributes['direction'][1]);
+                      else
+                          $this->first_selectable_date = strtotime('-' . (int)($this->attributes['direction'][1]) . ' day');
 
             }
 
             // if a first selectable date exists
-            if (isset($this->first_selectable_date)) {
+            if (!empty($this->first_selectable_date)) {
 
                 // extract the date parts
                 $first_selectable_year = date('Y', $this->first_selectable_date);
@@ -1195,7 +1207,7 @@ class Zebra_Form_Date extends Zebra_Form_Control
             }
 
             // if a last selectable date exists
-            if (isset($this->last_selectable_date)) {
+            if (!empty($this->last_selectable_date)) {
 
                 // extract the date parts
                 $last_selectable_year = date('Y', $this->last_selectable_date);
@@ -1205,7 +1217,7 @@ class Zebra_Form_Date extends Zebra_Form_Control
             }
 
             // if a first selectable date exists but is disabled, find the actual first selectable date
-            if (isset($this->first_selectable_date) && $this->_is_disabled($first_selectable_year, $first_selectable_month, $first_selectable_day)) {
+            if (!empty($this->first_selectable_date) && $this->_is_disabled($first_selectable_year, $first_selectable_month, $first_selectable_day)) {
 
                 // loop until we find the first selectable year
                 while ($this->_is_disabled($first_selectable_year)) {
