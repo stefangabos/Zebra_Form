@@ -617,10 +617,20 @@ class Zebra_Form_Control extends XSS_Clean
                 // if the value is to be appended to the already existing one
                 // and there is a value set for the specified attribute
                 // and the values do not represent an array
-                if (!$overwrite && isset($this->attributes[$attribute]) && !is_array($this->attributes[$attribute]))
+                if (!$overwrite && isset($this->attributes[$attribute]) && !is_array($this->attributes[$attribute])) {
+
+					// Check each word individually for duplication
+					// I think we can get away with this since added values are delimted by spaces
+					foreach(preg_split("/\s+/", $value) as $sub_value) {
+
+						// confirm the new value is not already present in the attribute
+						if ( preg_match("/(^|\s)" . $sub_value . "(\s|$)/", $this->attributes[$attribute]) === 0 )
 
                     // append the value
-                    $this->attributes[$attribute] = $this->attributes[$attribute] . ' ' . $value;
+							$this->attributes[$attribute] = $this->attributes[$attribute] . ' ' . $sub_value;
+					}
+
+				}
 
                 // otherwise, add attribute to attributes array
                 else $this->attributes[$attribute] = $value;
