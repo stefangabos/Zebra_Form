@@ -1,124 +1,125 @@
 <?php
 
 /**
- *  Class for button controls.
+ *  Creates `<button>` form elements
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @copyright  (c) 2006 - 2016 Stefan Gabos
- *  @package    Controls
+ *  @copyright  © 2006 - 2022 Stefan Gabos
+ *  @package    Elements
  */
-class Zebra_Form_Button extends Zebra_Form_Control
-{
+class Zebra_Form_Button extends Zebra_Form_Shared {
 
     /**
-     *  Constructor of the class
+     *  Create `<button>` form elements.
      *
-     *  Adds an <button> control to the form.
-     *
-     *  <b>Do not instantiate this class directly! Use the {@link Zebra_Form::add() add()} method instead!</b>
+     *  >   Do not instantiate this class directly!<br>
+     *      Use the {@link Zebra_Form::add() add()} method instead!
      *
      *  <code>
+     *
      *  // create a new form
      *  $form = new Zebra_Form('my_form');
      *
      *  // add a submit button to the form
-     *  $obj = $form->add('button', 'my_button', 'Click me!', 'submit');
+     *  $form->add('button', 'my_button', 'Click me!', 'submit');
      *
-     *  // don't forget to always call this method before rendering the form
+     *  // this method needs to be called before rendering the form
      *  if ($form->validate()) {
-     *      // put code here
+     *
+     *      // do stuff
+     *
      *  }
      *
-     *  // output the form using an automatically generated template
-     *  $form->render();
+     *  // generate the form
+     *  $output = $form->render('my-template', true);
+     *
      *  </code>
      *
-     *  @param  string  $id             Unique name to identify the control in the form.
+     *  @param  string  $id             Unique name to identify the element in the form.
      *
-     *                                  The control's <b>name</b> attribute will be the same as the <b>id</b> attribute!
+     *                                  >   The name must resolve to a valid `PHP` variable. As per PHP documentation, a
+     *                                      valid variable name starts with a letter or underscore, followed by any number
+     *                                      of letters, numbers, or underscores
      *
-     *                                  This is the name to be used when referring to the control's value in the
-     *                                  POST/GET superglobals, after the form is submitted.
+     *                                  The element's `name` attribute will be the same as the `id` attribute (with `[`
+     *                                  and `]` removed, if it is the case).
      *
-     *                                  This is also the name of the variable to be used in custom template files, in
-     *                                  order to display the control.
+     *                                  This is the name to be used for accessing the element's value in {@link https://www.php.net/manual/en/reserved.variables.post.php $_POST} /
+     *                                  {@link https://www.php.net/manual/en/reserved.variables.get.php $_GET}, after the
+     *                                  form is submitted.
+     *
+     *                                  This is also the name of the variable to be used in the template file for
+     *                                  displaying the element.
      *
      *                                  <code>
-     *                                  // in a template file, in order to print the generated HTML
-     *                                  // for a control named "my_button", one would use:
+     *                                  // in a template file, in order to output the element's HTML code
+     *                                  // for an element named "my_button", one would use:
      *                                  echo $my_button;
      *                                  </code>
      *
-     *  @param  string  $caption        Caption of the button control.
+     *  @param  string  $content        Content of the button element.
      *
      *                                  Can be HTML markup.
      *
-     *  @param  string  $type           (Optional) Type of the button: button, submit or reset.
+     *  @param  string  $type           (Optional) Type of the button.
      *
-     *                                  Default is "button".
+     *                                  Valid values are `button`, `submit` and `reset`.
+     *
+     *                                  Default is `button`.
      *
      *  @param  array   $attributes     (Optional) An array of attributes valid for
-     *                                  {@link http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.4 input}
-     *                                  controls (size, readonly, style, etc)
+     *                                  {@link https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button#attributes button}
+     *                                  form elements (like `disabled`, `readonly`, `style`, etc.).
      *
-     *                                  Must be specified as an associative array, in the form of <i>attribute => value</i>.
+     *                                  Must be specified as an associative array, in the form of *attribute => value*.
+     *
      *                                  <code>
      *                                  // setting the "disabled" attribute
-     *                                  $obj = $form->add(
+     *                                  $form->add(
      *                                      'button',
      *                                      'my_button',
      *                                      'Click me!',
      *                                      'submit'  // <- make this a submit button
      *                                      array(
-     *                                          'disabled' => 'disabled'
+     *                                          'disabled'  =>  true,
      *                                      )
      *                                  );
      *                                  </code>
      *
-     *                                  See {@link Zebra_Form_Control::set_attributes() set_attributes()} on how to set
-     *                                  attributes, other than through the constructor.
+     *                                  Attributes may also be set after the form element is created with the
+     *                                  {@link Zebra_Form_Shared::set_attributes() set_attributes()} method.
      *
-     *                                  The following attributes are automatically set when the control is created and
-     *                                  should not be altered manually:<br>
-     *                                  <b>id</b>, <b>name</b>, <b>class</b>
+     *                                  The following attributes are automatically set when the form element is created
+     *                                  and should not be altered manually: `id`, `name`.
      *
      *  @return void
      */
-    function __construct($id, $caption, $type = 'button', $attributes = '')
-    {
+    function __construct($id, $content, $type = 'button', $attributes = '') {
 
         // call the constructor of the parent class
         parent::__construct();
 
-        // set the private attributes of this control
-        // these attributes are private for this control and are for internal use only
-        // and will not be rendered by the _render_attributes() method
+        // set private attributes, for internal use only
+        // (will not be rendered by the _render_attributes() method)
         $this->private_attributes = array(
-
             'disable_xss_filters',
             'locked',
             'value',
-
         );
 
-        // set the default attributes for the button control
-        // put them in the order you'd like them rendered
-        $this->set_attributes(
+        // set the default attributes
+        $this->set_attributes(array(
+            'type'  =>  $type,
+            'name'  =>  $id,
+            'id'    =>  str_replace(array('[', ']'), '', $id),
+            'value' =>  $content,
+            'class' =>  'zebra-form-button' . ($type != 'button' ? ' ' . $type : ''),
+        ));
 
-            array(
-                'type'  =>  $type,
-                'name'  =>  $id,
-                'id'    =>  str_replace(array('[', ']'), '', $id),
-                'value' =>  $caption,
-                'class' =>  'button' . ($type != 'button' ? ' ' . $type : ''),
-            )
-
-        );
-
-        // if "class" is amongst user specified attributes
+        // if "class" is among the user specified attributes
         if (is_array($attributes) && isset($attributes['class'])) {
 
-            // we need to set the "class" attribute like this, so it doesn't overwrite previous values
+            // we need to set the "class" attribute like this, so it doesn't overwrite the default values
             $this->set_attributes(array('class' => $attributes['class']), false);
 
             // make sure we don't set it again below
@@ -126,25 +127,22 @@ class Zebra_Form_Button extends Zebra_Form_Control
 
         }
 
-        // sets user specified attributes for the control
+        // set user specified attributes
         $this->set_attributes($attributes);
 
     }
 
     /**
-     *  Generates the control's HTML code.
+     *  Generates the form element's HTML code.
      *
-     *  <i>This method is automatically called by the {@link Zebra_Form::render() render()} method!</i>
+     *  >   This method is automatically called by the {@link Zebra_Form::render() render()} method.
      *
-     *  @return string  The control's HTML code
+     *  @return string  Returns the form element's generated HTML code.
      */
-    function toHTML()
-    {
+    function toHTML() {
 
         return '<button ' . $this->_render_attributes() . ($this->form_properties['doctype'] == 'xhtml' ? '/' : '') . '>' . $this->attributes['value'] . '</button>';
 
     }
 
 }
-
-?>
