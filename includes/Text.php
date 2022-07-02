@@ -1,149 +1,114 @@
 <?php
 
 /**
- *  Class for text controls.
+ *  Create `<input type="text">` form elements
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @copyright  (c) 2006 - 2016 Stefan Gabos
- *  @package    Controls
+ *  @copyright  © 2006 - 2022 Stefan Gabos
+ *  @package    Elements
  */
-class Zebra_Form_Text extends Zebra_Form_Control
-{
+class Zebra_Form_Text extends Zebra_Form_Shared {
 
     /**
-     *  Adds an <input type="text"> control to the form.
+     *  Create `<input type="text">` form elements.
      *
-     *  <b>Do not instantiate this class directly! Use the {@link Zebra_Form::add() add()} method instead!</b>
+     *  >   Do not instantiate this class directly!<br>
+     *      Use the {@link Zebra_Form::add() add()} method instead!
      *
      *  <code>
+     *
      *  // create a new form
      *  $form = new Zebra_Form('my_form');
      *
-     *  // add a text control to the form
-     *  $obj = $form->add('text', 'my_text');
+     *  // add a label
+     *  $form->add('label', 'label_input', 'my_input', 'Type something');
      *
-     *  // don't forget to always call this method before rendering the form
+     *  // add a text input element to the form
+     *  $element = $form->add('text', 'my_input');
+     *
+     *  // make it required
+     *  $element->set_rule(array(
+     *      'required'  =>  array('error', 'You must type something!'),
+     *  ));
+     *
+     *  // this method needs to be called before rendering the form
      *  if ($form->validate()) {
-     *      // put code here
+     *
+     *      // do stuff
+     *
      *  }
      *
-     *  // output the form using an automatically generated template
-     *  $form->render();
+     *  // generate and render the form
+     *  $output = $form->render('my-template', true);
+     *
      *  </code>
      *
-     *  @param  string  $id             Unique name to identify the control in the form.
+     *  @param  string  $id             Unique name to identify the element in the form.
      *
-     *                                  The control's <b>name</b> attribute will be the same as the <b>id</b> attribute!
+     *                                  The element's `name` attribute will be the same as the `id` attribute.
      *
-     *                                  This is the name to be used when referring to the control's value in the
-     *                                  POST/GET superglobals, after the form is submitted.
+     *                                  This is the name to be used for accessing the element's value in {@link https://www.php.net/manual/en/reserved.variables.post.php $_POST} /
+     *                                  {@link https://www.php.net/manual/en/reserved.variables.get.php $_GET}, after the
+     *                                  form is submitted.
      *
-     *                                  This is also the name of the variable to be used in custom template files, in
-     *                                  order to display the control.
+     *                                  This is also the name of the variable to be used in the template file for
+     *                                  displaying the element.
      *
      *                                  <code>
-     *                                  // in a template file, in order to print the generated HTML
-     *                                  // for a control named "my_text", one would use:
-     *                                  echo $my_text;
+     *                                  // in a template file, in order to output the element's HTML code
+     *                                  // for an element named "my_input", one would use:
+     *                                  echo $my_input;
      *                                  </code>
      *
-     *  @param  string  $default        (Optional) Default value of the text box.
+     *  @param  string  $default        (Optional) Default value.
      *
      *  @param  array   $attributes     (Optional) An array of attributes valid for
-     *                                  {@link http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.4 input}
-     *                                  controls (size, readonly, style, etc)
+     *                                  {@link https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text text input}
+     *                                  form elements (like `disabled`, `readonly`, `style`, etc.).
      *
-     *                                  Must be specified as an associative array, in the form of <i>attribute => value</i>.
+     *                                  Must be specified as an associative array, in the form of *attribute => value*.
+     *
      *                                  <code>
-     *                                  // setting the "readonly" attribute
-     *                                  $obj = $form->add(
+     *                                  // setting the "disabled" attribute
+     *                                  $form->add(
      *                                      'text',
-     *                                      'my_text',
+     *                                      'my_input',
      *                                      '',
      *                                      array(
-     *                                          'readonly' => 'readonly'
+     *                                          'disabled' => true
      *                                      )
      *                                  );
      *                                  </code>
      *
-     *                                  There's a special <b>data-prefix</b> attribute that you can use to add <i>uneditable
-     *                                  prefixes</i> to input fields (text, images, or plain HTML), as seen in the image
-     *                                  below. It works by injecting an absolutely positioned element into the DOM, right
-     *                                  after the parent element, and then positioning it on the left side of the parent
-     *                                  element and adjusting the width and the left padding of the parent element, so it
-     *                                  looks like the prefix is part of the parent element.
+     *                                  Attributes may also be set after the form element is created with the
+     *                                  {@link Zebra_Form_Shared::set_attributes() set_attributes()} method.
      *
-     *                                  <i>If the prefix is plain text or HTML code, it will be contained in a <div> tag
-     *                                  having the class </i> <b>Zebra_Form_Input_Prefix</b><i>; if the prefix is a path to an
-     *                                  image, it will be an <img> tag having the class </i> <b>Zebra_Form_Input_Prefix</b><i>.</i>
-     *
-     *                                  <samp>For anything other than plain text, you must use CSS to set the width and
-     *                                  height of the prefix, or it will not be correctly positioned because when the image
-     *                                  is not cached by the browser the code taking care of centering the image will
-     *                                  be executed before the image is loaded by the browser and it will not know the
-     *                                  image's width and height!</samp>
-     *
-     *                                  {@img src=../media/zebra-form-prefix.jpg class=graphic}
-     *
-     *                                  <code>
-     *                                  // add simple text
-     *                                  // style the text through the Zebra_Form_Input_Prefix class
-     *                                  $form->add('text', 'my_text', '', array('data-prefix' => 'http://'));
-     *                                  $form->add('text', 'my_text', '', array('data-prefix' => '(+1 917)'));
-     *
-     *                                  // add images
-     *                                  // set the image's width and height through the img.Zebra_Form_Input_Prefix class
-     *                                  // in your CSS or the image will not be correctly positioned!
-     *                                  $form->add('text', 'my_text', '', array('data-prefix' => 'img:path/to/image'));
-     *
-     *                                  // add html - useful when using sprites
-     *                                  // again, make sure that you set somewhere the width and height of the prefix!
-     *                                  $form->add('text', 'my_text', '', array('data-prefix' => '<div class="sprite image1"></div>'));
-     *                                  $form->add('text', 'my_text', '', array('data-prefix' => '<div class="sprite image2"></div>'));
-     *                                  </code>
-     *
-     *                                  See {@link Zebra_Form_Control::set_attributes() set_attributes()} on how to set
-     *                                  attributes, other than through the constructor.
-     *
-     *                                  The following attributes are automatically set when the control is created and
-     *                                  should not be altered manually:<br>
-     *
-     *                                  <b>type</b>, <b>id</b>, <b>name</b>, <b>value</b>, <b>class</b>
+     *                                  The following attributes are automatically set when the form element is created
+     *                                  and should not be altered manually: `id`, `name`, `type`.
      *
      *  @return void
      */
-    function __construct($id, $default = '', $attributes = '')
-    {
+    function __construct($id, $default = '', $attributes = '') {
 
         // call the constructor of the parent class
         parent::__construct();
 
-        // set the private attributes of this control
-        // these attributes are private for this control and are for internal use only
-        // and will not be rendered by the _render_attributes() method
+        // set private attributes, for internal use only
+        // (will not be rendered by the _render_attributes() method)
         $this->private_attributes = array(
-
             'disable_xss_filters',
             'default_value',
             'locked',
-
         );
 
-        // set the default attributes for the text control
-        // put them in the order you'd like them rendered
-        $this->set_attributes(
-
-            array(
-
-		        'type'      =>  'text',
-                'name'      =>  $id,
-                'id'        =>  str_replace(array('[', ']'), '', $id),
-                'value'     =>  $default,
-                'class'     =>  'control text',
-
-		    )
-
-		);
+        // set the default attributes
+        $this->set_attributes(array(
+            'type'      =>  'text',
+            'name'      =>  $id,
+            'id'        =>  str_replace(array('[', ']'), '', $id),
+            'value'     =>  $default,
+            'class'     =>  'zebraform-control zebraform-text',
+        ));
 
         // if "class" is amongst user specified attributes
         if (is_array($attributes) && isset($attributes['class'])) {
@@ -156,26 +121,23 @@ class Zebra_Form_Text extends Zebra_Form_Control
 
         }
 
-        // sets user specified attributes for the control
+        // set user specified attributes
         $this->set_attributes($attributes);
 
 
     }
 
     /**
-     *  Generates the control's HTML code.
+     *  Generates the form element's HTML code.
      *
-     *  <i>This method is automatically called by the {@link Zebra_Form::render() render()} method!</i>
+     *  >   This method is automatically called by the {@link Zebra_Form::render() render()} method.
      *
-     *  @return string  The control's HTML code
+     *  @return string  Returns the form element's generated HTML code.
      */
-    function toHTML()
-    {
+    function toHTML() {
 
         return '<input ' . $this->_render_attributes() . ($this->form_properties['doctype'] == 'xhtml' ? '/' : '') . '>';
 
     }
 
 }
-
-?>

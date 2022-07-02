@@ -72,7 +72,7 @@ class Zebra_Form_Note extends Zebra_Form_Shared {
      *  @param  string  $content        Content of the note (can be HTML markup)
      *
      *  @param  array   $attributes     (Optional) An array of attributes valid for
-     *                                  {@link https://html.spec.whatwg.org/multipage/grouping-content.html#the-div-element div}
+     *                                  {@link https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div div}
      *                                  elements (like `class` or `style`).
      *
      *                                  Must be specified as an associative array, in the form of *attribute => value*.
