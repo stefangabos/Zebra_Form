@@ -1,62 +1,67 @@
 <?php
 
 /**
- *  Class for submit controls.
+ *  Create `<input type="submit">` form elements
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @copyright  (c) 2006 - 2016 Stefan Gabos
- *  @package    Controls
+ *  @copyright  © 2006 - 2022 Stefan Gabos
+ *  @package    Elements
  */
-class Zebra_Form_Submit extends Zebra_Form_Control
-{
+class Zebra_Form_Submit extends Zebra_Form_Shared {
 
     /**
-     *  Adds an <input type="submit"> control to the form.
+     *  Create `<input type="submit">` form elements.
      *
-     *  <b>Do not instantiate this class directly! Use the {@link Zebra_Form::add() add()} method instead!</b>
+     *  >   Do not instantiate this class directly!<br>
+     *      Use the {@link Zebra_Form::add() add()} method instead!
      *
      *  <code>
      *  // create a new form
      *  $form = new Zebra_Form('my_form');
      *
-     *  // add a submit control to the form
-     *  $obj = $form->add('submit', 'my_submit', 'Submit');
+     *  // add a submit element to the form
+     *  $form->add('submit', 'my_submit', 'Submit');
      *
-     *  // don't forget to always call this method before rendering the form
+     *  // this method needs to be called before rendering the form
      *  if ($form->validate()) {
-     *      // put code here
+     *
+     *      // do stuff
+     *
      *  }
      *
-     *  // output the form using an automatically generated template
-     *  $form->render();
+     *  // generate the form
+     *  $output = $form->render('my-template', true);
+     *
      *  </code>
      *
-     *  @param  string  $id             Unique name to identify the control in the form.
+     *  @param  string  $id             Unique name to identify the element in the form.
      *
-     *                                  The control's <b>name</b> attribute will be the same as the <b>id</b> attribute!
+     *                                  The element's `name` attribute will be the same as the `id` attribute.
      *
-     *                                  This is the name to be used when referring to the control's value in the
-     *                                  POST/GET superglobals, after the form is submitted.
+     *                                  This is the name to be used for accessing the element's value in {@link https://www.php.net/manual/en/reserved.variables.post.php $_POST} /
+     *                                  {@link https://www.php.net/manual/en/reserved.variables.get.php $_GET}, after the
+     *                                  form is submitted.
      *
-     *                                  This is also the name of the variable to be used in custom template files, in
-     *                                  order to display the control.
+     *                                  This is also the name of the variable to be used in the template file for
+     *                                  displaying the element.
      *
      *                                  <code>
-     *                                  // in a template file, in order to print the generated HTML
-     *                                  // for a control named "my_submit", one would use:
+     *                                  // in a template file, in order to output the element's HTML code
+     *                                  // for an element named "my_submit", one would use:
      *                                  echo $my_submit;
      *                                  </code>
      *
-     *  @param  string  $caption        Caption of the submit button control.
+     *  @param  string  $caption        Label of the submit button element.
      *
      *  @param  array   $attributes     (Optional) An array of attributes valid for
-     *                                  {@link http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.4 input}
-     *                                  controls (size, readonly, style, etc)
+     *                                  {@link https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/submit submit input}
+     *                                  form elements (like `disabled`, `readonly`, `style`, etc.).
      *
-     *                                  Must be specified as an associative array, in the form of <i>attribute => value</i>.
+     *                                  Must be specified as an associative array, in the form of *attribute => value*.
+     *
      *                                  <code>
      *                                  // setting the "alt" attribute
-     *                                  $obj = $form->add(
+     *                                  $form->add(
      *                                      'submit',
      *                                      'my_submit',
      *                                      'Submit',
@@ -66,46 +71,34 @@ class Zebra_Form_Submit extends Zebra_Form_Control
      *                                  );
      *                                  </code>
      *
-     *                                  See {@link Zebra_Form_Control::set_attributes() set_attributes()} on how to set
-     *                                  attributes, other than through the constructor.
+     *                                  Attributes may also be set after the form element is created with the
+     *                                  {@link Zebra_Form_Shared::set_attributes() set_attributes()} method.
      *
-     *                                  The following attributes are automatically set when the control is created and
-     *                                  should not be altered manually:<br>
-     *                                  <b>type</b>, <b>id</b>, <b>name</b>, <b>value</b>, <b>class</b>
+     *                                  The following attributes are automatically set when the form element is created
+     *                                  and should not be altered manually: `id`, `name`, `type`.
      *
      *  @return void
      */
-    function __construct($id, $caption, $attributes = '')
-    {
-    
+    function __construct($id, $caption, $attributes = '') {
+
         // call the constructor of the parent class
         parent::__construct();
-        
-        // set the private attributes of this control
-        // these attributes are private for this control and are for internal use only
-        // and will not be rendered by the _render_attributes() method
-        $this->private_attributes = array(
 
+        // set private attributes, for internal use only
+        // (will not be rendered by the _render_attributes() method)
+        $this->private_attributes = array(
             'disable_xss_filters',
             'locked',
-
         );
 
-        // set the default attributes for the submit button control
-        // put them in the order you'd like them rendered
-        $this->set_attributes(
-        
-            array(
-
-		        'type'  =>  'submit',
-                'name'  =>  $id,
-                'id'    =>  $id,
-                'value' =>  $caption,
-                'class' =>  'submit',
-
-		    )
-
-		);
+        // set the default attributes
+        $this->set_attributes(array(
+            'type'  =>  'submit',
+            'name'  =>  $id,
+            'id'    =>  $id,
+            'value' =>  $caption,
+            'class' =>  'zebraform-submit',
+        ));
 
         // if "class" is amongst user specified attributes
         if (is_array($attributes) && isset($attributes['class'])) {
@@ -118,25 +111,22 @@ class Zebra_Form_Submit extends Zebra_Form_Control
 
         }
 
-        // sets user specified attributes for the control
+        // set user specified attributes
         $this->set_attributes($attributes);
 
     }
-    
+
     /**
-     *  Generates the control's HTML code.
+     *  Generates the form element's HTML code.
      *
-     *  <i>This method is automatically called by the {@link Zebra_Form::render() render()} method!</i>
+     *  >   This method is automatically called by the {@link Zebra_Form::render() render()} method.
      *
-     *  @return string  The control's HTML code
+     *  @return string  Returns the form element's generated HTML code.
      */
-    function toHTML()
-    {
+    function toHTML() {
 
         return '<input ' . $this->_render_attributes() . ($this->form_properties['doctype'] == 'xhtml' ? '/' : '') . '>';
 
     }
 
 }
-
-?>

@@ -107,7 +107,7 @@ class Zebra_Form_Text extends Zebra_Form_Shared {
             'name'      =>  $id,
             'id'        =>  str_replace(array('[', ']'), '', $id),
             'value'     =>  $default,
-            'class'     =>  'zebraform-control zebraform-text',
+            'class'     =>  'zebraform-text',
         ));
 
         // if "class" is amongst user specified attributes

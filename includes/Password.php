@@ -107,7 +107,7 @@ class Zebra_Form_Password extends Zebra_Form_Shared {
             'name'      =>  $id,
             'id'        =>  $id,
             'value'     =>  $default,
-            'class'     =>  'control password',
+            'class'     =>  'zebraform-password',
         ));
 
         // if "class" is amongst user specified attributes
