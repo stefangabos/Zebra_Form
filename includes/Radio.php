@@ -1,198 +1,200 @@
 <?php
 
 /**
- *  Class for radio button controls.
+ *  Create `<input type="radio">` form elements
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @copyright  (c) 2006 - 2016 Stefan Gabos
- *  @package    Controls
+ *  @copyright  © 2006 - 2022 Stefan Gabos
+ *  @package    Elements
  */
-class Zebra_Form_Radio extends Zebra_Form_Control
-{
+class Zebra_Form_Radio extends Zebra_Form_Shared {
 
     /**
-     *  Adds an <input type="radio"> control to the form.
+     *  Create `<input type="radio">` form elements.
      *
-     *  <b>Do not instantiate this class directly! Use the {@link Zebra_Form::add() add()} method instead!</b>
+     *  >   Do not instantiate this class directly!<br>
+     *      Use the {@link Zebra_Form::add() add()} method instead!
      *
      *  <code>
      *  // create a new form
      *  $form = new Zebra_Form('my_form');
      *
      *  // single radio button
-     *  $obj = $form->add('radio', 'myradio', 'my_radio_value');
+     *  $form->add('radio', 'my_radio', 'value');
      *
      *  // multiple radio buttons
-     *  // notice that is "radios" instead of "radio"
-     *  // radio buttons' values will be "0", "1" and "2", respectively, and will be available in a custom template like
-     *  // "myradio_0", "myradio_1" and "myradio_2".
-     *  // label controls will be automatically created having the names "label_myradio_0", "label_myradio_1" and
-     *  // "label_myradio_2" (label + underscore + control name + underscore + value with anything else other than
-     *  // letters and numbers replaced with underscores - also, note that multiple consecutive underscores will be
-     *  // replaced by a single one)
-     *  // $obj is a reference to the first radio button
-     *  $obj = $form->add('radios', 'myradio',
+     *  // note that is "radios" instead of "radio"
+     *  // the "value" attribute will be "0", "1" and "2", respectively,
+     *  // and will be available in the template file like
+     *  // "my_radio_0", "my_radio_1" and "my_radio_2".
+     *  // label elements will be automatically created having the names "label_my_radio_0", "label_my_radio_1" and
+     *  // "label_my_radio_2" (the word "label" + underscore + element name + underscore + value, with anything else
+     *  // other than alphanumeric characters replaced with underscores - also, note that multiple consecutive underscores
+     *  // will be replaced by a single one)
+     *  $form->add('radios', 'my_radio',
      *      array(
      *          'Value 1',
      *          'Value 2',
-     *          'Value 3'
+     *          'Value 3',
      *      )
      *  );
      *
-     *  // multiple radio buttons with specific indexes
-     *  // radio buttons' values will be "v1", "v2" and "v3", respectively, and will be available in a custom template
-     *  // like "myradio_v1", "myradio_v2" and "myradio_v3".
-     *  // label controls will be automatically created having the names "label_myradio_v1", "label_myradio_v2" and
-     *  // "label_myradio_v3" (label + underscore + control name + underscore + value with anything else other than
-     *  // letters and numbers replaced with underscores - also, note that multiple consecutive underscores will be
-     *  // replaced by a single one)
-     *  $obj = $form->add('radios', 'myradio',
+     *  // multiple radio buttons with specific value attributes
+     *  // the "value" attribute will be "v1", "v2" and "v3", respectively,
+     *  // and will be available in the template file like
+     *  // "my_radio_v1", "my_radio_v2" and "my_radio_v3".
+     *  // label elements will be automatically created having the names "label_my_radio_v1", "label_my_radio_v2" and
+     *  // "label_my_radio_v3" (the word "label" + underscore + element name + underscore + value, with anything else
+     *  // other than alphanumeric characters replaced with underscores - also, note that multiple consecutive underscores
+     *  // will be replaced by a single one)
+     *  $form->add('radios', 'my_radio',
      *      array(
      *          'v1' => 'Value 1',
      *          'v2' => 'Value 2',
-     *          'v3' => 'Value 3'
+     *          'v3' => 'Value 3',
      *      )
      *  );
      *
-     *  // multiple radio buttons with preselected value
-     *  // "Value 2" will be the preselected value
-     *  // note that for preselecting values you must use the actual indexes of the values, if available, (like
-     *  // in the current example) or the default, zero-based index, otherwise (like in the next example)
-     *  $obj = $form->add('radios', 'myradio',
+     *  // multiple radios with preselected value
+     *  $form->add('radios', 'my_radio',
      *      array(
-     *          'v1'    =>  'Value 1',
-     *          'v2'    =>  'Value 2',
-     *          'v3'    =>  'Value 3'
+     *          'v1' => 'Value 1',
+     *          'v2' => 'Value 2',,
+     *          'v3' => 'Value 3'
      *      ),
-     *      'v2'    // note the index!
+     *      'v2'    // "Value 2" will be preselected
      *  );
      *
-     *  // "Value 2" will be the preselected value.
-     *  // note that for preselecting values you must use the actual indexes of the values, if available, (like
-     *  // in the example above) or the default, zero-based index, otherwise (like in the current example)
-     *  $obj = $form->add('radios', 'myradio',
+     *  // multiple radio buttons with preselected value
+     *  $form->add('radios', 'my_radio',
      *      array(
      *          'Value 1',
      *          'Value 2',
      *          'Value 3'
      *      ),
-     *      1    // note the index!
+     *      1    // "Value 2" will be preselected
+     *  );
+     *
+     *  // multiple radio buttons with multiple preselected values
+     *  $form->add('radios', 'my_radio[]',
+     *      array(
+     *          'v1' => 'Value 1',
+     *          'v2' => 'Value 2',
+     *          'v3' => 'Value 3',
+     *      ),
+     *      array('v2', 'v3')
      *  );
      *
      *  // custom classes (or other attributes) can also be added to all of the elements by specifying a 4th argument;
-     *  // this needs to be specified in the same way as you would by calling {@link set_attributes()} method:
-     *  $obj = $form->add('radios', 'myradio',
+     *  // this needs to be specified in the same way as you would by calling the set_attributes() method:
+     *  $form->add('radios', 'my_radio[]',
      *      array(
-     *          '1' =>  'Value 1',
-     *          '2' =>  'Value 2',
-     *          '3' =>  'Value 3',
+     *          '1' => 'Value 1',
+     *          '2' => 'Value 2',
+     *          '3' => 'Value 3',
      *      ),
      *      '', // no default value
      *      array('class' => 'my_custom_class')
      *  );
      *
-     *  // don't forget to always call this method before rendering the form
+     *  // this method needs to be called before rendering the form
      *  if ($form->validate()) {
-     *      // put code here
+     *
+     *      // do stuff
+     *
      *  }
      *
-     *  // output the form using an automatically generated template
-     *  $form->render();
+     *  // generate the form
+     *  $output = $form->render('my-template', true);
+     *
      *  </code>
      *
-     *  <samp>By default, for checkboxes, radio buttons and select boxes, the library will prevent the submission of other
-     *  values than those declared when creating the form, by triggering the error: "SPAM attempt detected!". Therefore,
-     *  if you plan on adding/removing values dynamically, from JavaScript, you will have to call the
-     *  {@link Zebra_Form_Control::disable_spam_filter() disable_spam_filter()} method to prevent that from happening!</samp>
+     *  >   By default, for {@link Zebra_Form_Checkbox checkboxes}, radio buttons and {@link Zebra_Form_Select select boxes},
+     *      the library will prevent the submission of values other than those declared when creating the elements, by
+     *      triggering a **SPAM attempt detected!** error. Therefore, if you plan on adding/removing values dynamically
+     *      from JavaScript, you will have to call {@link Zebra_Form_Shared::disable_spam_filter() disable_spam_filter()}
+     *      in order to prevent that from happening!
      *
-     *  @param  string  $id             Unique name to identify the control in the form.
+     *  @param  string  $id             Unique name to identify the element in the form.
      *
-     *                                  The control's <b>name</b> attribute will be as indicated by <i>$id</i>
-     *                                  argument while the control's <b>id</b> attribute will be <i>$id</i> followd by an
-     *                                  underscore and followed by <i>$value</i> with all the spaces replaced by
-     *                                  <i>underscores</i>.
+     *                                  >   `$id` needs to be suffixed with square brackets if there are more radio
+     *                                      buttons sharing the same name, so that PHP treats them as an array.
      *
-     *                                  So, if the <i>$id</i> arguments is "my_radio" and the <i>$value</i> argument
-     *                                  is "value 1", the control's <b>id</b> attribute will be <b>my_radio_value_1</b>.
+     *                                  The element's `name` attribute will the same as `$id`, while the element's `id`
+     *                                  attribute will be the value of `$id`, stripped of square brackets (if any), followed
+     *                                  by an underscore and followed by the element's `$value` with any spaces replaced
+     *                                  by *underscores*.
      *
-     *                                  This is the name to be used when referring to the control's value in the
-     *                                  POST/GET superglobals, after the form is submitted.
+     *                                  So, if `$id` is "my_radio" and `$value` is "value 1", the element's `id`
+     *                                  attribute will be `my_radio_value_1`.
      *
-     *                                  This is also the name of the variable to be used in custom template files, in
-     *                                  order to display the control.
+     *                                  This is the name to be used for accessing the element's value in {@link https://www.php.net/manual/en/reserved.variables.post.php $_POST} /
+     *                                  {@link https://www.php.net/manual/en/reserved.variables.get.php $_GET}, after the
+     *                                  form is submitted.
+     *
+     *                                  This is also the name of the variable to be used in the template file for
+     *                                  displaying the element.
      *
      *                                  <code>
-     *                                  // in a template file, in order to print the generated HTML
-     *                                  // for a control named "my_radio" and having the value of "value 1",
+     *                                  // in a template file, in order to output the element's HTML code
+     *                                  // for an element named "my_radio" and having the value of "value 1",
      *                                  // one would use:
      *                                  echo $my_radio_value_1;
      *                                  </code>
      *
-     *                                  <i>Note that when adding the required rule to a group of radio buttons (radio
-     *                                  buttons sharing the same name), it is sufficient to add the rule to the first
-     *                                  radio button!</i>
+     *                                  >   Note that when adding the **"required"** {@link set_rule() rule} to a group
+     *                                      of radio buttons (radio buttons sharing the same name), it is sufficient to
+     *                                      add the rule to the first radio button.
      *
      *  @param  mixed   $value          Value of the radio button.
      *
      *  @param  array   $attributes     (Optional) An array of attributes valid for
-     *                                  {@link http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.4 input}
-     *                                  controls (disabled, readonly, style, etc)
+     *                                  {@link https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/radio radio input}
+     *                                  form elements (like `disabled`, `readonly`, `style`, etc.).
      *
-     *                                  Must be specified as an associative array, in the form of <i>attribute => value</i>.
+     *                                  Must be specified as an associative array, in the form of *attribute => value*.
+     *
      *                                  <code>
      *                                  // setting the "checked" attribute
-     *                                  $obj = $form->add(
+     *                                  $form->add(
      *                                      'radio',
      *                                      'my_radio',
-     *                                      'v1',
+     *                                      'radio_value',
      *                                      array(
-     *                                          'checked' => 'checked'
+     *                                          'checked'  =>  true,
      *                                      )
      *                                  );
      *                                  </code>
      *
-     *                                  See {@link Zebra_Form_Control::set_attributes() set_attributes()} on how to set
-     *                                  attributes, other than through the constructor.
+     *                                  Attributes may also be set after the form element is created with the
+     *                                  {@link Zebra_Form_Shared::set_attributes() set_attributes()} method.
      *
-     *                                  The following attributes are automatically set when the control is created and
-     *                                  should not be altered manually:<br>
-     *
-     *                                  <b>type</b>, <b>id</b>, <b>name</b>, <b>value</b>, <b>class</b>
+     *                                  The following attributes are automatically set when the form element is created
+     *                                  and should not be altered manually: `id`, `name`, `type`, `value`, `class`.
      *
      *  @return void
      */
-    function __construct($id, $value, $attributes = '')
-    {
+    function __construct($id, $value, $attributes = '') {
 
         // call the constructor of the parent class
         parent::__construct();
 
-        // set the private attributes of this control
-        // these attributes are private for this control and are for internal use only
-        // and will not be rendered by the _render_attributes() method
+        // set private attributes, for internal use only
+        // (will not be rendered by the _render_attributes() method)
         $this->private_attributes = array(
-
             'disable_spam_filter',
             'disable_xss_filters',
             'locked',
-
         );
 
-        // set the default attributes for the radio button control
-        // put them in the order you'd like them rendered
-        $this->set_attributes(
-
-            array(
-
-		        'type'  =>  'radio',
-                'name'  =>  $id,
-                'id'    =>  str_replace(array(' ', '[', ']'), array('_', ''), $id) . '_' . preg_replace('/[^a-z0-9\_]/i', '_', $value),
-                'value' =>  $value,
-                'class' =>  'control radio',
-
-		    )
-
-		);
+        // set the default attributes
+        $this->set_attributes(array(
+            'type'  =>  'radio',
+            'name'  =>  $id,
+            'id'    =>  str_replace(array(' ', '[', ']'), array('_', ''), $id) . '_' . preg_replace('/[^a-z0-9\_]/i', '_', $value),
+            'value' =>  $value,
+            'class' =>  'zebraform-control zebraform-radio',
+        ));
 
         // if "class" is amongst user specified attributes
         if (is_array($attributes) && isset($attributes['class'])) {
@@ -205,25 +207,22 @@ class Zebra_Form_Radio extends Zebra_Form_Control
 
         }
 
-        // sets user specified attributes for the control
+        // set user specified attributes
         $this->set_attributes($attributes);
 
     }
 
     /**
-     *  Generates the control's HTML code.
+     *  Generates the form element's HTML code.
      *
-     *  <i>This method is automatically called by the {@link Zebra_Form::render() render()} method!</i>
+     *  >   This method is automatically called by the {@link Zebra_Form::render() render()} method.
      *
-     *  @return string  The control's HTML code
+     *  @return string  Returns the form element's generated HTML code.
      */
-    function toHTML()
-    {
+    function toHTML() {
 
         return '<input ' . $this->_render_attributes() . ($this->form_properties['doctype'] == 'xhtml' ? '/' : '') . '>';
 
     }
 
 }
-
-?>
