@@ -1,132 +1,124 @@
 <?php
 
 /**
- *  Class for notes attached to controls
+ *  Create `notes` (helper texts) for form elements
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @copyright  (c) 2006 - 2016 Stefan Gabos
- *  @package    Controls
+ *  @copyright  © 2006 - 2022 Stefan Gabos
+ *  @package    Elements
  */
-class Zebra_Form_Note extends Zebra_Form_Control
-{
+class Zebra_Form_Note extends Zebra_Form_Shared {
 
     /**
-     *  Adds a "note" to the form, attached to a control.
+     *  Create `notes` for form elements.
      *
-     *  <b>Do not instantiate this class directly! Use the {@link Zebra_Form::add() add()} method instead!</b>
+     *  >   Do not instantiate this class directly!<br>
+     *      Use the {@link Zebra_Form::add() add()} method instead!
+     *
+     *  >   The note will be explicitly associated with the form element it is attached to using the `aria-describedby`
+     *      attribute. This will ensure that assistive technologies such as screen readers will announce this help text when
+     *      the user focuses or enters the control.
      *
      *  <code>
+     *
      *  // create a new form
      *  $form = new Zebra_Form('my_form');
      *
-     *  // add a text control to the form
-     *  $obj = $form->add('text', 'my_text');
+     *  // add a text input to the form
+     *  $obj = $form->add('text', 'my_input');
      *
-     *  // attach a note to the textbox control
-     *  $form->add('note', 'note_my_text', 'my_text', 'Enter some text in the field above');
+     *  // associate a note with the input element
+     *  $form->add('note', 'note_my_input', 'my_input', 'Enter anything in the above input');
      *
-     *  // don't forget to always call this method before rendering the form
+     *  // this method needs to be called before rendering the form
      *  if ($form->validate()) {
-     *      // put code here
+     *
+     *      // do stuff
+     *
      *  }
      *
-     *  // output the form using an automatically generated template
-     *  $form->render();
+     *  // generate and render the form
+     *  $output = $form->render('my-template', true);
+     *
      *  </code>
      *
-     *  @param  string  $id             Unique name to identify the control in the form.
+     *  @param  string  $id             Unique name to identify the element in the form.
      *
-     *                                  This is the name of the variable to be used in the template file, containing
-     *                                  the generated HTML for the control.
+     *                                  This is the name of the variable to be used in the template file for displaying
+     *                                  the element.
      *
      *                                  <code>
-     *                                  // in a template file, in order to print the generated HTML
-     *                                  // for a control named "my_note", one would use:
+     *                                  // in a template file, in order to output the element's HTML code
+     *                                  // for an element named "my_note", one would use:
      *                                  echo $my_note;
      *                                  </code>
      *
-     *  @param  string  $attach_to      The <b>id</b> attribute of the control to attach the note to.
+     *  @param  string  $element        The `id` attribute of the element to attach the note to.
      *
-     *                                  <i>Notice that this must be the "id" attribute of the control you are attaching
-     *                                  the label to, and not the "name" attribute!</i>
+     *                                  >   Note that this must be the `id` attribute of the element you are attaching
+     *                                      the note to and not the `name` attribute!<br><br>
+     *                                      This is important because while most of the elements have identical `id` and
+     *                                      `name` attributes, for {@link Zebra_Form_Checkbox checkboxes},
+     *                                      {@link Zebra_Form_Select select boxes with the `multiple` attribute set} and
+     *                                      {@link Zebra_Form_Radio radio buttons}, this is different.
      *
-     *                                  This is important as while most of the controls have their <b>id</b> attribute
-     *                                  set to the same value as their <b>name</b> attribute, for {@link Zebra_Form_Checkbox checkboxes},
-     *                                  {@link Zebra_Form_Select selects} and {@link Zebra_Form_Radio radio&nbsp;buttons} this
-     *                                  is different.
+     *                                  **Exception to the rule:**
      *
-     *                                  <b>Exception to the rule:</b>
+     *                                  Just like in the case of {@link Zebra_Form_Label labels}, if you want a `master`
+     *                                  note - a note that is attached to a `group` of checkboxes/radio buttons
+     *                                  rather than to individual elements - this attribute must instead refer to the `name`
+     *                                  of the elements (which, for groups of checkboxes/radio buttons, is one and the same).
      *
-     *                                  Just like in the case of {@link Zebra_Form_Label labels}, if you want a <b>master</b>
-     *                                  note, a note that is attached to a <b>group</b> of checkboxes/radio buttons rather than
-     *                                  individual controls, this attribute must instead refer to the <b>name</b> of the
-     *                                  controls (which, for groups of checkboxes/radio buttons, is one and the same). 
-     *
-     *  @param  string  $caption        Content of the note (can be both plain text and/or HTML)
+     *  @param  string  $content        Content of the note (can be HTML markup)
      *
      *  @param  array   $attributes     (Optional) An array of attributes valid for
-     *                                  {@link http://www.w3.org/TR/REC-html40/struct/global.html#h-7.5.4 div}
-     *                                  elements (style, etc)
+     *                                  {@link https://html.spec.whatwg.org/multipage/grouping-content.html#the-div-element div}
+     *                                  elements (like `class` or `style`).
      *
-     *                                  Must be specified as an associative array, in the form of <i>attribute => value</i>.
+     *                                  Must be specified as an associative array, in the form of *attribute => value*.
+     *
      *                                  <code>
-     *                                  // setting the "style" attribute
-     *                                  $obj = $form->add(
+     *                                  // setting inline style
+     *                                  $form->add(
      *                                      'note',
-     *                                      'note_my_text',
-     *                                      'my_text',
+     *                                      'note_my_input',
+     *                                      'my_input',
+     *                                      'I am a note'
      *                                      array(
-     *                                          'style' => 'width:250px'
+     *                                          'style'  =>  'color: red',
      *                                      )
      *                                  );
      *                                  </code>
      *
-     *                                  See {@link Zebra_Form_Control::set_attributes() set_attributes()} on how to set
-     *                                  attributes, other than through the constructor.
-     *
-     *                                  The following attributes are automatically set when the control is created and
-     *                                  should not be altered manually:<br>
-     *                                  <b>class</b>
-     *
      *  @return void
      */
-    function __construct($id, $attach_to, $caption, $attributes = '')
-    {
+    function __construct($id, $element, $content, $attributes = '') {
 
         // call the constructor of the parent class
         parent::__construct();
 
-        // set the private attributes of this control
-        // these attributes are private for this control and are for internal use only
+        // set private attributes, for internal use only
+        // (will not be rendered by the _render_attributes() method)
         $this->private_attributes = array(
-
             'caption',
             'disable_xss_filters',
             'locked',
             'for',
             'name',
             'type',
-
         );
 
+        // set the default attributes
+        $this->set_attributes(array(
+            'class'     =>  'zebraform-note',
+            'caption'   =>  $content,
+            'for'       =>  $element,
+            'id'    	=>  $id,
+            'name'      =>  $id,
+            'type'  	=>  'note',
+        ));
 
-        // set the default attributes for the HTML control
-        $this->set_attributes(
-
-            array(
-
-                'class'     =>  'note',
-                'caption'   =>  $caption,
-                'for'       =>  $attach_to,
-                'id'    	=>  $id,
-                'name'      =>  $id,
-                'type'  	=>  'note',
-
-            )
-
-        );
-
-        // if "class" is amongst user specified attributes
+        // if "class" is among user specified attributes
         if (is_array($attributes) && isset($attributes['class'])) {
 
             // we need to set the "class" attribute like this, so it doesn't overwrite previous values
@@ -137,27 +129,24 @@ class Zebra_Form_Note extends Zebra_Form_Control
 
         }
 
-        // sets user specified attributes for the control
+        // set user specified attributes
         $this->set_attributes($attributes);
 
     }
 
     /**
-     *  Generates the control's HTML code.
+     *  Generates the form element's HTML code.
      *
-     *  <i>This method is automatically called by the {@link Zebra_Form::render() render()} method!</i>
+     *  >   This method is automatically called by the {@link Zebra_Form::render() render()} method.
      *
-     *  @return string  The control's HTML code
+     *  @return string  Returns the form element's generated HTML code.
      */
-    function toHTML()
-    {
+    function toHTML() {
 
         $attributes = $this->get_attributes('caption');
-        
+
         return '<div ' . $this->_render_attributes() . '>' . $attributes['caption'] . '</div>';
 
     }
 
 }
-
-?>
