@@ -1,106 +1,108 @@
 <?php
 
 /**
- *  Class for date controls.
+ *  Create `date` form elements
+ *
+ *  Used datepicker is {@link https://github.com/stefangabos/Zebra_Datepicker Zebra DatePicker}.
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @copyright  (c) 2006 - 2016 Stefan Gabos
- *  @package    Controls
+ *  @copyright  © 2006 - 2022 Stefan Gabos
+ *  @package    Elements
  */
-class Zebra_Form_Date extends Zebra_Form_Control
-{
+class Zebra_Form_Date extends Zebra_Form_Shared {
 
     /**
-     *  Adds a date control to the form.
+     *  Create `date picker` form elements.
      *
-     *  <b>Do not instantiate this class directly! Use the {@link Zebra_Form::add() add()} method instead!</b>
+     *  >   Do not instantiate this class directly!<br>
+     *      Use the {@link Zebra_Form::add() add()} method instead!
      *
-     *  The output of this control will be a {@link Zebra_Form_Text textbox} control with an icon to the right of it.<br>
-     *  Clicking the icon will open an inline JavaScript date picker.<br>
+     *  The output of this element will be a {@link Zebra_Form_Text text input} with a calendar icon.
      *
      *  <code>
      *  // create a new form
      *  $form = new Zebra_Form('my_form');
      *
-     *  // add a date control to the form
-     *  $mydate = $form->add('date', 'my_date', date('Y-m-d'));
+     *  // add a label
+     *  $form->add('label', 'label_my_date', 'my_date', 'Pick a date');
      *
-     *  // you *have* to set the "date" rule
-     *  $mydate->set_rule(array(
+     *  // add a date picker element to the form
+     *  $datepicker = $form->add('date', 'my_date', date('Y-m-d'));
+     *
+     *  // setting the "date" rule is required
+     *  $datepicker->set_rule(array(
      *      'date'  =>  array('error', 'Invalid date specified!'),
      *  ));
      *
-     *  // set the date's format
-     *  $mydate->format('M d, Y');
+     *  // set the date format
+     *  $datepicker->format('M d, Y');
      *
-     *  // don't forget to always call this method before rendering the form
+     *  // this method needs to be called before rendering the form
      *  if ($form->validate()) {
      *
      *      // get the date in YYYY-MM-DD format so you can play with is easily
-     *      $date = $mydate->get_date();
+     *      $date = $datepicker->get_date();
      *
      *  }
      *
-     *  // output the form using an automatically generated template
-     *  $form->render();
+     *  // generate the form
+     *  $output = $form->render('my-template', true);
+     *
      *  </code>
      *
-     *  @param  string  $id             Unique name to identify the control in the form.
+     *  @param  string  $id             Unique name to identify the element in the form.
      *
-     *                                  The control's <b>name</b> attribute will be the same as the <b>id</b> attribute!
+     *                                  The element's `name` attribute will be the same as the `id` attribute.
      *
-     *                                  This is the name to be used when referring to the control's value in the
-     *                                  POST/GET superglobals, after the form is submitted.
+     *                                  This is the name to be used for accessing the element's value in {@link https://www.php.net/manual/en/reserved.variables.post.php $_POST} /
+     *                                  {@link https://www.php.net/manual/en/reserved.variables.get.php $_GET}, after the
+     *                                  form is submitted.
      *
-     *                                  This is also the name of the variable to be used in custom template files, in
-     *                                  order to display the control.
+     *                                  This is also the name of the variable to be used in the template file for
+     *                                  displaying the element.
      *
      *                                  <code>
-     *                                  // in a template file, in order to print the generated HTML
-     *                                  // for a control named "my_date", one would use:
+     *                                  // in a template file, in order to output the element's HTML code
+     *                                  // for an element named "my_date", one would use:
      *                                  echo $my_date;
      *                                  </code>
      *
      *  @param  string  $default        (Optional) Default date, formatted according to {@link format() format}.
      *
      *  @param  array   $attributes     (Optional) An array of attributes valid for
-     *                                  {@link http://www.w3.org/TR/REC-html40/interact/forms.html#h-17.4 input}
-     *                                  controls (size, readonly, style, etc)
+     *                                  {@link https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text text input}
+     *                                  form elements (like `disabled`, `readonly`, `style`, etc.).
      *
-     *                                  Must be specified as an associative array, in the form of <i>attribute => value</i>.
+     *                                  Must be specified as an associative array, in the form of *attribute => value*.
+     *
      *                                  <code>
      *                                  // setting the "readonly" attribute
-     *                                  $obj = $form->add(
+     *                                  $form->add(
      *                                      'date',
      *                                      'my_date',
      *                                      '',
      *                                      array(
-     *                                          'readonly' => 'readonly'
+     *                                          'readonly' => true
      *                                      )
      *                                  );
      *                                  </code>
      *
-     *                                  See {@link Zebra_Form_Control::set_attributes() set_attributes()} on how to set
-     *                                  attributes, other than through the constructor.
+     *                                  Attributes may also be set after the form element is created with the
+     *                                  {@link Zebra_Form_Shared::set_attributes() set_attributes()} method.
      *
-     *                                  The following attributes are automatically set when the control is created and
-     *                                  should not be altered manually:<br>
-     *
-     *                                  <b>type</b>, <b>id</b>, <b>name</b>, <b>value</b>, <b>class</b>
+     *                                  The following attributes are automatically set when the form element is created
+     *                                  and should not be altered manually: `id`, `name`, `type`.
      *
      *  @return void
      */
-    function __construct($id, $default = '', $attributes = '')
-    {
+    function __construct($id, $default = '', $attributes = '') {
 
         // call the constructor of the parent class
         parent::__construct();
 
-        // set the private attributes of this control
-        // these attributes are private for this control and are for internal use only
-        // and will not be rendered by the _render_attributes() method
+        // set private attributes, for internal use only
+        // (will not be rendered by the _render_attributes() method)
         $this->private_attributes = array(
-
             'locked',
             'disable_xss_filters',
             'disable_zebra_datepicker',
@@ -112,21 +114,30 @@ class Zebra_Form_Date extends Zebra_Form_Control
             'days_abbr',
             'default_position',
             'direction',
+            'disable_time_picker',
             'disabled_dates',
+            'enabled_ampm',
             'enabled_dates',
+            'enabled_hours',
+            'enabled_minutes',
+            'enabled_seconds',
+            'fast_navigation',
             'first_day_of_week',
             'format',
             'header_captions',
-            'header_navigation',
             'icon_position',
-            'inside_icon',
+            'icon_margin',
+            'inside',
             'lang_clear_date',
             'months',
             'months_abbr',
+            'navigation',
             'offset',
             'open_icon_only',
+            'open_on_focus',
             'pair',
             'readonly_element',
+            'rtl',
             'show_clear_date',
             'show_icon',
             'show_other_months',
@@ -138,34 +149,43 @@ class Zebra_Form_Date extends Zebra_Form_Control
             'view',
             'weekend_days',
             'zero_pad',
-
         );
 
         // set the javascript attributes of this control
         // these attributes will be used by the JavaScript date picker object
         $this->javascript_attributes = array(
-
             'always_visible',
             'container',
+            'current_date',
             'custom_classes',
             'days',
             'days_abbr',
             'default_position',
             'direction',
+            'disable_time_picker',
             'disabled_dates',
+            'enabled_ampm',
             'enabled_dates',
+            'enabled_hours',
+            'enabled_minutes',
+            'enabled_seconds',
+            'fast_navigation',
             'first_day_of_week',
             'format',
             'header_captions',
-            'header_navigation',
             'icon_position',
-            'inside_icon',
+            'icon_margin',
+            'inside',
             'lang_clear_date',
             'months',
             'months_abbr',
+            'navigation',
+            'open_icon_only',
+            'open_on_focus',
             'offset',
             'pair',
             'readonly_element',
+            'rtl',
             'show_clear_date',
             'show_icon',
             'show_other_months',
@@ -177,52 +197,56 @@ class Zebra_Form_Date extends Zebra_Form_Control
             'view',
             'weekend_days',
             'zero_pad',
-
         );
 
-        // set the default attributes for the text control
-        // put them in the order you'd like them rendered
-        $this->set_attributes(
+        // set the default attributes
+        $this->set_attributes(array(
+            'type'                      =>  'text',
+            'name'                      =>  $id,
+            'id'                        =>  $id,
+            'value'                     =>  $default,
+            'class'                     =>  'zebraform-control zebraform-text zebraform-date',
 
-            array(
-
-                'type'                      =>  'text',
-                'name'                      =>  $id,
-                'id'                        =>  $id,
-                'value'                     =>  $default,
-                'class'                     =>  'control text date',
-
-                'always_visible'            =>  null,
-                'days'                      =>  null,
-                'days_abbr'                 =>  null,
-                'direction'                 =>  null,
-                'disable_zebra_datepicker'  =>  false,
-                'disabled_dates'            =>  null,
-                'enabled_dates'             =>  null,
-                'first_day_of_week'         =>  null,
-                'format'                    =>  'Y-m-d',
-                'header_captions'           =>  null,
-                'header_navigation'         =>  null,
-                'inside_icon'               =>  null,
-                'months'                    =>  null,
-                'months_abbr'               =>  null,
-                'offset'                    =>  null,
-                'pair'                      =>  null,
-                'readonly_element'          =>  null,
-                'show_clear_date'           =>  null,
-                'show_other_months'         =>  null,
-                'show_select_today'         =>  null,
-                'show_week_number'          =>  null,
-                'select_other_months'       =>  null,
-                'start_date'                =>  null,
-                'strict'                    =>  null,
-                'view'                      =>  null,
-                'weekend_days'              =>  null,
-                'zero_pad'                  =>  null,
-
-            )
-
-        );
+            'always_visible'            =>  null,
+            'current_date'              =>  null,
+            'days'                      =>  null,
+            'days_abbr'                 =>  null,
+            'direction'                 =>  null,
+            'disable_time_picker'       =>  null,
+            'disable_zebra_datepicker'  =>  false,
+            'disabled_dates'            =>  null,
+            'enabled_ampm'              =>  null,
+            'enabled_dates'             =>  null,
+            'enabled_hours'             =>  null,
+            'enabled_minutes'           =>  null,
+            'enabled_seconds'           =>  null,
+            'fast_navigation'           =>  null,
+            'first_day_of_week'         =>  null,
+            'format'                    =>  'Y-m-d',
+            'header_captions'           =>  null,
+            'icon_position'             =>  null,
+            'icon_margin'               =>  null,
+            'inside'                    =>  null,
+            'months'                    =>  null,
+            'months_abbr'               =>  null,
+            'navigation'                =>  null,
+            'offset'                    =>  null,
+            'open_icon_only'            =>  null,
+            'open_on_focus'             =>  null,
+            'pair'                      =>  null,
+            'readonly_element'          =>  null,
+            'rtl'                       =>  null,
+            'show_clear_date'           =>  null,
+            'show_other_months'         =>  null,
+            'show_select_today'         =>  null,
+            'show_week_number'          =>  null,
+            'select_other_months'       =>  null,
+            'start_date'                =>  null,
+            'strict'                    =>  null,
+            'view'                      =>  null,
+            'weekend_days'              =>  null,
+            'zero_pad'                  =>  null,
+        ));
 
         // if "class" is amongst user specified attributes
         if (is_array($attributes) && isset($attributes['class'])) {
@@ -235,7 +259,7 @@ class Zebra_Form_Date extends Zebra_Form_Control
 
         }
 
-        // sets user specified attributes for the control
+        // set user specified attributes
         $this->set_attributes($attributes);
 
     }
@@ -243,68 +267,97 @@ class Zebra_Form_Date extends Zebra_Form_Control
     /**
      *  Should the date picker be always visible?
      *
-     *  Setting this property to a jQuery element will result in the date picker being always visible, the indicated
-     *  element acting as the date picker's container;
+     *  Setting this property to a `jQuery selector` will result in the date picker being always visible, the indicated
+     *  element acting as the date picker's container.
      *
-     *  Note that when this property is set to TRUE, the {@link always_show_clear()} will be automatically set to TRUE.
+     *  Setting this property to boolean `true` will result in the date picker not closing when selecting a date, but
+     *  only when the user clicks outside the date picker.
      *
      *  <code>
-     *  $date = $form->add('date', 'my_date');
+     *  $datepicker = $form->add('date', 'my_date');
      *
      *  // an element having the ID "container"
      *  // will be the date picker's container
-     *  $date->always_visible('$("#container")');
+     *  $datepicker->always_visible('$("#container")');
      *  </code>
      *
-     *  @param  string  $element    A jQuery selector pointing to an existing element from the page to be used as the
+     *  @param  mixed   $selector   A `jQuery selector` pointing to an existing element from the page to be used as the
      *                              date picker's container.
+     *
+     *                              May also be a boolean `true` resulting in the date picker not closing when selecting
+     *                              a date, but only when the user clicks outside the date picker.
+     *
+     *                              Default is `false`.
      *
      *  @return void
      */
-    function always_visible($element)
-    {
+    function always_visible($selector = false) {
 
         // set the date picker's attribute
-        $this->set_attributes(array('always_visible' => $element));
+        $this->set_attributes(array('always_visible' => $selector));
 
     }
 
     /**
-     *  Use this method to instruct the library to open a date picker inside a specific element - useful when you want
-     *  the date picker to open at a specific position.
+     *  By default, the date picker is injected into the document's `<body>` element. Use this property to tell the
+     *  library to inject the date picker into a custom element - useful when you want the date picker to open at a
+     *  specific position.
      *
      *  <code>
-     *  $date = $form->add('date', 'my_date');
+     *  $datepicker = $form->add('date', 'my_date');
      *
      *  // the date picker will open inside this element
-     *  $date->container('$("#container")');
+     *  $datepicker->container('$("#container")');
      *  </code>
      *
-     *  @param  string  $element    A jQuery selector pointing to an existing element from the page to be used as the
+     *  @param  string  $selector   A `jQuery selector` pointing to an existing element from the page to be used as the
      *                              date picker's container.
      *
-     *  By default, all date pickers are placed at the end of the <body> element
+     *                              Default is `$('body')`.
      *
      *  @since 2.9.8
      *
      *  @return void
      */
-    function container($element)
-    {
+    function container($selector) {
 
         // set the date picker's attribute
-        $this->set_attributes(array('container' => $element));
+        $this->set_attributes(array('container' => $selector));
 
     }
 
     /**
-     *  Dates that should have custom classes applied to them.
+     *  By default, the current date (the value of *Today*) is taken from the system where the date picker is run on.<br>
+     *  Set this to a date in the format of `YYYY-MM-DD` to use a different date.
      *
      *  <code>
-     *  $date = $form->add('date', 'my_date');
+     *  $datepicker = $form->add('date', 'my_date');
+     *
+     *  // custom value of "today"
+     *  $datepicker->current_date('2021-06-28');
+     *  </code>
+     *
+     *  @param  string  $date       A date in `YYYY-MM-DD` format.
+     *
+     *  @since 2.10.0
+     *
+     *  @return void
+     */
+    function current_date($date) {
+
+        // set the date picker's attribute
+        $this->set_attributes(array('current_date' => $date));
+
+    }
+
+    /**
+     *  List of dates that should have custom classes applied to them.
+     *
+     *  <code>
+     *  $datepicker = $form->add('date', 'my_date');
      *
      *  // apply "myclass1" custom class to the first day, of every month, of every year
-     *  $date->custom_classes(array(
+     *  $datepicker->custom_classes(array(
      *      'myclass1'  =>  array('01 * *'),
      *  ));
      *  </code>
@@ -313,17 +366,18 @@ class Zebra_Form_Date extends Zebra_Form_Control
      *
      *                                  <code>
      *                                  array(
-     *                                      'myclass1': array(dates_to_apply_myclass1_to),
-     *                                      'myclass2': array(dates_to_apply_myclass2_to),
+     *                                      'myclass1'  =>  array(dates_to_apply_myclass1_to),
+     *                                      'myclass2'  =>  array(dates_to_apply_myclass2_to),
      *                                  )
      *                                  </code>
      *
-     *                                  ...where "dates_to_apply_myclassx_to" is an array of dates in the same format as
-     *                                  required for {@link disabled_dates} property.
+     *                                  ...where `dates_to_apply_the_custom_class_to` is an array of dates in the same
+     *                                  format as required by {@link disabled_dates}.
      *
-     *                                  Custom classes will be applied <b>only</b> in the day picker view and not on
-     *                                  month/year views! Also note that the class name will have the “_disabled” suffix
-     *                                  added if the day the class is applied to is disabled.
+     *                                  >   Custom classes will be applied **only in the day picker view** and not on
+     *                                      month/year views!<br><br>
+     *                                      The class name will have the `_disabled` suffix added if the day the class
+     *                                      is applied to is disabled.
      *
      *                                  In order for the styles in your custom classes to be applied, make sure you are
      *                                  using the following syntax:
@@ -333,14 +387,13 @@ class Zebra_Form_Date extends Zebra_Form_Control
      *                                  .Zebra_DatePicker .dp_daypicker td.myclass1_disabled { .. }
      *                                  </code>
      *
-     *                                  Default is FALSE, no custom classes
+     *                                  Default is `false`, no custom classes
      *
      *  @since 2.9.8
      *
      *  @return void
      */
-    function custom_classes($custom_classes)
-    {
+    function custom_classes($custom_classes) {
 
         // set the date picker's attribute
         $this->set_attributes(array('custom_classes' => $custom_classes));
@@ -353,27 +406,26 @@ class Zebra_Form_Date extends Zebra_Form_Control
      *  Note that, regardless of this setting, the date picker's position will be automatically adjusted to fit in the
      *  view port, if needed.
      *
-     *  <i>This property will be ignored if {@link always_visible} or {@link container} properties are set</i>
+     *  >   This property will be ignored if {@link always_visible} or {@link container} properties are set.
      *
      *  <code>
-     *  $date = $form->add('date', 'my_date');
+     *  $datepicker = $form->add('date', 'my_date');
      *
      *  // the date picker will open *below* the element is attached to
-     *  $date->default_position('below');
+     *  $datepicker->default_position('below');
      *  </code>
      *
      *  @param  string  $position   The position of the date picker relative to the element it is attached to.
      *
-     *                              Possible values are "above" and "below".
+     *                              Possible values are `above` and `below`.
      *
-     *                              Default is "above"
+     *                              Default is `above`.
      *
      *  @since 2.9.8
      *
      *  @return void
      */
-    function default_position($position)
-    {
+    function default_position($position = 'above') {
 
         // set the date picker's attribute
         $this->set_attributes(array('default_position' => $position));
@@ -384,63 +436,66 @@ class Zebra_Form_Date extends Zebra_Form_Control
      *  Direction of the calendar.
      *
      *  <code>
-     *  $obj = $form->add('date', 'mydate')
+     *  $datepicker = $form->add('date', 'datepicker')
      *
-     *  // calendar starts tomorrow and seven days after that are selectable
-     *  $obj->direction(array(1, 7));
+     *  // calendar starts tomorrow and ends seven days after that
+     *  $datepicker = direction(array(1, 7));
      *
-     *  // calendar starts today and seven days after that are selectable
-     *  $obj->direction(array(true, 7));
+     *  // calendar starts on the *reference date* and ends seven days after that
+     *  $datepicker->direction(array(true, 7));
      *
      *  // calendar starts on January 1st 2013 and has no ending date
      *  // (assuming "format" is YYYY-MM-DD)
-     *  $obj->direction(array('2013-01-01', false));
+     *  $datepicker->direction(array('2013-01-01', false));
      *
-     *  // calendar ends today and starts on January 1st 2012
+     *  // calendar ends on the *reference date* and starts on January 1st 2022
      *  // assuming "format" is YYYY-MM-DD)
-     *  $obj->direction(array(false, '2012-01-01'));
+     *  $datepicker->direction(array(false, '2022-01-01'));
      *  </code>
      *
      *  @param  mixed   $direction      A positive or negative integer:
      *
-     *                                  -   n (a positive integer) creates a future-only calendar beginning at n days
-     *                                      after today;
+     *                                  -   `n` (a positive integer) creates a future-only calendar beginning at n days
+     *                                      after the reference date
      *
-     *                                  -   -n (a negative integer) creates a past-only calendar ending at n days
-     *                                      before today;
+     *                                  -   `-n` (a negative integer) creates a past-only calendar ending at n days
+     *                                      before the reference
      *
-     *                                  -   if n is 0, the calendar has no restrictions.
+     *                                  -   `0` creates a calendar with no restrictions
      *
-     *                                  Use boolean TRUE for a future-only calendar starting with today and use boolean
-     *                                  FALSE for a past-only calendar ending today.
+     *                                  -   boolean `TRUE` creates a future-only calendar starting with the reference date
+     *
+     *                                  -   boolean `FALSE` for a past-only calendar ending on the reference date
      *
      *                                  You may also set this property to an array with two elements in the following
      *                                  combinations:
      *
-     *                                  -   first item is boolean TRUE (calendar starts today), an integer > 0 (calendar
-     *                                      starts n days after today), or a valid date given in the format defined by
-     *                                      the "format" attribute (calendar starts at the specified date), and the second
-     *                                      item is boolean FALSE (the calendar has no ending date), an integer > 0 (calendar
-     *                                      ends n days after the starting date), or a valid date given in the format
-     *                                      defined by the "format" attribute and which occurs after the starting date
-     *                                      (calendar ends at the specified date)
+     *                                  -   first item is boolean `TRUE` (calendar starts on the reference date), a
+     *                                      `positive integer` (calendar starts n days after the reference date), or a
+     *                                      `valid date` given in the format defined by {@link format} (calendar starts
+     *                                      at the specified date), and the second item is boolean `FALSE` (the calendar
+     *                                      has no ending date), a `positive integer` (calendar ends n days after the
+     *                                      starting date), or a `valid date` defined by {@link format} and which occurs
+     *                                      after the starting date (calendar ends at the specified date)
      *
-     *                                  -   first item is boolean FALSE (calendar ends today), an integer < 0 (calendar
-     *                                      ends n days before today), or a valid date given in the format defined by the
-     *                                      "format" attribute (calendar ends at the specified date), and the second item
-     *                                      is an integer > 0 (calendar ends n days before the ending date), or a valid
-     *                                      date given in the format defined by the "format" attribute and which occurs
+     *                                  -   first item is boolean `FALSE` (calendar ends on the reference date), a
+     *                                      `negative integer` (calendar ends n days before the reference date), or a
+     *                                      `valid date` given by {@link format} (calendar ends at the specified date),
+     *                                      and the second item is a `positive integer` (calendar ends n days before the
+     *                                      ending date), or a `valid date` given by {@link format} and which occurs
      *                                      before the starting date (calendar starts at the specified date)
      *
+     *                                  Note that {@link disabled_dates} will still apply!
      *
-     *                                  Note that {@link disabled_dates()} will still apply!
+     *                                  >   The `reference date` is the current date unless the date picker is the
+     *                                      {@link pair} of another date picker, case in which the reference date is the
+     *                                      date selected in that date picker.
      *
-     *                                  Default is 0 (no restrictions).
+     *                                  Default is `0` (no restrictions).
      *
      *  @return void
      */
-    function direction($direction)
-    {
+    function direction($direction = 0) {
 
         // set the date picker's attribute
         $this->set_attributes(array('direction' => $direction));
@@ -451,39 +506,38 @@ class Zebra_Form_Date extends Zebra_Form_Control
      *  Disables selection of specific dates or range of dates in the calendar.
      *
      *  <code>
-     *  $obj = $form->add('date', 'mydate')
+     *  $datepicker = $form->add('date', 'datepicker')
      *
-     *  // disable January 1, 2012
-     *  $obj->disabled_dates(array('1 1 2012'));
+     *  // disable January 1, 2022
+     *  $datepicker->disabled_dates(array('1 1 2022'));
      *
-     *  // disable all days in January 2012
-     *  $obj->disabled_dates(array('* 1 2012'));
+     *  // disable all days in January 2022
+     *  $datepicker->disabled_dates(array('* 1 2022'));
      *
-     *  // disable January 1 through 10 in 2012
-     *  $obj->disabled_dates(array('1-10 1 2012'));
+     *  // disable January 1 through 10 in 2022
+     *  $datepicker->disabled_dates(array('1-10 1 2022'));
      *
-     *  // disable January 1 and 10 in 2012
-     *  $obj->disabled_dates(array('1,10 1 2012'));
+     *  // disable January 1 and 10 in 2022
+     *  $datepicker->disabled_dates(array('1,10 1 2022'));
      *
      *  // disable 1 through 10, and then 20th, 22nd and 24th
      *  // of January through March for every year
-     *  $obj->disabled_dates(array('1-10,20,22,24 1-3 *'));
+     *  $datepicker->disabled_dates(array('1-10,20,22,24 1-3 *'));
      *
      *  // disable all Saturdays and Sundays
-     *  $obj->disabled_dates(array('* * * 0,6'));
+     *  $datepicker->disabled_dates(array('* * * 0,6'));
      *
-     *  // disable 1st and 2nd of July 2012,
-     *  // and all of August of 2012;
-     *  $obj->disabled_dates(array('01 07 2012', '02 07 2012', '* 08 2012'));
+     *  // disable 1st and 2nd of July 2022,
+     *  // and all of August of 2022;
+     *  $datepicker->disabled_dates(array('01 07 2022', '02 07 2022', '* 08 2022'));
      *  </code>
      *
-     *  @param  array   $disabled_dates     An array of strings representing disabled dates. Values in the string have
-     *                                      to be in the following format: "day month year weekday" where "weekday" is
-     *                                      optional and can be 0-6 (Saturday to Sunday); The syntax is similar to
-     *                                      cron's syntax: the values are separated by spaces and may contain * (asterisk)
-     *                                      -&nbsp;(dash) and , (comma) delimiters.
+     *  @param  array   $disabled_dates     An array of disabled dates in the following format:<br>
+     *                                      `day month year weekday` where *weekday* is optional and can be a value from
+     *                                      `0` to `6` (Saturday to Sunday).
      *
-     *                                      Default is FALSE, no disabled dates.
+     *                                      The syntax is similar to that of `cron`: the values are separated by spaces
+     *                                      and may contain `*` (asterisk) `-` (dash) and `,` (comma) delimiters.
      *
      *  @return void
      */
@@ -495,16 +549,32 @@ class Zebra_Form_Date extends Zebra_Form_Control
     }
 
     /**
-     *  By default, Zebra_Form relies on {@link http://stefangabos.ro/jquery/zebra-datepicker/ Zebra_DatePicker} for
-     *  {@link Zebra_Form_Date Date} controls. If you want to use a different date picker, you have to disable the
+     *  By default, setting a format that also involves time (`h`, `H`, `g`, `G`, `i`, `s`, `a`, `A`) will automatically
+     *  enable the time picker. If you want to use a format that involves time but you don't want the time picker, set
+     *  this property to `true`.
+     *
+     *  @since  2.10.0
+     *
+     *  @return void
+     */
+    function disable_time_picker() {
+
+        // set the date picker's attribute
+        $this->set_attributes(array('disable_time_picker' => true));
+
+    }
+
+    /**
+     *  By default, this library relies on {@link https://github.com/stefangabos/Zebra_Datepicker Zebra_DatePicker} for
+     *  {@link Zebra_Form_Date date} elements. If you want to use a different date/time picker, you have to disable the
      *  built-in one by calling this method.
      *
-     *  <samp>Make sure the language used by the custom date picker is the same as the {@link language() language} of the
-     *  library, or validation of the date will fail!
+     *  >   Make sure the language used by the custom date picker is the same as the {@link Zebra_Form::language() language}
+     *      used for the library, or validation of the date will fail.
      *
-     *  Also, note that {@link format() format}, {@link direction() direction} and {@link disabled_dates() disabled dates}
-     *  will still apply and will be taken into account when validating the date, but the other properties will be ignored
-     *  as are specific to Zebra_DatePicker!</samp>
+     *  >   Also, note that {@link format}, {@link direction} and {@link disabled_dates} will still apply and will be
+     *      taken into account when validating the date. The other properties will be ignored as these are specific
+     *      to Zebra_DatePicker.
      *
      *  @since  2.8.7
      *
@@ -517,23 +587,48 @@ class Zebra_Form_Date extends Zebra_Form_Control
     }
 
     /**
+     *  An array of selectable value for `am` / `pm`.
+     *
+     *  @param  mixed   $enabled_ampm   An array of selectable am/pm.
+     *
+     *                                  Allowed values are `['am']`, `['pm']`, or `['am', 'pm']`.
+     *
+     *                                  >   Applies only when format contains `A` or `a`. Note that even when only one
+     *                                      is enabled, the `onChange()` event will still be triggered when clicking the
+     *                                      up/down buttons next to AM/PM on the timepicker.
+     *
+     *                                  Default is `false` (both `am` and `pm` are selectable).
+     *
+     *  @since 2.10.0
+     *
+     *  @return void
+     */
+    function enabled_ampm($enabled_ampm = false) {
+
+        // set the date picker's attribute
+        $this->set_attributes(array('enabled_ampm' => $enabled_ampm));
+
+    }
+
+    /**
      *  Enables selection of specific dates or range of dates in the calendar, after dates have been previously disabled
-     *  via {@link disabled_dates()}.
+     *  via {@link disabled_dates}.
      *
-     *  @param  array   $enabled_dates      An array of enabled dates in the same format as required for as argument for
-     *                                      the {@link disabled_dates()} method. To be used together with
-     *                                      {@link disabled_dates()} by first setting "disabled_dates" to something like
-     *                                      array('* * * *') (which will disable everything) and then setting "enabled_dates"
-     *                                      to, say, array('* * * 0,6') to enable just weekends.
+     *  @param  array   $enabled_dates      An array of enabled dates in the same format as required by {@link disabled_dates}.
      *
-     *                                      Default is FALSE, all dates are enabled (unless, specificaly disabled via
-     *                                      {@link disabled_dates()}).
+     *                                      To be used together with {@link disabled_dates} by first setting the {@link disabled_dates}
+     *                                      property to something like `[&#42; &#42; &#42; &#42;]` (which will disable
+     *                                      everything) and then setting the `enabled_dates` property to, say,
+     *                                      `[&#42; &#42; &#42; 0,6]` to enable just weekends.
+     *
+     *                                      Default is `false`, all dates are enabled (unless, explicitly disabled via
+     *                                      {@link disabled_dates}).
      *
      *  @since 2.9.3
      *
      *  @return void
      */
-    function enabled_dates($enabled_dates) {
+    function enabled_dates($enabled_dates = false) {
 
         // set the date picker's attribute
         $this->set_attributes(array('enabled_dates' => $enabled_dates));
@@ -541,16 +636,96 @@ class Zebra_Form_Date extends Zebra_Form_Control
     }
 
     /**
-     *  Week's starting day.
+     *  An array of selectable hours.
      *
-     *  @param  integer $day    Valid values are 0 to 6, Sunday to Saturday.
+     *  >   Applies only when format contains one of the following characters: `H`, `G`, `h`, `g`.
      *
-     *                          Default is 1, Monday.
+     *  @param  mixed   $enabled_hours      Valid values are between `0-24` (not padded with `0`!) when format  contains
+     *                                      `H` or `G` characters, and between `1-12` (not padded with `0`!) when format
+     *                                      contains `h` or `g` characters.
+     *
+     *                                      Default is `false`, all hours are enabled.
+     *
+     *  @since 3.0.0
      *
      *  @return void
      */
-    function first_day_of_week($day)
-    {
+    function enabled_hours($enabled_hours = false) {
+
+        // set the date picker's attribute
+        $this->set_attributes(array('enabled_hours' => $enabled_hours));
+
+    }
+
+    /**
+     *  An array of selectable minutes.
+     *
+     *  >   Applies only when format contains the `i` character.
+     *
+     *  @param  mixed   $enabled_minutes    Valid values are between `0-59` (not padded with `0`!)
+     *
+     *                                      Default is `false`, all minutes are enabled.
+     *
+     *  @since 3.0.0
+     *
+     *  @return void
+     */
+    function enabled_minutes($enabled_minutes = false) {
+
+        // set the date picker's attribute
+        $this->set_attributes(array('enabled_minutes' => $enabled_minutes));
+
+    }
+
+    /**
+     *  An array of selectable seconds.
+     *
+     *  >   Applies only when format contains the `s` character.
+     *
+     *  @param  mixed   $enabled_seconds    Valid values are between `0-59` (not padded with `0`!)
+     *
+     *                                      Default is `false`, all minutes are enabled.
+     *
+     *  @since 3.0.0
+     *
+     *  @return void
+     */
+    function enabled_seconds($enabled_seconds = false) {
+
+        // set the date picker's attribute
+        $this->set_attributes(array('enabled_seconds' => $enabled_seconds));
+
+    }
+
+    /**
+     *  Allows users to quickly navigate through months and years by clicking on the date picker's top label.
+     *
+     *  @param  boolean $enabled            Allows or disallow users to quickly navigate through months and years by
+     *                                      clicking on the date picker's top label.
+     *
+     *                                      Default is `true`.
+     *
+     *  @since 3.0.0
+     *
+     *  @return void
+     */
+    function fast_navigation($enabled = true) {
+
+        // set the date picker's attribute
+        $this->set_attributes(array('fast_navigation' => $enabled));
+
+    }
+
+    /**
+     *  Week's starting day.
+     *
+     *  @param  integer $day    Valid values are `0` to `6` (`Sunday` to `Saturday`).
+     *
+     *                          Default is `1` (`Monday`).
+     *
+     *  @return void
+     */
+    function first_day_of_week($day = '1') {
 
         // set the date picker's attribute
         $this->set_attributes(array('first_day_of_week' => $day));
@@ -562,23 +737,32 @@ class Zebra_Form_Date extends Zebra_Form_Control
      *
      *  @param  string  $format     Format of the returned date.
      *
-     *                              Accepts the following characters for date formatting: d, D, j, l, N, w, S, F, m, M,
-     *                              n, Y, y borrowing syntax from ({@link http://www.php.net/manual/en/function.date.php
-     *                              PHP's date function})
+     *                              Accepts the following characters for date formatting: `d`, `D`, `j`, `l`, `N`, `w`,
+     *                              `S`, `F`, `m`, `M`, `n`, `Y` and `y`, borrowing syntax from ({@link http://www.php.net/manual/en/function.date.php PHP's date function}).
      *
-     *                              Note that when setting a date format without days (‘d’, ‘j’), the users will be able
+     *                              If format property contains time-related characters (`g`, `G`, `h`, `H`, `i`, `s`, `a`, `A`),
+     *                              the time picker will be automatically enabled.
+     *
+     *                              >   If you want to use a format that involves time but you don't want the time picker,
+     *                                  set the {@link disable_time_picker} property to true.
+     *
+     *                              Note that when setting a date format without days (`d`, `j`), the users will be able
      *                              to select only years and months, and when setting a format without months and days
-     *                              (‘F’, ‘m’, ‘M’, ‘n’, ‘t’, ‘d’, ‘j’), the users will be able to select only years.
+     *                              (`F`, `m`, `M`, `n`, `t`, `d`, `j`), the users will be able to select only years.
      *
-     *                              Also note that the value of the "view" property (see below) may be overridden if it
-     *                              is the case: a value of "days" for the "view" property makes no sense if the date
-     *                              format doesn’t allow the selection of days.
+     *                              >   Setting a time format containing `a` or `A` (12-hour format) but using `H` or `G`
+     *                                  as the hour's format will result in the hour's format being automatically changed
+     *                                  to `h` or `g`, respectively.
      *
-     *                              Default format is <b>Y-m-d</b>
+     *                              Also note that the value of {@link view} may be overridden if it is the case: a value
+     *                              of `days` for the `view` property makes no sense if the date format doesn't allow the
+     *                              selection of days.
+     *
+     *                              Default format is `Y-m-d`
      *
      *  @return void
      */
-    function format($format) {
+    function format($format = 'Y-m-d') {
 
         // set the date picker's attribute
         $this->set_attributes(array('format' => $format));
@@ -586,16 +770,15 @@ class Zebra_Form_Date extends Zebra_Form_Control
     }
 
     /**
-     *  <b>To be used after the form is submitted!</b>
+     *  >   To be used after the form is submitted!
      *
-     *  Returns submitted date in the YYYY-MM-DD format so that it's directly usable with a database engine or with
+     *  Returns submitted date in the `YYYY-MM-DD` format so that it's directly usable with a database engine or with
      *  PHP's {@link http://php.net/manual/en/function.strtotime.php strtotime} function.
      *
-     *  @return string  Returns submitted date in the YYYY-MM-DD format, or <b>an empty string</b> if control was
-     *                  submitted with no value (empty).
+     *  @return string  Returns submitted date in the `YYYY-MM-DD` format, or *an empty string* if control was submitted
+     *                  with no value (empty).
      */
-    function get_date()
-    {
+    function get_date() {
 
         $result = $this->get_attributes('date');
 
@@ -605,19 +788,7 @@ class Zebra_Form_Date extends Zebra_Form_Control
     }
 
     /**
-     *  Captions in the datepicker's header, for the 3 possible views: days, months, years.
-     *
-     *  For each of the 3 views the following special characters may be used borrowing from PHP's "date" function's
-     *  syntax: m, n, F, M, y and Y; any of these will be replaced at runtime with the appropriate date fragment, depending
-     *  on the currently viewed date. two more special characters are also available Y1 and Y2 (upper case representing
-     *  years with 4 digits, lowercase representing years with 2 digits) which represent "currently selected year - 7"
-     *  and "currently selected year + 4" and which only make sense used in the "years" view.
-     *
-     *  Even though any of these special characters may be used in any of the 3 views, you should use m, n, F, M for the
-     *  "days" view and y, Y, Y1, Y2, y1, y2 for the "months" and "years" view or you may get unexpected results!
-     *
-     *  Text and HTML can also be used, and will be rendered as it is, as in the example below (the library is smart
-     *  enough to not replace special characters when used in words or HTML tags):
+     *  Captions in the datepicker's header, for the 3 possible views: `days`, `months`, `years`.
      *
      *  <code>
      *  header_captions(array(
@@ -637,13 +808,30 @@ class Zebra_Form_Date extends Zebra_Form_Control
      *  ));
      *  </code>
      *
-     *  @param  $captions   An associative array containing captions in the datepicker's header, for the 3 possible
-     *                      views: days, months, years.
+     *  @param  array   $captions   An associative array containing captions in the datepicker's header, for the 3 possible
+     *                              views: days, months, years.
+     *
+     *                              For each of the 3 views the following special characters may be used borrowing from
+     *                              {@link http://www.php.net/manual/en/function.date.php PHP's date function}'s syntax:
+     *                              `m`, `n`, `F`, `M`, `y` and `Y`; any of these will be replaced at runtime with the
+     *                              appropriate date fragment, depending on the currently viewed date.
+     *
+     *                              Two more special characters are also available `Y1` and `Y2` (upper case representing
+     *                              years with 4 digits, lowercase representing years with 2 digits) which represent
+     *                              *currently selected year - 7* and *currently selected year + 4*, and which only make
+     *                              sense used in the `years` view.
+     *
+     *                              Even though any of these special characters may be used in any of the 3 views, you
+     *                              should use `m`, `n`, `F`, `M` for the `days` view and `y`, `Y`, `Y1`, `Y2`, `y1`, `y2`
+     *                              for the `months` and `years` view, or you may get unexpected results!
+     *
+     *                              Text and HTML can also be used, and will be rendered as it is, as in the example below
+     *                              (the library is smart enough to not replace special characters when used in words or
+     *                              HTML tags).
      *
      *  @return void
      */
-    function header_captions($captions)
-    {
+    function header_captions($captions) {
 
         // set the date picker's attribute
         $this->set_attributes(array('header_captions' => $captions));
@@ -651,45 +839,56 @@ class Zebra_Form_Date extends Zebra_Form_Control
     }
 
     /**
-     *  Sets the HTML to be used for the previous month/next month buttons.
+     *  The left and right white-space around the icon.
      *
-     *  @param $navigation  An array with 2 elements containing the HTML to be used for the previous month/next month
-     *                      buttons.
+     *  <code>
+     *  $datepicker = $form->add('date', 'my_date');
      *
-     *                      Default is array('&#171;','&#187;')
+     *  // 5px margins on the left and right of the icon
+     *  $datepicker->icon_margin(5);
+     *  </code>
+     *
+     *  @param  mixed   $margin     If {@link inside} is `true` then the target element's padding will be altered so that
+     *                              the element's left or right padding (depending on the value of icon_position) will be
+     *                              `2 x icon_margin` plus the icon's width.
+     *
+     *                              If {@link inside} is `false`, then this will be the distance between the element and
+     *                              the icon.
+     *
+     *                              Leave it to `false` to use the element's existing padding.
+     *
+     *  @since 3.0.0
      *
      *  @return void
      */
-    function header_navigation($navigation)
-    {
+    function icon_margin($margin = 'false') {
 
         // set the date picker's attribute
-        $this->set_attributes(array('header_navigation' => $navigation));
+        $this->set_attributes(array('icon_margin' => $margin));
 
     }
 
     /**
-     *  The position of the date picker's inside the element it is attached to.
+     *  The position of the date picker's icon inside the element it is attached to.
      *
      *  <code>
-     *  $date = $form->add('date', 'my_date');
+     *  $datepicker = $form->add('date', 'my_date');
      *
      *  // position the date picker's icon to the left
-     *  $date->icon_position('left');
+     *  $datepicker->icon_position('left');
      *  </code>
      *
-     *  @param  string  $position   The position of the date picker's inside the element it is attached to.
+     *  @param  string  $position   The position of the date picker's icon inside the element it is attached to.
      *
-     *                              Possible values are "left" and "right".
+     *                              Possible values are `left` and `right`.
      *
-     *                              Default is "right"
+     *                              Default is `right`.
      *
      *  @since 2.9.8
      *
      *  @return void
      */
-    function icon_position($position)
-    {
+    function icon_position($position = 'right') {
 
         // set the date picker's attribute
         $this->set_attributes(array('icon_position' => $position));
@@ -699,34 +898,56 @@ class Zebra_Form_Date extends Zebra_Form_Control
     /**
      *  Sets whether the icon for opening the datepicker should be inside or outside the element.
      *
-     *  @param  boolean $value      If set to FALSE, the icon will be placed to the right of the parent element, while
-     *                              if set to TRUE it will be placed to the right of the parent element, but *inside* the
-     *                              element itself.
+     *  @param  boolean $value      If set to `false`, the icon will be placed to the right (or left, depending on
+     *                              {@link icon_position}) of the parent element, while if set to `true` it will be
+     *                              placed to the right (or left) of the parent element, but `inside` the element itself.
      *
-     *                              Default is TRUE.
+     *                              Default is `true`.
      *
      *  @return void
      */
-    function inside($value) {
+    function inside($value = true) {
 
         // set the date picker's attribute
-        // ("inside" is a "reserved" attribute so we'll pick something else)
-        $this->set_attributes(array('inside_icon' => $value));
+        $this->set_attributes(array('inside' => $value));
 
     }
 
     /**
-     *  Sets the offset, in pixels (x, y), to shift the date picker’s position relative to the top-left of the icon that
-     *  toggles the date picker.
+     *  Sets the HTML to be used for previous/next and up/down buttons, in that order.
      *
-     *  @param  array  $value       An array indicating the offset, in pixels (x, y), to shift the date picker’s position
-     *                              relative to the top-left of the icon that toggles the date picker.
+     *  @param array    $navigation     An array with 4 elements containing the HTML to be used for previous/next and
+     *                                  up/down buttons, in that order.
      *
-     *                              Default is array(5, -5).
+     *                                  Default is `array('&#9664;', '&#9654;', '&#9650;', '&#9660;')`
      *
      *  @return void
      */
-    function offset($value) {
+    function navigation($navigation = array('&#9664;', '&#9654;', '&#9650;', '&#9660;')) {
+
+        // set the date picker's attribute
+        $this->set_attributes(array('navigation' => $navigation));
+
+    }
+
+    /**
+     *  Sets the offset, in pixels (x, y), to shift the date picker's position relative to the top-right of the icon that
+     *  toggles the date picker or, if the icon is disabled, relative to the top-right corner of the element the date picker
+     *  is attached to.
+     *
+     *  @param  array  $value       An array indicating the offset, in pixels (x, y), to shift the date picker's position
+     *                              relative to the top-right of the icon that toggles the date picker or, if the icon is
+     *                              disabled, relative to the top-right corner of the element the date picker is attached to.
+     *
+     *                              >   Note that this only applies if the position of the calendar, relative to the
+     *                                  browser's viewport, doesn't require the date picker to be placed automatically
+     *                                  so that it is visible!
+     *
+     *                              Default is `array(5, -5)`.
+     *
+     *  @return void
+     */
+    function offset($value = array(-5, 5)) {
 
         // set the date picker's attribute
         $this->set_attributes(array('offset' => $value));
@@ -736,10 +957,10 @@ class Zebra_Form_Date extends Zebra_Form_Control
     /**
      *  Sets whether the date picker should be shown *only* when clicking the icon.
      *
-     *  @param  array  $value       An array indicating the offset, in pixels (x, y), to shift the date picker’s position
-     *                              relative to the top-left of the icon that toggles the date picker.
+     *  @param  boolean $value      When set to `true`, the date picker will show *only* when users click on the associated
+     *                              icon, and not also when clicking the associated element.
      *
-     *                              Default is FALSE.
+     *                              Default is `false`.
      *
      *  @return void
      */
@@ -751,36 +972,60 @@ class Zebra_Form_Date extends Zebra_Form_Control
     }
 
     /**
-     *  Pairs the date element with another date element from the page, so that the other date element will use the current
-     *  date element’s value as starting date.
+     *  Sets whether the date picker should be shown when parent element and or calendar icon receives focus.
+     *
+     *  @param  boolean $value      Set this property to `true` if you want the date picker to be shown when the parent
+     *                              element (if {@link open_icon_only} is **not** set to `false`) or the associated calendar
+     *                              icon (if {@link show_icon} is **not** set to `false`) receive focus.
+     *
+     *                              Default is `false`.
+     *
+     *  @since 3.0.0
+     *
+     *  @return void
+     */
+    function open_on_focus($value) {
+
+        // set the date picker's attribute
+        $this->set_attributes(array('open_on_focus' => $value));
+
+    }
+
+    /**
+     *  Pairs the current date element with another one and the other date picker will use the current date picker's
+     *  value as starting date.
      *
      *  <code>
      *  // let's assume this will be the starting date
-     *  $date1 = $form->add('date', 'starting_date');
+     *  $start = $form->add('date', 'starting_date');
      *
      *  // dates are selectable in the future, starting with today
-     *  $date1->direction(true);
+     *  $start->direction(true);
      *
      *  // indicate another date element that will use this
      *  // element's value as starting date
-     *  $date1->pair('ending_date');
+     *  $start->pair('ending_date');
      *
      *  // the other date element
-     *  $date2 = $form->add('date', 'ending_date');
+     *  $end = $form->add('date', 'ending_date');
      *
      *  // start one day after the reference date
-     *  // (that is, one day after whaterver is selected in the first element)
-     *  $date2->direction(1);   
+     *  // (that is, one day after whatever is selected in the first element)
+     *  $end->direction(1);
      *  </code>
      *
-     *  @param  string  $value      The ID of another "date" element which will use the current date element's value as
-     *                              starting date.
+     *  @param  string  $value      The `id` of another {@link Zebra_Form_Date date element} which will use the current
+     *                              date element's value as starting date.
      *
-     *                              Note that the rules set in the "direction" property will still apply, only that the
-     *                              reference date will not be the current system date but the value selected in the
-     *                              current date picker.
+     *                              >   The rules set in {@link direction} will still apply, but the reference date
+     *                                  will not be the current system date but the value selected in the current date
+     *                                  picker.
      *
-     *                              Default is FALSE (not paired with another date picker)
+     *                              >   Use this property only on the date picker containing the **starting date** and
+     *                                  not also on the one with the **ending date**, or the direction property of the
+     *                                  second date picker will not work as expected!
+     *
+     *                              Default is `false` (not paired with another date picker)
      *
      *  @return void
      */
@@ -792,14 +1037,30 @@ class Zebra_Form_Date extends Zebra_Form_Control
     }
 
     /**
+     *  Whether text should be drawn from right to left.
+     *
+     *  @param  boolean $value      If set to `true`, all text in the datepicker will be written from right to left.
+     *
+     *                              Default is `false`.
+     *
+     *  @since 3.0.0
+     *
+     *  @return void
+     */
+    function rtl($value = false) {
+
+        // set the date picker's attribute
+        $this->set_attributes(array('rtl' => $value));
+
+    }
+
+    /**
      *  Sets whether the element the calendar is attached to should be read-only.
      *
-     *  @param  boolean $value      The setting's value
-     *
-     *                              If set to TRUE, a date can be set only through the date picker and cannot be enetered
+     *  @param  boolean $value      If set to `true`, a date can be set only through the date picker and cannot be entered
      *                              manually.
      *
-     *                              Default is TRUE.
+     *                              Default is `true`.
      *
      *  @return void
      */
@@ -815,10 +1076,10 @@ class Zebra_Form_Date extends Zebra_Form_Control
      *
      *  @param  string  $value      The setting's value
      *
-     *                              Note that if set to TRUE, the value of {@link show_other_months()} will be considered
-     *                              TRUE regardless of the actual value!
+     *                              >   Note that if set to `true`, the value of {@link show_other_months} will be considered
+     *                                  `true` regardless of the actual value!
      *
-     *                              Default is TRUE.
+     *                              Default is `true`.
      *
      *  @since 2.9.3
      *
@@ -832,28 +1093,26 @@ class Zebra_Form_Date extends Zebra_Form_Control
     }
 
     /**
-     *  Should the "Clear date" button be visible?
+     *  Should the `Clear date` button be visible?
      *
      *  @param  string  $value      The setting's value
      *
      *                              Accepted values are:
      *
-     *                              -   0 (zero) – the button for clearing a previously selected date is shown only if a
-     *                                  previously selected date already exists; this means that if the input the date
-     *                                  picker is attached to is empty, and the user selects a date for the first time,
+     *                              -   `0` - the button for clearing a previously selected date is shown only if a
+     *                                  previously selected date already exists; this means that if there's no date selected,
      *                                  this button will not be visible; once the user picked a date and opens the date
      *                                  picker again, this time the button will be visible.
      *
-     *                              -   TRUE will make the button visible all the time
+     *                              -   `true` will make the button visible all the time
      *
-     *                              -   FALSE will disable the button
+     *                              -   `false` will disable the button
      *
-     *                              Default is "0" (without quotes)
+     *                              Default is `0`
      *
      *  @return void
      */
-    function show_clear_date($value = 0)
-    {
+    function show_clear_date($value = 0) {
 
         // set the date picker's attribute
         $this->set_attributes(array('show_clear_date' => $value));
@@ -864,23 +1123,28 @@ class Zebra_Form_Date extends Zebra_Form_Control
      *  Should a calendar icon be added to the elements the plugin is attached to?
      *
      *  <code>
-     *  $date = $form->add('date', 'my_date');
+     *  $datepicker = $form->add('date', 'my_date');
      *
      *  // do not show the icon
-     *  $date->show_icon(false);
+     *  $datepicker->show_icon(false);
      *  </code>
      *
-     *  @param  boolean $visible    When set to TRUE the plugin will attach a calendar icon to the elements the plugin
-     *                              is attached to.
+     *  @param  boolean $visible    Set this property's value to boolean `false` if you don't want the calendar icon.
      *
-     *                              Default is TRUE
+     *                              Note that the text is not visible by default since `text-indentation` is set to a big
+     *                              negative value in the CSS, so you might want to change that in case you want to make
+     *                              the text visible.
+     *
+     *                              When **not** set to boolean `false`, the plugin will attach a calendar icon to the
+     *                              elements the plugin is attached to.
+     *
+     *                              Default is `Pick a date`
      *
      *  @since 2.9.8
      *
      *  @return void
      */
-    function show_icon($visible)
-    {
+    function show_icon($visible) {
 
         // set the date picker's attribute
         $this->set_attributes(array('show_icon' => $visible));
@@ -892,7 +1156,7 @@ class Zebra_Form_Date extends Zebra_Form_Control
      *
      *  @param  string  $value      The setting's value
      *
-     *                              Default is TRUE.
+     *                              Default is `true`
      *
      *  @since 2.9.3
      *
@@ -920,8 +1184,7 @@ class Zebra_Form_Date extends Zebra_Form_Control
      *
      *  @return void
      */
-    function show_select_today($value = 'Today')
-    {
+    function show_select_today($value = 'Today') {
 
         // set the date picker's attribute
         $this->set_attributes(array('show_select_today' => $value));
@@ -1052,19 +1315,15 @@ class Zebra_Form_Date extends Zebra_Form_Control
      *
      *  <i>This method is automatically called by the {@link Zebra_Form::render() render()} method!</i>
      *
-     *  @return string  The control's HTML code
+     *  @return string  Returns the form element's generated HTML code.
      */
-    function toHTML()
-    {
+    function toHTML() {
 
         // all date controls must have the "date" rule set or we trigger an error
         if (!isset($this->rules['date'])) _zebra_form_show_error('The control named <strong>"' . $this->attributes['name'] . '"</strong> in form <strong>"' . $this->form_properties['name'] . '"</strong> must have the <em>"date"</em> rule set', E_USER_ERROR);
 
         return '
-            <div>
-                <input ' . $this->_render_attributes() . ($this->form_properties['doctype'] == 'xhtml' ? '/' : '') . '>
-                <div class="clear"></div>
-            </div>
+            <input ' . $this->_render_attributes() . ($this->form_properties['doctype'] == 'xhtml' ? '/' : '') . '>
         ';
 
     }
@@ -1081,8 +1340,7 @@ class Zebra_Form_Date extends Zebra_Form_Control
      *
      *  @access private
      */
-    function _init()
-    {
+    function _init() {
 
         // do these calculations only once
         if (!isset($this->limits)) {
@@ -1295,8 +1553,7 @@ class Zebra_Form_Date extends Zebra_Form_Control
      *
      *  @access private
      */
-    function _is_format_valid($date)
-    {
+    function _is_format_valid($date) {
 
         // the format we expect the date to be
         // escape characters that would make sense as regular expression
@@ -1590,8 +1847,7 @@ class Zebra_Form_Date extends Zebra_Form_Control
      *
      *  @access private
      */
-    function _is_disabled($year, $month = '', $day = '')
-    {
+    function _is_disabled($year, $month = '', $day = '') {
 
         // parse the rules for disabling dates and turn them into arrays of arrays
         if (!isset($this->disabled_dates)) {
@@ -1765,5 +2021,3 @@ class Zebra_Form_Date extends Zebra_Form_Control
     }
 
 }
-
-?>

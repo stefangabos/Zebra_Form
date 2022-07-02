@@ -109,7 +109,7 @@ class Zebra_Form_Captcha extends Zebra_Form_Shared {
      */
     function toHTML() {
 
-        return '<div class="zebra-form-captcha-container"><img src="' . $this->form_properties['assets_url'] . 'process.php?captcha=' . ($this->form_properties['captcha_storage'] == 'session' ? 2 : 1) . '&amp;nocache=' . time() . '" alt=""' . ($this->form_properties['doctype'] == 'xhtml' ? '/' : '') . '><a href="javascript:void(0)" title="' . $this->form_properties['language']['new_captcha'] . '">' . $this->form_properties['language']['new_captcha'] . '</a></div>';
+        return '<div class="zebraform-captcha"><img src="' . $this->form_properties['assets_url'] . 'process.php?captcha=' . ($this->form_properties['captcha_storage'] == 'session' ? 2 : 1) . '&amp;nocache=' . time() . '" alt=""' . ($this->form_properties['doctype'] == 'xhtml' ? '/' : '') . '><a href="javascript:void(0)" title="' . $this->form_properties['language']['new_captcha'] . '">' . $this->form_properties['language']['new_captcha'] . '</a></div>';
 
     }
 
