@@ -196,7 +196,7 @@ class Zebra_Form_Radio extends Zebra_Form_Shared {
             'class' =>  'zebraform-control zebraform-radio',
         ));
 
-        // if "class" is amongst user specified attributes
+        // if "class" is among user specified attributes
         if (is_array($attributes) && isset($attributes['class'])) {
 
             // we need to set the "class" attribute like this, so it doesn't overwrite previous values

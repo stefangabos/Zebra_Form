@@ -38,7 +38,7 @@ class Zebra_Form_Text extends Zebra_Form_Shared {
      *
      *  }
      *
-     *  // generate and render the form
+     *  // generate the form
      *  $output = $form->render('my-template', true);
      *
      *  </code>
@@ -107,10 +107,10 @@ class Zebra_Form_Text extends Zebra_Form_Shared {
             'name'      =>  $id,
             'id'        =>  str_replace(array('[', ']'), '', $id),
             'value'     =>  $default,
-            'class'     =>  'zebraform-text',
+            'class'     =>  'zebraform-control zebraform-text',
         ));
 
-        // if "class" is amongst user specified attributes
+        // if "class" is among user specified attributes
         if (is_array($attributes) && isset($attributes['class'])) {
 
             // we need to set the "class" attribute like this, so it doesn't overwrite previous values
@@ -123,7 +123,6 @@ class Zebra_Form_Text extends Zebra_Form_Shared {
 
         // set user specified attributes
         $this->set_attributes($attributes);
-
 
     }
 
