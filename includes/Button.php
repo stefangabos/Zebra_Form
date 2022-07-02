@@ -113,7 +113,7 @@ class Zebra_Form_Button extends Zebra_Form_Shared {
             'name'  =>  $id,
             'id'    =>  str_replace(array('[', ']'), '', $id),
             'value' =>  $content,
-            'class' =>  'zebra-form-button' . ($type != 'button' ? ' ' . $type : ''),
+            'class' =>  'zebraform-button' . ($type != 'button' ? ' zebraform-button-' . $type : ''),
         ));
 
         // if "class" is among the user specified attributes

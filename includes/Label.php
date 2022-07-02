@@ -1,173 +1,146 @@
 <?php
 
 /**
- *  Class for labels
+ *  Create `<label>` form elements
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @copyright  (c) 2006 - 2016 Stefan Gabos
- *  @package    Controls
+ *  @copyright  © 2006 - 2022 Stefan Gabos
+ *  @package    Elements
  */
-class Zebra_Form_Label extends Zebra_Form_Control
-{
+class Zebra_Form_Label extends Zebra_Form_Shared {
 
     /**
-     *  Add an <label> control to the form.
+     *  Create `<label>` form elements.
      *
-     *  <b>Do not instantiate this class directly! Use the {@link Zebra_Form::add() add()} method instead!</b>
+     *  >   Do not instantiate this class directly!<br>
+     *      Use the {@link Zebra_Form::add() add()} method instead!
      *
      *  <code>
+     *
      *  // create a new form
      *  $form = new Zebra_Form('my_form');
      *
-     *  // add a label, attached to a textbox control
-     *  $form->add('label', 'label_my_text', 'my_text', 'Enter some text:');
+     *  // add a label, attached to a text input element
+     *  $form->add('label', 'label_my_input', 'my_input', 'Enter some text:');
      *
-     *  // add a text control to the form
-     *  $obj = $form->add('text', 'my_text');
+     *  // add a text input element to the form
+     *  $obj = $form->add('text', 'my_input');
      *
-     *  // don't forget to always call this method before rendering the form
+     *  // this method needs to be called before rendering the form
      *  if ($form->validate()) {
-     *      // put code here
+     *
+     *      // do stuff
+     *
      *  }
      *
-     *  // output the form using an automatically generated template
-     *  $form->render();
+     *  // generate the form
+     *  $output = $form->render('my-template', true);
+     *
      *  </code>
      *
-     *  @param  string  $id             Unique name to identify the control in the form.
+     *  @param  string  $id             Unique name to identify the element in the form.
      *
-     *                                  This is the name of the variable to be used in the template file, containing
-     *                                  the generated HTML for the control.
+     *                                  This is the name of the variable to be used in the template file for displaying
+     *                                  the element.
      *
      *                                  <code>
-     *                                  // in a template file, in order to print the generated HTML
-     *                                  // for a control named "my_label", one would use:
+     *                                  // in a template file, in order to output the element's HTML code
+     *                                  // for an element named "my_label", one would use:
      *                                  echo $my_label;
      *                                  </code>
      *
-     *  @param  string  $attach_to      The <b>id</b> attribute of the control to attach the note to.
+     *  @param  string  $element        The `id` attribute of the element to attach the label to.
      *
-     *                                  <i>Notice that this must be the "id" attribute of the control you are attaching
-     *                                  the label to, and not the "name" attribute!</i>
+     *                                  >   Note that this must be the `id` attribute of the element you are attaching
+     *                                      the label to and not the `name` attribute!<br><br>
+     *                                      This is important because while most of the elements have identical `id` and
+     *                                      `name` attributes, for {@link Zebra_Form_Checkbox checkboxes},
+     *                                      {@link Zebra_Form_Select select boxes with the `multiple` attribute set} and
+     *                                      for {@link Zebra_Form_Radio radio buttons}, this is different.
      *
-     *                                  This is important as while most of the controls have their <b>id</b> attribute
-     *                                  set to the same value as their <b>name</b> attribute, for {@link Zebra_Form_Checkbox checkboxes},
-     *                                  {@link Zebra_Form_Select selects} and {@link Zebra_Form_Radio radio&nbsp;buttons} this
-     *                                  is different.
+     *                                  **Exception to the rule:**
      *
-     *                                  <b>Exception to the rule:</b>
-     *
-     *                                  Just like in the case of {@link Zebra_Form_Note notes}, if you want a <b>master</b>
-     *                                  label, a label that is attached to a <b>group</b> of checkboxes/radio buttons
-     *                                  rather than individual controls, this attribute must instead refer to the <b>name</b>
-     *                                  of the controls (which, for groups of checkboxes/radio buttons, is one and the same).
+     *                                  Just like in the case of {@link Zebra_Form_Note notes}, if you want a `master`
+     *                                  label - a label that is attached to a `group` of checkboxes/radio buttons
+     *                                  rather than to individual elements - this attribute must instead refer to the `name`
+     *                                  of the elements (which, for groups of checkboxes/radio buttons, is one and the same).
      *                                  This is important because if the group of checkboxes/radio buttons have the
-     *                                  <i>required</i> rule set, this is the only way in which the "required" symbol
+     *                                  `required` rule set, this is the only way in which the "required" symbol
      *                                  (the red asterisk) will be attached to the master label instead of being attached
      *                                  to the first checkbox/radio button from the group.
      *
      *  @param  mixed   $caption        Caption of the label.
      *
-     *                                  <i>Putting a $ (dollar) sign before a character will turn that specific character into
-     *                                  the accesskey.</i><br>
-     *                                  <i>If you need the dollar sign in the label, escape it with</i> \ <i>(backslash)</i>
+     *                                  >   Putting a $ (dollar) sign before a character will turn that specific character
+     *                                      into the {@link https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/accesskey accesskey}<br>
+     *                                      If you need the dollar sign in the label, escape it with `\` (backslash).
      *
      *  @param  array   $attributes     (Optional) An array of attributes valid for
-     *                                  {@link http://www.w3.org/TR/REC-html40/interact/forms.html#edef-LABEL label}
-     *                                  elements (style, etc)
+     *                                  {@link https://developer.mozilla.org/en-US/docs/Web/HTML/Element/label label}
+     *                                  form elements (like `disabled`, `alt`, `style`, etc.).
      *
-     *                                  Must be specified as an associative array, in the form of <i>attribute => value</i>.
+     *                                  Must be specified as an associative array, in the form of *attribute => value*.
+     *
      *                                  <code>
-     *                                  // setting the "style" attribute
-     *                                  $obj = $form->add(
+     *                                  // setting the "disabled" attribute
+     *                                  $form->add(
      *                                      'label',
-     *                                      'label_my_text',
-     *                                      'my_text',
-     *                                      'My Label:'
+     *                                      'label_my_input',
+     *                                      'my_input',
+     *                                      'I am a label'
      *                                      array(
-     *                                          'style' => 'font-weight: normal'
+     *                                          'disabled'  =>  true,
      *                                      )
      *                                  );
      *                                  </code>
      *
-     *                                  <b>Special attribute:</b>
+     *                                  Attributes may also be set after the form element is created with the
+     *                                  {@link Zebra_Form_Shared::set_attributes() set_attributes()} method.
      *
-     *                                  When setting the special attribute <b>inside</b> to <b>true</b>, the label will
-     *                                  appear inside the control is attached to (if the control the label is attached to
-     *                                  is a {@link Zebra_Form_Text textbox} or a {@link Zebra_Form_Textarea textarea}) and
-     *                                  will disappear when the control will receive focus. When the "inside" attribute is
-     *                                  set to TRUE, the label will not be available in the template file as it will be
-     *                                  contained by the control the label is attached to!
-     *
-     *                                  <code>
-     *                                  $form->add('label', 'my_label', 'my_control', 'My Label:', array('inside' => true));
-     *                                  </code>
-     *
-     *                                  <samp>Sometimes, when using floats, the inside-labels will not be correctly positioned
-     *                                  as jQuery will return invalid numbers for the parent element's position; If this is
-     *                                  the case, make sure you enclose the form in a div with position:relative to fix
-     *                                  this issue.</samp>
-     *
-     *                                  See {@link Zebra_Form_Control::set_attributes() set_attributes()} on how to set
-     *                                  attributes, other than through the constructor.
-     *
-     *                                  The following attributes are automatically set when the control is created and
-     *                                  should not be altered manually:<br>
-     *                                  <b>id</b>, <b>for</b>
+     *                                  The following attributes are automatically set when the form element is created
+     *                                  and should not be altered manually: `id`, `for`.
      *
      *  @return void
      */
-    function __construct($id, $attach_to, $caption, $attributes = '')
-    {
+    function __construct($id, $element, $caption, $attributes = '') {
 
         // call the constructor of the parent class
         parent::__construct();
 
-        // set the private attributes of this control
-        // these attributes are private for this control and are for internal use only
-        // set the private attributes of this control
-        // these attributes are private for this control and are for internal use only
+        // set private attributes, for internal use only
+        // (will not be rendered by the _render_attributes() method)
         $this->private_attributes = array(
-
             'disable_xss_filters',
             'for_group',
-            'inside',
             'label',
             'locked',
             'name',
             'type',
-
         );
 
-        // set the default attributes for the label
-        $this->set_attributes(
+        // set the default attributes
+        $this->set_attributes(array(
+            'for'   =>  preg_replace('/[^a-z0-9\_]/i', '_', $element),
+            'id'    =>  preg_replace('/[^a-z0-9\_]/i', '_', $id),
+            'class' =>  'zebraform-label',
+            'label' =>  $caption,
+            'name'  =>  $id,
+            'type'  =>  'label',
+        ));
 
-			array(
-
-                'for'   =>  preg_replace('/[^a-z0-9\_]/i', '_', $attach_to),
-                'id'    =>  preg_replace('/[^a-z0-9\_]/i', '_', $id),
-                'label' =>  $caption,
-                'name'  =>  $id,
-                'type'  =>  'label',
-
-			)
-
-		);
-
-        // sets user specified attributes for the table cell
+        // set user specified attributes
         $this->set_attributes($attributes);
 
     }
 
     /**
-     *  Generates the control's HTML code.
+     *  Generates the form element's HTML code.
      *
-     *  <i>This method is automatically called by the {@link Zebra_Form::render() render()} method!</i>
+     *  >   This method is automatically called by the {@link Zebra_Form::render() render()} method.
      *
-     *  @return string  The control's HTML code
+     *  @return string  Returns the form element's generated HTML code.
      */
-    function toHTML()
-    {
+    function toHTML() {
 
         // get private attributes
         $attributes = $this->get_attributes('label');
@@ -179,7 +152,7 @@ class Zebra_Form_Label extends Zebra_Form_Control
             $this->set_attributes(array('accesskey' => strtolower($matches[1])));
 
             // make the accesskey visible
-            $attributes['label'] = preg_replace('/\$(.{1})/', '<span class="underline">$1</span>', $attributes['label']);
+            $attributes['label'] = preg_replace('/\$(.{1})/', '<span class="zf-underline">$1</span>', $attributes['label']);
 
         }
 
@@ -188,5 +161,3 @@ class Zebra_Form_Label extends Zebra_Form_Control
     }
 
 }
-
-?>
