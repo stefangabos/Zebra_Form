@@ -100,7 +100,7 @@ class Zebra_Form_Submit extends Zebra_Form_Shared {
             'class' =>  'zebraform-submit',
         ));
 
-        // if "class" is amongst user specified attributes
+        // if "class" is among user specified attributes
         if (is_array($attributes) && isset($attributes['class'])) {
 
             // we need to set the "class" attribute like this, so it doesn't overwrite previous values
