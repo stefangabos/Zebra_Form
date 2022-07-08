@@ -1,9 +1,9 @@
 <?php
 
 /**
-* Turkish language file
+*   Turkish language file
 *
-* @author   Bülent Özden
+*   @author Bülent Özden
 */
 
 $this->language = array(
@@ -16,10 +16,9 @@ $this->language = array(
     'months_abbr'   => false,   // will use the first 3 letters from the full name
     'new_captcha'   => 'Yeni bir kod',
     'other'         => 'Diğer...',
+    'pick_a_date'   => 'Pick a date',
     'select'        => '- seçiniz -',
     'spam_detected' => 'SPAM denemesi olabilir. Gönderilen form verisi reddedildi.',
     'today'         => 'Bugün',
 
 );
-
-?>

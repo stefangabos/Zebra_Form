@@ -1,9 +1,9 @@
 <?php
 
 /**
-* Afrikaans language file
+*   Afrikaans language file
 *
-* @author       Shaun Adlam <ashaun@vodamail.co.za>
+*   @author Shaun Adlam <ashaun@vodamail.co.za>
 */
 
 $this->language = array(
@@ -16,10 +16,9 @@ $this->language = array(
     'months_abbr'   => false,   // sal gebruik om die eerste 3 letters van die volle naam
     'new_captcha'   => 'Kry nuwe kode',
     'other'         => 'Ander...',
+    'pick_a_date'   => 'Pick a date',
     'select'        => '- Kies Opsie -',
     'spam_detected' => 'Moontlike plapos poging opgemerk . Die geposte vorm data is verwerp.',
     'today'         => 'Vandag',
 
 );
-
-?>

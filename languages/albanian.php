@@ -1,9 +1,9 @@
 <?php
 
 /**
-* Albanian language file
+*   Albanian language file
 *
-* @author       Faton Sopa <fatonsopa@gmail.com>
+*   @author Faton Sopa <fatonsopa@gmail.com>
 */
 
 $this->language = array(
@@ -16,10 +16,9 @@ $this->language = array(
     'months_abbr'   => false,   // will use the first 3 letters from the full name
     'new_captcha'   => 'Get a new code',
     'other'         => 'Te tjere...',
+    'pick_a_date'   => 'Pick a date',
     'select'        => '- zgjedh opcionin -',
     'spam_detected' => 'Possible spam attempt detected. The posted form data was rejected.',
     'today'         => 'Sot',
 
 );
-
-?>

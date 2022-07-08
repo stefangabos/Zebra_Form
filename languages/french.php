@@ -1,10 +1,9 @@
 <?php
 
 /**
-* French language file
+*   French language file
 *
-* @version      1.0
-* @author       Sébastien GASTARD aka Gafa
+*   @author Sébastien GASTARD aka Gafa
 */
 
 $this->language = array(
@@ -17,10 +16,9 @@ $this->language = array(
     'months_abbr'   => false,   // will use the first 3 letters from the full name
     'new_captcha'   => 'Obtenir un nouveau code',
     'other'         => 'Autre...',
+    'pick_a_date'   => 'Pick a date',
     'select'        => '- Sélectionner -',
     'spam_detected' => 'Une tentative de SPAM à été détectée. Votre requête est ignorée. ',
     'today'         => 'Aujourd\'hui',
 
 );
-
-?>

@@ -1,9 +1,9 @@
 <?php
 
 /**
-* English language file
+*   English language file
 *
-* @author       Stefan Gabos <contact@stefangabos.ro>
+*   @author Stefan Gabos <contact@stefangabos.ro>
 */
 
 $this->language = array(
@@ -16,10 +16,9 @@ $this->language = array(
     'months_abbr'   => false,   // will use the first 3 letters from the full name
     'new_captcha'   => 'Get a new code',
     'other'         => 'Other...',
+    'pick_a_date'   => 'Pick a date',
     'select'        => '- select -',
     'spam_detected' => 'Possible spam attempt detected. The posted form data was rejected.',
     'today'         => 'Today',
 
 );
-
-?>

@@ -1,10 +1,9 @@
 <?php
 
 /**
-* Catalan language file
+*   Catalan language file
 *
-* @version      1.0
-* @author       WaKeMaTTa
+*   @author WaKeMaTTa
 */
 
 $this->language = array(
@@ -17,10 +16,9 @@ $this->language = array(
     'months_abbr'   => false,   // will use the first 3 letters from the full name
     'new_captcha'   => 'Obtenir nou codi',
     'other'         => 'Altres...',
+    'pick_a_date'   => 'Pick a date',
     'select'        => '- Seleccionar -',
     'spam_detected' => 'Possible intent d\'spam detectat. El formulari enviat va ser rebutjat.',
     'today'         => 'Avui',
 
 );
-
-?>

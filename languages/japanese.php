@@ -1,5 +1,11 @@
 <?php
 
+/**
+*   Japanese language file
+*
+*   @author saltymouse
+*/
+
 $this->language = array(
 
     'clear_date'    => '日付を消す',
@@ -10,9 +16,9 @@ $this->language = array(
     'months_abbr'   => false,   // Japanese has no month abbreviations
     'new_captcha'   => '新しい承認記号に変える',
     'other'         => 'その他...',
+    'pick_a_date'   => 'Pick a date',
     'select'        => '《 選択して下さい 》',
     'spam_detected' => '先程送信したメッセージはスパム行為の恐れがありましたので、送信しませんでした',
     'today'         => '今日',
-);
 
-?>
+);

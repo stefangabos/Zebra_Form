@@ -1,9 +1,9 @@
 <?php
 
 /**
-* Italian language file
+*   Italian language file
 *
-* @author       Nicola Tuveri <nic.tuv@gmail.com>
+*   @author Nicola Tuveri <nic.tuv@gmail.com>
 */
 
 $this->language = array(
@@ -16,10 +16,9 @@ $this->language = array(
     'months_abbr'   => false,   // will use the first 3 letters from the full name
     'new_captcha'   => 'Genera un nuovo codice',
     'other'         => 'Altro...',
+    'pick_a_date'   => 'Pick a date',
     'select'        => '- Selezionare -',
     'spam_detected' => 'Rilevato possibile tentativo di spam. Il modulo inviato è stato rifiutato.',
     'today'         => 'Oggi',
 
 );
-
-?>

@@ -1,9 +1,9 @@
 <?php
 
 /**
-* Deutsch (German) language file
+*   German language file
 *
-* @author       Chris Banford
+*   @author Chris Banford
 */
 
 $this->language = array(
@@ -16,9 +16,9 @@ $this->language = array(
     'months_abbr'   => false,   // will use the first 3 letters from the full name
     'new_captcha'   => 'Einen neuen Code erhalten',
     'other'         => 'Sonstige...',
+    'pick_a_date'   => 'Pick a date',
     'select'        => '- wählen -',
     'spam_detected' => 'Es besteht der Verdacht auf einen Spamversuch. Ihre Anfrage wird ignoriert.',
     'today'         => 'Heute',
-);
 
-?>
+);

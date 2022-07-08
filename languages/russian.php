@@ -1,9 +1,9 @@
 <?php
 
 /**
-* Russian language file
+*   Russian language file
 *
-* @author Maxim Hodyrev <maximkou@gmail.com>
+*   @author Maxim Hodyrev <maximkou@gmail.com>
 */
 
 $this->language = array(
@@ -16,10 +16,9 @@ $this->language = array(
     'months_abbr'   => false,
     'new_captcha'   => 'Обновить капчу',
     'other'         => 'Еще...',
+    'pick_a_date'   => 'Pick a date',
     'select'        => '- не выбрано -',
     'spam_detected' => 'Выявлена возможная попытка отправить спам-сообщение. Отправленные в форме данные отклонены.',
     'today'         => 'Сегодня',
 
 );
-
-?>

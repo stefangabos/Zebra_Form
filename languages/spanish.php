@@ -1,10 +1,9 @@
 <?php
 
 /**
-* Spanish language file
+*   Spanish language file
 *
-* @version      1.1.1
-* @author       D3iti, WaKeMaTTa
+*   @author D3iti, WaKeMaTTa
 */
 
 $this->language = array(
@@ -17,10 +16,9 @@ $this->language = array(
     'months_abbr'   => false,   // will use the first 3 letters from the full name
     'new_captcha'   => 'Obtener nuevo codigo',
     'other'         => 'Otro...',
+    'pick_a_date'   => 'Pick a date',
     'select'        => '- Seleccionar -',
     'spam_detected' => 'Posible intento de spam detectado. El formulario enviado fue rechazado.',
     'today'         => 'Hoy',
 
 );
-
-?>

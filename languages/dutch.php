@@ -1,9 +1,9 @@
 <?php
 
 /**
-* Dutch language file
+*   Dutch language file
 *
-* @author       Alexander Martens <martens@podium.nl>
+*   @author Alexander Martens <martens@podium.nl>
 */
 
 $this->language = array(
@@ -16,10 +16,9 @@ $this->language = array(
     'months_abbr'   => false,   // will use the first 3 letters from the full name
     'new_captcha'   => 'Toon een nieuwe code',
     'other'         => 'Anders...',
+    'pick_a_date'   => 'Pick a date',
     'select'        => '- maak een keuze -',
     'spam_detected' => 'Er is mogelijk spam gedetecteerd, uw ingevoerde gegevens zijn geweigerd',
     'today'         => 'Vandaag',
 
 );
-
-?>
