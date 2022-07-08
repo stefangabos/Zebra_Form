@@ -1,61 +1,64 @@
 <?php
 
 /**
- *  Class for select box controls.
+ *  Create `<select>` form elements
  *
  *  @author     Stefan Gabos <contact@stefangabos.ro>
- *  @copyright  (c) 2006 - 2016 Stefan Gabos
- *  @package    Controls
+ *  @copyright  © 2006 - 2022 Stefan Gabos
+ *  @package    Elements
  */
-class Zebra_Form_Select extends Zebra_Form_Control
-{
+class Zebra_Form_Select extends Zebra_Form_Shared {
 
     /**
-     *  Adds an <select> control to the form.
+     *  Create `<select>` form elements.
      *
-     *  <b>Do not instantiate this class directly! Use the {@link Zebra_Form::add() add()} method instead!</b>
+     *  >   Do not instantiate this class directly!<br>
+     *      Use the {@link Zebra_Form::add() add()} method instead!
      *
-     *  By default, unless the <b>multiple</b> attribute is set, the control will have a default first option added
-     *  automatically inviting users to select one of the available options. Default value for English is
-     *  "<i>-&nbsp;select&nbsp;-</i>" taken from the language file - see the {@link Zebra_Form::language() language()}
-     *  method. If you don't want it or want to set it at runtime, set the <i>overwrite</i> argument to TRUE when calling
-     *  the {@link add_options()} method.
+     *  By default, unless the `multiple` attribute is set, the element will have a default first option automatically
+     *  added telling users to select one of the available options. The default value for English is `- select -`, taken
+     *  from the language file - see the {@link Zebra_Form::language() language()} method. If you don't want it or want
+     *  to set it at runtime, set the `overwrite` argument to `TRUE` when calling the {@link add_options()} method.
      *
      *  <code>
      *  // create a new form
      *  $form = new Zebra_Form('my_form');
      *
-     *  // single-option select box
-     *  $obj = $form->add('select', 'my_select');
+     *  // add a label
+     *  $form->add('label', 'label_my_select', 'my_select', 'Select an option');
      *
-     *  // add selectable values with default indexes
+     *  // single-option select box
+     *  $element = $form->add('select', 'my_select');
+     *
+     *  // add selectable options
      *  // values will be "0", "1" and "2", respectively
      *  // a default first value, "- select -" (language dependent) will also be added
-     *  $obj->add_options(array(
+     *  $element->add_options(array(
      *      'Value 1',
      *      'Value 2',
      *      'Value 3'
      *  ));
      *
      *  // single-option select box
-     *  $obj = $form->add('select', 'my_select2');
+     *  $element = $form->add('select', 'my_select2');
      *
-     *  // add selectable values with specific indexes
+     *  // add selectable options with specific values
      *  // values will be "v1", "v2" and "v3", respectively
      *  // a default first value, "- select -" (language dependent) will also be added
-     *  $obj->add_options(array(
+     *  $element->add_options(array(
      *      'v1' => 'Value 1',
      *      'v2' => 'Value 2',
      *      'v3' => 'Value 3'
      *  ));
      *
-     *  // single-option select box with the second value selected
-     *  $obj = $form->add('select', 'my_select3', 'v2');
+     *  // single-option select box with the second option pre-selected
+     *  $element = $form->add('select', 'my_select3', 'v2');
      *
-     *  // add selectable values with specific indexes
+     *  // add selectable options with specific values
      *  // values will be "v1", "v2" and "v3", respectively
      *  // also, overwrite the language-specific default first value (notice the boolean TRUE at the end)
-     *  $obj->add_options(array(
+     *  // note that the first option's value *must* be "" (empty string)
+     *  $element->add_options(array(
      *      ''   => '- select a value -',
      *      'v1' => 'Value 1',
      *      'v2' => 'Value 2',
@@ -63,107 +66,108 @@ class Zebra_Form_Select extends Zebra_Form_Control
      *  ), true);
      *
      *  // multi-option select box with the first two options selected
-     *  $obj = $form->add('select', 'my_select4[]', array('v1', 'v2'), array('multiple' => 'multiple'));
+     *  $element = $form->add('select', 'my_select4[]', array('v1', 'v2'), array('multiple' => true));
      *
-     *  // add selectable values with specific indexes
+     *  // add selectable options with specific values
      *  // values will be "v1", "v2" and "v3", respectively
-     *  $obj->add_options(array(
+     *  $element->add_options(array(
      *      'v1' => 'Value 1',
      *      'v2' => 'Value 2',
      *      'v3' => 'Value 3'
      *  ));
      *
-     *  // don't forget to always call this method before rendering the form
+     *  // this method needs to be called before rendering the form
      *  if ($form->validate()) {
-     *      // put code here
+     *
+     *      // do stuff
+     *
      *  }
      *
-     *  // output the form using an automatically generated template
-     *  $form->render();
+     *  // generate the form
+     *  $output = $form->render('my-template', true);
+     *
      *  </code>
      *
-     *  <samp>By default, for checkboxes, radio buttons and select boxes, the library will prevent the submission of other
-     *  values than those declared when creating the form, by triggering the error: "SPAM attempt detected!". Therefore,
-     *  if you plan on adding/removing values dynamically, from JavaScript, you will have to call the
-     *  {@link Zebra_Form_Control::disable_spam_filter() disable_spam_filter()} method to prevent that from happening!</samp>
+     *  >   By default, for {@link Zebra_Form_Checkbox checkboxes}, {@link Zebra_Form_Radio radio buttons} and select boxes,
+     *      the library will prevent the submission of other values than those declared when creating the elements, by
+     *      triggering a **SPAM attempt detected!** error. Therefore, if you plan on adding/removing values dynamically
+     *      from JavaScript, you will have to call {@link Zebra_Form_Shared::disable_spam_filter() disable_spam_filter()}
+     *      in order to prevent that from happening!
      *
-     *  @param  string  $id             Unique name to identify the control in the form.
+     *  @param  string  $id             Unique name to identify the element in the form.
      *
-     *                                  The control's <b>name</b> attribute will be as specified by the <i>$id</i>
-     *                                  argument.<br>
-     *                                  The <b>id</b> attribute will be as specified by the <i>$id</i> argument but with
-     *                                  square brackets trimmed off (if any).
+     *                                  >   `$id` needs to be suffixed with square brackets if the `multiple` attribute
+     *                                      is set, so that PHP correctly treats the submitted values as an array.
      *
-     *                                  This is the name to be used when referring to the control's value in the
-     *                                  POST/GET superglobals, after the form is submitted.
+     *                                  The element's `name` attribute will the same as `$id`, while the element's `id`
+     *                                  attribute will be the value of `$id`, stripped of square brackets (if any).
      *
-     *                                  This is also the name of the variable (again, with square brackets trimmed off
-     *                                  if it's the case) to be used in the template file, containing the generated HTML
-     *                                  for the control.
+     *                                  This is the name to be used for accessing the element's value in {@link https://www.php.net/manual/en/reserved.variables.post.php $_POST} /
+     *                                  {@link https://www.php.net/manual/en/reserved.variables.get.php $_GET}, after the
+     *                                  form is submitted.
+     *
+     *                                  This is also the name of the variable to be used in the template file for
+     *                                  displaying the element.
      *
      *                                  <code>
      *                                  // in a template file, in order to print the generated HTML
-     *                                  // for a control named "my_select", one would use:
+     *                                  // for an element named "my_select", one would use:
      *                                  echo $my_select;
      *                                  </code>
      *
-     *  @param  mixed   $default        (Optional) Default selected option.
+     *  @param  mixed   $default        (Optional) Default selected option(s).
      *
-     *                                  This argument can also be an array in case the <b>multiple</b> attribute is set
+     *                                  This argument can also be an array in case the `multiple` attribute is set
      *                                  and multiple options need to be preselected by default.
      *
      *  @param  array   $attributes     (Optional) An array of attributes valid for
-     *                                  {@link http://www.w3.org/TR/REC-html40/interact/forms.html#edef-SELECT select}
-     *                                  controls (multiple, readonly, style, etc)
+     *                                  {@link https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select select}
+     *                                  form elements (like `disabled`, `readonly`, `style`, etc.).
      *
-     *                                  Must be specified as an associative array, in the form of <i>attribute => value</i>.
+     *                                  Must be specified as an associative array, in the form of *attribute => value*.
+     *
      *                                  <code>
      *                                  // setting the "multiple" attribute
-     *                                  $obj = $form->add(
+     *                                  $form->add(
      *                                      'select',
      *                                      'my_select',
      *                                      '',
      *                                      array(
-     *                                          'multiple' => 'multiple'
+     *                                          'multiple' => true
      *                                      )
      *                                  );
      *                                  </code>
      *
-     *                                  <b>Special attribute:</b>
+     *                                  A special `other` attribute exists which, when set to `true`, will result in the
+     *                                  automatic creation of a {@link Zebra_Form_Text text input} element having the
+     *                                  name `[id]_other` where `[id]` is the select element's `id` attribute.
      *
-     *                                  When setting the special attribute <b>other</b> to <b>true</b>, a
-     *                                  {@link Zebra_Form_Text textbox} control will be automatically created having the
-     *                                  name <i>[id]_other</i> where [id] is the select control's <b>id</b> attribute.
-     *                                  The text box will be hidden until the user selects the automatically added
-     *                                  <i>Other...</i> option (language dependent) from the selectable options. The
-     *                                  option's value will be <b>other</b>. If the template is not automatically
-     *                                  generated you will have to manually add the automatically generated control to
-     *                                  the template.
+     *                                  The text input will be hidden until the user selects the automatically added
+     *                                  `Other...` option (language dependent) from the available options. The option's
+     *                                  `value` will be `other`.
      *
-     *                                  See {@link Zebra_Form_Control::set_attributes() set_attributes()} on how to set
-     *                                  attributes, other than through the constructor.
+     *                                  >   If the `other` attribute is present, you will have to add the automatically
+     *                                      generated element to the template!
      *
-     *                                  The following attributes are automatically set when the control is created and
-     *                                  should not be altered manually:<br>
+     *                                  Attributes may also be set after the form element is created with the
+     *                                  {@link Zebra_Form_Shared::set_attributes() set_attributes()} method.
      *
-     *                                  <b>id</b>, <b>name</b>
+     *                                  The following attributes are automatically set when the form element is created
+     *                                  and should not be altered manually: `id`, `name`.
      *
-     *  @param  string  $default_other  The default value in the "other" field (if the "other" attribute is set to true,
+     *  @param  string  $default_other  The default value in the `other` field (if the `other` attribute is set to `true`,
      *                                  see above)
      *
      *  @return void
      */
-    function __construct($id, $default = '', $attributes = '', $default_other = '')
-    {
+    function __construct($id, $default = '', $attributes = '', $default_other = '') {
 
         // call the constructor of the parent class
         parent::__construct();
 
-        // set the private attributes of this control
-        // these attributes are private for this control and are for internal use only
-        // and will not be rendered by the _render_attributes() method
+        // set private attributes, for internal use only
+        // (will not be rendered by the _render_attributes() method)
         $this->private_attributes = array(
-
             'default_other',
             'disable_spam_filter',
             'disable_xss_filters',
@@ -173,28 +177,20 @@ class Zebra_Form_Select extends Zebra_Form_Control
             'overwrite',
             'type',
             'value',
-
 		);
 
-        // set the default attributes for the textarea control
-        // put them in the order you'd like them rendered
-        $this->set_attributes(
+        // set the default attributes
+        $this->set_attributes(array(
+            'name'          =>  $id,
+            'id'            =>  str_replace(array('[', ']'), '', $id),
+            'class'         =>  'zebraform-control zebraform-select',
+            'options'       =>  array(),
+            'type'          =>  'select',
+            'value'         =>  $default,
+            'default_other' =>  $default_other,
+        ));
 
-			array(
-
-                'name'          =>  $id,
-                'id'            =>  str_replace(array('[', ']'), '', $id),
-                'class'         =>  'control',
-                'options'       =>  array(),
-			    'type'          =>  'select',
-                'value'         =>  $default,
-                'default_other' =>  $default_other,
-
-			)
-
-		);
-
-        // if "class" is amongst user specified attributes
+        // if "class" is among user specified attributes
         if (is_array($attributes) && isset($attributes['class'])) {
 
             // we need to set the "class" attribute like this, so it doesn't overwrite previous values
@@ -205,40 +201,40 @@ class Zebra_Form_Select extends Zebra_Form_Control
 
         }
 
-        // sets user specified attributes for the control
+        // set user specified attributes
         $this->set_attributes($attributes);
 
     }
 
     /**
-     *  Adds options to the select box control
+     *  Adds options to the select box element.
      *
-     *  <b>If the "multiple" attribute is not set, the first option will be always considered as the "nothing is selected"
-     *  state of the control!</b>
+     *  >   If the `multiple` attribute is **not set**, the first option will always be considered as the `nothing is selected`
+     *      state of the element!
      *
-     *  @param  array   $options    An associative array of options where the key is the value of the option and the
-     *                              value is the actual text to be displayed for the option.
+     *  @param  array   $options    An associative array of options where the `key` is the value of the option and the
+     *                              `value` is the text to be displayed for the option.
      *
-     *                              <b>Option groups</b> can be set by giving an array of associative arrays as argument:
+     *                              >   Option groups can be created by giving an array of associative arrays as argument:
      *
      *                              <code>
-     *                                  // add as groups:
-     *                                  $obj->add_options(array(
-     *                                      'group' => array('option 1', 'option 2')
-     *                                  ));
+     *                              // add as groups:
+     *                              $element->add_options(array(
+     *                                  'group1' => array('option 1', 'option 2'),
+     *                                  'group2' => array('option 3', 'option 4'),
+     *                              ));
      *                              </code>
      *
-     *  @param  boolean $overwrite  (Optional) By default, succesive calls of this method will appended the options
-     *                              given as arguments to the already existing options.
+     *  @param  boolean $overwrite  (Optional) By default, successive calls to this method will appended the options
+     *                              given as arguments to the already existing ones.
      *
-     *                              Setting this argument to TRUE will instead overwrite the previously existing options.
+     *                              Setting this argument to `true` will instead overwrite the previously existing options.
      *
-     *                              Default is FALSE
+     *                              Default is `false`.
      *
      *  @return void
      */
-    function add_options($options, $overwrite = false)
-    {
+    function add_options($options, $overwrite = false) {
 
         // continue only if parameter is an array
         if (is_array($options)) {
@@ -279,14 +275,13 @@ class Zebra_Form_Select extends Zebra_Form_Control
     }
 
     /**
-     *  Generates the control's HTML code.
+     *  Generates the form element's HTML code.
      *
-     *  <i>This method is automatically called by the {@link Zebra_Form::render() render()} method!</i>
+     *  >   This method is automatically called by the {@link Zebra_Form::render() render()} method.
      *
-     *  @return string  The control's HTML code
+     *  @return string  Returns the form element's generated HTML code.
      */
-    function toHTML()
-    {
+    function toHTML() {
 
         // get the options of the select control
         $attributes = $this->get_attributes(array('options', 'value', 'multiple', 'other', 'overwrite'));
@@ -313,14 +308,13 @@ class Zebra_Form_Select extends Zebra_Form_Control
     }
 
     /**
-     *  Takes the options array and recursively generates options and optiongroups
+     *  Takes the options array and recursively generates options and option groups
      *
      *  @return string  Resulted HTML code
      *
      *  @access private
      */
-    private function _generate(&$options, &$selected, $level = 0)
-    {
+    private function _generate(&$options, &$selected, $level = 0) {
 
         $content = '';
 
@@ -334,8 +328,8 @@ class Zebra_Form_Select extends Zebra_Form_Control
             if (is_array($caption)) {
 
                 // create a dummy option group (for valid HTML/XHTML we are not allowed to create nested option groups
-                // and also empty optiongroups are not allowed)
-                // BUT because in IE7 the "disabled" attribute is not supported and in all versions of IE these
+                // and also empty option groups are not allowed)
+                // BUT because in IE7 the "disabled" attribute is not supported, and in all versions of IE these
                 // can't be styled, we will remove them from JavaScript
                 // having a dummy option in them (the option is disabled and, from CSS, rendered invisible)
                 $content .= '
@@ -381,5 +375,3 @@ class Zebra_Form_Select extends Zebra_Form_Control
     }
 
 }
-
-?>
