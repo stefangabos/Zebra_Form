@@ -107,7 +107,7 @@ class Zebra_Form_File extends Zebra_Form_Shared {
             'type'  =>  'file',
             'name'  =>  $id,
             'id'    =>  str_replace(array('[', ']'), '', $id),
-            'class' =>  'zebraform-file',
+            'class' =>  'zebraform-control zebraform-file',
         ));
 
         // if "class" is among user specified attributes
